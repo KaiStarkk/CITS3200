@@ -4,6 +4,6 @@
  * Purpose: Determines if a player is playing on not depending on their 
  *          accelerometer data.
  *
- * @version 1.0 07/08/16
+ * @version 1.0 07/08/14
  * @author Group B
  */
