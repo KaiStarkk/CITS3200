@@ -93,8 +93,8 @@ public class UIController implements Initializable {
         if(newW < 800) {
             newW = 800;
         }
-        if(newH < 600) {
-            newH = 600;
+        if(newH < 450) {
+            newH = 450;
         }
         stage.setWidth(newW);
         stage.setHeight(newH);
