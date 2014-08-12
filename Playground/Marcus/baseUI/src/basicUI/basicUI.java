@@ -6,6 +6,8 @@
 
 package basicUI;
 
+import groundEditor.groundEditor;
+import basicUI.basicUI;
 /**
  *
  * @author Markcuz
@@ -235,7 +237,7 @@ public class basicUI extends javax.swing.JFrame {
      * @param evt 
      */
     private void addNewGroundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewGroundActionPerformed
-        // TODO add your handling code here:
+            //new groundEditor().setVisible(true);    
     }//GEN-LAST:event_addNewGroundActionPerformed
 
     /**

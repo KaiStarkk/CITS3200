@@ -36,6 +36,7 @@ public class groundEditor extends javax.swing.JFrame {
         bottomLeft = new javax.swing.JTextField();
         bottomRight = new javax.swing.JTextField();
         saveFieldButton = new javax.swing.JButton();
+        Cancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -74,6 +75,18 @@ public class groundEditor extends javax.swing.JFrame {
         });
 
         saveFieldButton.setText("Save Field");
+        saveFieldButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveFieldButtonActionPerformed(evt);
+            }
+        });
+
+        Cancel.setText("Cancel");
+        Cancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CancelActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -99,7 +112,9 @@ public class groundEditor extends javax.swing.JFrame {
                 .addGap(98, 98, 98))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(saveFieldButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Cancel)
+                    .addComponent(saveFieldButton))
                 .addGap(38, 38, 38))
         );
         layout.setVerticalGroup(
@@ -119,7 +134,9 @@ public class groundEditor extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bottomLeft, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bottomRight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addComponent(Cancel)
+                .addGap(27, 27, 27)
                 .addComponent(saveFieldButton)
                 .addGap(19, 19, 19))
         );
@@ -147,9 +164,22 @@ public class groundEditor extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_bottomRightActionPerformed
 
+    private void CancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelActionPerformed
+        // add return to prev screen command
+         System.exit(0);
+    }//GEN-LAST:event_CancelActionPerformed
+
+    private void saveFieldButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveFieldButtonActionPerformed
+        //add the field
+        //return to prev screen
+         System.exit(0);
+    }//GEN-LAST:event_saveFieldButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
+    
+   
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -181,8 +211,10 @@ public class groundEditor extends javax.swing.JFrame {
             }
         });
     }
+   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Cancel;
     private javax.swing.JTextField bottomLeft;
     private javax.swing.JTextField bottomRight;
     private javax.swing.JTextField fieldName;
