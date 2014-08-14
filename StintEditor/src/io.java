@@ -69,7 +69,7 @@ public class io{
 	}
 
 	//unsure of what datastructure to use for now it just says Data // generic exception for now think of another for later
-	public Data ReadRawData(String filename) throws Exception{
+	public Data readRawData(String filename) throws Exception{
 
 		File file = new File(filename);
 
