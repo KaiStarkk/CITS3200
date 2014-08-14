@@ -25,30 +25,46 @@ public class io{
 
 	}
 	
-
-	public void getPlayerData(Stintdata stints,String player) throws IOException {
+	/**
+	**
+	** Reads in the stint data constructed by the Analyser
+	** the data is then formatted into an Array of strings 
+	** in the format of a vid file which is then passed to the printArrayData method
+	** 
+	** @param stints the datastructure which holds data for one or more stints
+	** @param player The String containing the players name 
+	**
+	**/
+	public void printPlayerData(Stintdata stints,String player) throws IOException {
 
 		String[] out = {"example","second"};
 	
 		//do something to format data into arrays of strings 
-		this.printArrayData(out,player); 
+		this.printArrayData(out,outputdirectory+player+".vid"); 
 	}
-	/*
-
-	prints out the already formed string data
-	*/
+	/**
+	**
+	** Constructs a new file while deleting any existing file with the same name and prints an array of strings to it
+	**
+	** @param array the datastructure which holds data for one or more stints
+	** @param filename The String containing the absolute or abstract path of the file to output to
+	**
+	**/
 	private void printArrayData(String[] array, String filename) throws IOException {
 		
-		FileOutputStream out = new FileOutputStream(outputdirectory+filename+".vid");
+		//delete any previous file with the same name
+		File file = new File(filename);
+		file.delete();
+		FileOutputStream out = new FileOutputStream(filename);
 		
-		//will be changed
+
 		for(int i = 0;i<array.length;i++){
 			
 			String outstring = array[i];
 			out.write(outstring.getBytes());
 			out.flush();
 		}
-		
+		out.close();
 	}
 	
 
