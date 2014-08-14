@@ -8,35 +8,50 @@
  * @author Group B
  */
 
-/**
- * CITS3200 Professional Computing
- * io.java
- * Purpose: This class is concerned with the input/output aspect of the program.
- *          It reads in a *.raw file and outputs a *.vin file.
- *
- * @version 1.0 07/08/14
- * @author Group B
- */
+import java.util.*;
+import java.io.*;
+
 
 public class io{
 	
+	String outputdirectory;
+
 	public io(){
-		
+
+		File current = new File("io.java");
+		String abs = current.getAbsolutePath();
+		abs = abs.replace("src\\io.java","Output\\");
+		outputdirectory = abs;
+
 	}
 	
+
+	public void getPlayerData(Stintdata stints,String player) throws IOException {
+
+		String[] out = {"example","second"};
 	
-	public void printArrayData(Dataset array, String filename){
+		//do something to format data into arrays of strings 
+		this.printArrayData(out,player); 
+	}
+	/*
+
+	prints out the already formed string data
+	*/
+	private void printArrayData(String[] array, String filename) throws IOException {
 		
-		FileOutputStream out = new FileOutputStream(filename+".vin");
+		FileOutputStream out = new FileOutputStream(outputdirectory+filename+".vid");
 		
 		//will be changed
-		for(int i = 0;i<array.internal.length;i++){
+		for(int i = 0;i<array.length;i++){
 			
-			String outstring = array.internal[i].toString()+"\n";
+			String outstring = array[i];
 			out.write(outstring.getBytes());
+			out.flush();
 		}
 		
 	}
+	
+
 }
 
 /**
@@ -46,9 +61,7 @@ public class io{
  */
 class Data{
 	
-	String gpsdata;
-	String timedata;
-	String acceldata;
+
 	String[] data;
 	
 	public Data(String gps,String time,String accel){
@@ -74,14 +87,16 @@ class Data{
  */
 class Dataset{
 	
-	Data[] internal;
+	int[][] timegps;
+	int[][] timeaccel;
+	int[][] gpstime;
 	
 	public Dataset(Data[] set){
-		internal = set;
+
 	}
 	
 	// 0 - gps ,1 - time, 2 - accelerometers
-	public String[] getGps(){
+	/*public String[] getGps(){
 		
 		return getSpecific(0);
 	}
@@ -103,6 +118,6 @@ class Dataset{
 			output[i] = this.internal[i].data[k];
 		}
 		return output;
-	}
+	}*/
 	
 }
