@@ -15,13 +15,14 @@ import java.io.*;
 public class io{
 	
 	String outputdirectory;
+	String inputdirectory;
 
 	public io(){
 
 		File current = new File("io.java");
 		String abs = current.getAbsolutePath();
-		abs = abs.replace("src\\io.java","Output\\");
-		outputdirectory = abs;
+		inputdirectory = abs.replace("src\\io.java","Input\\");
+		outputdirectory = abs.replace("src\\io.java","Output\\");;
 
 	}
 	
@@ -66,7 +67,38 @@ public class io{
 		}
 		out.close();
 	}
-	
+
+	//unsure of what datastructure to use for now it just says Data // generic exception for now think of another for later
+	public Data ReadRawData(String filename) throws Exception{
+
+		File file = new File(filename);
+
+		if(file.exists()){
+			String raw = this.readData(filename,file.length());
+		}
+		else throw new Exception();
+		
+
+
+	}
+	/**
+	**
+	** Reads the contents of a file into a string
+	**
+	** @param The String containing the absolute or abstract path of the file to read from
+	** @param size The integer denoting the size of the input file in bytes
+	** @return A string containing the contents of a file
+	**/
+	private String readData(String filename,int size){
+
+		byte[] bytes = new byte[size];
+		FileInputStream in = new FileInputStream(filename);
+		in.read(bytes);
+		return new String(bytes);
+
+
+		
+	}
 
 }
 
