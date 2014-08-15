@@ -7,19 +7,29 @@
 package stinteditor;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Modality;
+import javafx.stage.Popup;
+import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  * FXML Controller class
@@ -34,13 +44,15 @@ public class UIController implements Initializable {
     private double initH;
     
     @FXML
-    private Button load;
+    private Button loadBtn;
     @FXML
-    private Button grounds;
+    private Button groundsBtn;
     @FXML
-    private Button help;
+    private Hyperlink minBtn;
     @FXML
-    private Button exit;
+    private Hyperlink helpBtn;
+    @FXML
+    private Hyperlink exitBtn;
     
     @FXML
     private AnchorPane pane;
@@ -48,14 +60,6 @@ public class UIController implements Initializable {
     private TreeView tree;
     @FXML
     DirectoryChooser directoryChooser = new DirectoryChooser();
-    
-    /**
-     * Show the grounds UI.
-     */
-    @FXML
-    private void groundsUI(ActionEvent event) {
-        // Stuff happens here.
-    }
     
     /**
      * Dragging starts.
@@ -76,7 +80,7 @@ public class UIController implements Initializable {
     @FXML
     private void moveContinue(MouseEvent event) {
         Stage stage = (Stage) pane.getScene().getWindow();
-        if (initY < 90) {
+        if (initY < 90 && initX < initW - 85 || initY < 90 && initY > 40 ) {
             stage.setX(event.getScreenX() - stage.getWidth()*initX/initW);
             stage.setY(event.getScreenY() - stage.getHeight()*initY/initH);
         }
@@ -116,20 +120,6 @@ public class UIController implements Initializable {
     }
     
     /**
-     * Load root directory.
-     */
-    @FXML
-    private void loadRootDirectory(ActionEvent event) {
-        Stage stage = (Stage) load.getScene().getWindow();
-        File file = directoryChooser.showDialog(stage);
-        if (file != null && file.isDirectory()) {
-            tree.setRoot(new TreeItem(file.getName()));
-            tree.getRoot().setExpanded(true);
-            expand(tree.getRoot(), file.listFiles());
-        }
-    }
-    
-    /**
      * Enter resize zone (cursor effects).
      */
     @FXML
@@ -145,6 +135,9 @@ public class UIController implements Initializable {
         pane.setCursor(Cursor.DEFAULT);
     }
     
+    /**
+     * Expand a tree item.
+     */
     private void expand(TreeItem item, File[] files) {
         for (File file : files) {
             if (file.isFile()) {
@@ -159,11 +152,61 @@ public class UIController implements Initializable {
     }
     
     /**
+     * Load root directory.
+     */
+    @FXML
+    private void loadRootDirectory(ActionEvent event) {
+        Stage stage = (Stage) loadBtn.getScene().getWindow();
+        File file = directoryChooser.showDialog(stage);
+        if (file != null && file.isDirectory()) {
+            tree.setRoot(new TreeItem(file.getName()));
+            tree.getRoot().setExpanded(true);
+            expand(tree.getRoot(), file.listFiles());
+        }
+    }
+    
+    /**
+     * Show the grounds UI.
+     */
+    @FXML
+    private void showGroundsUI(ActionEvent event) throws Exception {
+        final Stage groundsStage = new Stage(StageStyle.UNDECORATED);
+        
+        groundsStage.initModality(Modality.WINDOW_MODAL);
+        groundsStage.initOwner(pane.getScene().getWindow());
+        Parent root = FXMLLoader.load(getClass().getResource("groundsUI.fxml"));
+        
+        Scene scene = new Scene(root);
+        
+        groundsStage.setScene(scene);
+        groundsStage.show();
+    }
+    
+    /**
+     * Show help.
+     */
+    @FXML
+    private void minimise(ActionEvent event) {
+        Stage stage = (Stage) minBtn.getScene().getWindow();
+        stage.setIconified(true);
+    }
+    
+    /**
      * Show help.
      */
     @FXML
     private void showHelp(ActionEvent event) {
-        System.out.println("Help information.");
+        final Stage stage = (Stage) helpBtn.getScene().getWindow();
+        final Popup popup = new Popup();
+        Label message = new Label("Help is on its way!");
+        popup.getContent().addAll(message);
+        
+        popup.setX(stage.getX() + stage.getWidth() - 15);
+        popup.setY(stage.getY() + 35);
+        
+        popup.setAnchorLocation(PopupWindow.AnchorLocation.WINDOW_TOP_RIGHT);
+        popup.setAutoHide(true);
+        popup.show(helpBtn.getScene().getWindow());
     }
     
     /**
@@ -171,12 +214,14 @@ public class UIController implements Initializable {
      */
     @FXML
     private void exit(ActionEvent event) {
-        Stage stage = (Stage) exit.getScene().getWindow();
+        Stage stage = (Stage) exitBtn.getScene().getWindow();
         stage.close();
     }
     
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
