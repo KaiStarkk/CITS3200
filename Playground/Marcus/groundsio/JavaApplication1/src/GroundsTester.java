@@ -26,7 +26,7 @@ public class GroundsTester {
         GroundsDB fullGDB = new GroundsDB("Grounds.txt");
         
         // It should have the same contents as the old DB.
-        System.out.println("Printing fullGDB:\n---");
+        System.out.println("Printing fullGDB:\n---");   
         fullGDB.printDB();
         
     }

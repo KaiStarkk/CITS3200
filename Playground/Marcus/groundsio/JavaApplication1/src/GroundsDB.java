@@ -53,6 +53,56 @@ public class GroundsDB {
         }
     }
     
+    public final void writeOut(String outputFile) {
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile))) {
+            for(int i =0; i<grounds.size(); i++) {
+                StringBuilder sb = new StringBuilder();
+                for(int j = 0; j<8; j++) {
+                    sb.append(grounds.get(i)[j]);
+                    sb.append("//t");
+                }
+                sb.append(grounds.get(i)[8]);
+                
+                String current = sb.toString();
+                
+                bw.write(current);
+                bw.newLine();
+            }
+        }
+        catch(IOException e) {
+            System.err.println("Could not write to file");
+        }
+        
+    }
+    
+    /**
+     * Adds new ground to the list
+     * @param long1
+     * @param lat1
+     * @param type1
+     * @param long2
+     * @param lat2
+     * @param type2
+     * @param last
+     * @param type3
+     * @param name 
+     */
+    public final void newGround(int long1, int  lat1, int type1, int long2, int lat2, int type2, int last, int type3, String name) {
+        String[] addNew = new String[9];
+        
+        addNew[0] = String.valueOf(long1);
+        addNew[1] = String.valueOf(lat1);
+        addNew[2] = String.valueOf(type1);
+        addNew[3] = String.valueOf(long2);
+        addNew[4] = String.valueOf(lat2);
+        addNew[5] = String.valueOf(type2);
+        addNew[6] = String.valueOf(last);
+        addNew[7] = String.valueOf(type3);
+        addNew[8] = name;
+        
+        grounds.add(addNew);
+    }    
+    
     /**
      * Returns the database as a list.
      * @return List containing all the grounds as string arrays.
@@ -65,8 +115,9 @@ public class GroundsDB {
      * Prints a database to standard output.
      */
     public final void printDB() {
-        if (!grounds.isEmpty()) {
-            grounds.stream().forEach((entry) -> {
+        List<String[]> temp = grounds;
+        if (!temp.isEmpty()) {
+            temp.stream().forEach((entry) -> {
                 System.out.println(Arrays.toString(entry));
             });
             System.out.println();
