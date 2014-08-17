@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="pane" onMouseDragged="#moveContinue" onMousePressed="#dragStart" onMouseReleased="#dragEnd" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stintanalyser.GroundsUIController">
+   <children>
+      <Label layoutX="20.0" layoutY="14.0" text="Grounds Library" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="14.0">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <HBox layoutX="472.0" layoutY="28.0" spacing="10.0" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="28.0">
+         <children>
+            <Button fx:id="addBtn" layoutX="482.0" layoutY="20.0" mnemonicParsing="false" onAction="#addGround" text="Add Ground" />
+            <Button fx:id="cancelBtn" cancelButton="true" layoutX="534.0" layoutY="20.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
+         </children>
+      </HBox>
+      <HBox spacing="10.0" AnchorPane.bottomAnchor="28.0" AnchorPane.rightAnchor="28.0">
+         <children>
+            <Button fx:id="editBtn" disable="true" layoutX="247.0" layoutY="261.0" mnemonicParsing="false" onAction="#editGround" text="Edit Ground" />
+            <Button fx:id="selectBtn" defaultButton="true" disable="true" layoutX="351.0" layoutY="261.0" mnemonicParsing="false" onAction="#selectGround" text="Select Ground" />
+         </children>
+      </HBox>
+      <TableView fx:id="table" layoutX="20.0" layoutY="67.0" prefHeight="265.0" prefWidth="553.0" AnchorPane.bottomAnchor="68.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="67.0">
+        <columns>
+          <TableColumn prefWidth="151.0" resizable="false" text="Name" />
+          <TableColumn prefWidth="100.0" text="Point 1" />
+            <TableColumn prefWidth="100.0" text="Point 2" />
+            <TableColumn prefWidth="100.0" text="Point 3" />
+            <TableColumn prefWidth="100.0" text="Point 4" />
+        </columns>
+      </TableView>
+      <Pane onMouseDragged="#resizeContinue" onMouseExited="#leave" onMouseMoved="#hover" onMousePressed="#dragStart" onMouseReleased="#dragEnd" prefHeight="15.0" prefWidth="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Line endX="15.0" endY="6.0" startX="6.0" startY="15.0" stroke="#616161" />
+            <Line endX="15.0" endY="9.0" startX="9.0" startY="15.0" stroke="#616161" />
+            <Line endX="15.0" endY="12.0" startX="12.0" startY="15.0" stroke="#616161" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
