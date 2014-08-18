@@ -1,4 +1,4 @@
-package stintanalyser;
+package StintAnalyser;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -20,7 +20,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.initStyle(StageStyle.UNDECORATED);
-        Parent root = FXMLLoader.load(getClass().getResource("MainUI.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("UI/MainUI.fxml"));
         
         Scene scene = new Scene(root);
         

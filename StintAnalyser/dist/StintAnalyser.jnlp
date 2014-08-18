@@ -11,7 +11,7 @@
   </resources>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="StintEditor.jar" size="19521" download="eager" />
+    <jar href="StintEditor.jar" size="19085" download="eager" />
   </resources>
 <security>
   <all-permissions/>
@@ -19,6 +19,6 @@
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="StintAnalyser" >
     <param name="requiredFXVersion" value="2.2+"/>
   </applet-desc>
-  <jfx:javafx-desc  width="800" height="600" main-class="stintanalyser.Main"  name="StintAnalyser" />
+  <jfx:javafx-desc  width="800" height="600" main-class="StintAnalyser.Main"  name="StintAnalyser" />
   <update check="always"/>
 </jnlp>
