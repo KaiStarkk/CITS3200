@@ -59,7 +59,7 @@ public class GroundsDB {
                 StringBuilder sb = new StringBuilder();
                 for(int j = 0; j<8; j++) {
                     sb.append(grounds.get(i)[j]);
-                    sb.append("//t");
+                    sb.append('\t');
                 }
                 sb.append(grounds.get(i)[8]);
                 
@@ -87,7 +87,7 @@ public class GroundsDB {
      * @param type3
      * @param name 
      */
-    public final void newGround(int long1, int  lat1, int type1, int long2, int lat2, int type2, int last, int type3, String name) {
+    public final void newGround(double long1, double  lat1, int type1, double long2, double lat2, int type2, double last, int type3, String name) {
         String[] addNew = new String[9];
         
         addNew[0] = String.valueOf(long1);
@@ -124,5 +124,21 @@ public class GroundsDB {
         } else {
             System.out.println("Grounds database is empty.\n");
         }
+    }
+    
+    /**
+     * removes the specified string
+     * @param rem 
+     */
+    public final void remove(String rem) {
+        int i;
+        for(i = 0; i<grounds.size(); i++) {
+            if(rem.equals(grounds.get(i)[8])) {
+                break;
+            }
+        }
+        
+        grounds.remove(i);
+        
     }
 }

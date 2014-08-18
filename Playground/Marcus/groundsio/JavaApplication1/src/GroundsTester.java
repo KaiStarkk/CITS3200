@@ -20,14 +20,17 @@ public class GroundsTester {
         System.out.println("Printing (not so) emptyGBD:\n---");
         emptyGDB.printDB();
         
+        System.out.println("Adding to emptyGDB");
+        emptyGDB.newGround(1.2,-1.5,0,1.2456,-3.746,0,0.7855,1,"testing");
         
-        // Empty is not really a fitting name now. 
-        // Let's make a new one with the same data.
-        GroundsDB fullGDB = new GroundsDB("Grounds.txt");
+        System.out.println("Writing out");
+        emptyGDB.writeOut("out.txt");
         
-        // It should have the same contents as the old DB.
-        System.out.println("Printing fullGDB:\n---");   
-        fullGDB.printDB();
+        emptyGDB.printDB();
+        
+        emptyGDB.remove("testing");
+        
+        emptyGDB.printDB();
         
     }
 }
