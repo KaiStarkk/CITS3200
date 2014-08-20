@@ -8,8 +8,15 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 /**
- * The Main main class. A JavaFX application.
- * @author Kieran
+ * CITS3200 Professional Computing
+ * Main.java
+ * 
+ * Entry point for the application. Starts a JavaFX application,
+ * creates a stage and scene based on MainUIController and MainUI.fxml,
+ * then launches the GUI.
+ *
+ * @version 1.1 20/08/14
+ * @author Group B
  */
 public class Main extends Application {
     
@@ -27,14 +34,6 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.setTitle("StintAnalyser");
         primaryStage.show();
-    }
-
-    /**
-     * Begins program execution.
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        launch(args);
     }
     
 }

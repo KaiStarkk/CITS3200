@@ -29,7 +29,7 @@ import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
-import StintAnalyser.Utilities.IO;
+import StintAnalyser.Stints.IOHelper;
 
 /**
  * MainUI Controller class. Handles all logic for the main UI window.
@@ -70,7 +70,7 @@ public class MainUIController implements Initializable {
     @FXML
     private ProgressIndicator spinner;
     
-    private IO io;
+    private IOHelper io;
     
     private String rootPath;
     private String selectedPath;
@@ -259,7 +259,7 @@ public class MainUIController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        io = new IO();
+        io = new IOHelper();
         
         tree.getSelectionModel().selectedItemProperty().addListener( (ObservableValue observable, Object oldValue, Object newValue) -> {
             TreeItem<String> currentItem = (TreeItem<String>) newValue;

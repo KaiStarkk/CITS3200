@@ -1,21 +1,21 @@
-package StintAnalyser.Utilities;
+package StintAnalyser.Stints;
 
 /**
  * CITS3200 Professional Computing io.java Purpose: This class is concerned with
  * the input/output aspect of the program. It reads in a *.raw file and outputs
- * a *.vin file.
+ * a *.vid file.
  *
  * @version 1.0 07/08/14
  * @author Group B
  */
 import java.io.*;
 
-public class IO {
+public class IOHelper {
 
     String outputdirectory;
     String inputdirectory;
 
-    public IO() {
+    public IOHelper() {
 
         File current = new File("io.java");
         String abs = current.getAbsolutePath();

@@ -3,10 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Kieran/Google%20Drive/Projects/GitHub/CITS3200/StintAnalyser/src/StintAnalyser/UI/MainUIController.java</file>
-            <file>file:/C:/Users/Kieran/Google%20Drive/Projects/GitHub/CITS3200/StintAnalyser/src/StintAnalyser/Main.java</file>
-            <file>file:/C:/Users/Kieran/Google%20Drive/Projects/GitHub/CITS3200/StintAnalyser/src/StintAnalyser/UI/GroundsUI.fxml</file>
-            <file>file:/C:/Users/Kieran/Google%20Drive/Projects/GitHub/CITS3200/StintAnalyser/src/StintAnalyser/UI/MainUI.fxml</file>
+            <file>file:/C:/Users/Kieran/Google%20Drive/Projects/GitHub/CITS3200/StintAnalyser/src/StintAnalyser/Grounds/Ground.java</file>
+            <file>file:/C:/Users/Kieran/Google%20Drive/Projects/GitHub/CITS3200/StintAnalyser/src/StintAnalyser/Analysis/Heuristics/GPSHeuristic.java</file>
         </group>
     </open-files>
 </project-private>
