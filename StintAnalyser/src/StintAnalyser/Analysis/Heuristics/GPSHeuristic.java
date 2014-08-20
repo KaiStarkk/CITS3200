@@ -1,5 +1,6 @@
 package StintAnalyser.Analysis.Heuristics;
 
+import StintAnalyser.Data.DataSet;
 import StintAnalyser.Grounds.Ground;
 import StintAnalyser.Stints.StintSet;
 
@@ -15,11 +16,11 @@ public class GPSHeuristic {
 
     /**
      * Determine if the player is playing or not.
+     * @param data
      * @param ground
-     * @param gpsData
      * @return 
      */
-    public static StintSet getResult(int[][] gpsData, Ground ground) {
+    public static StintSet getResult(DataSet data, Ground ground) {
         return new StintSet();
     }
     

@@ -32,14 +32,6 @@ public class StintSet {
     }
     
     /**
-     * Reads into the StintSet from a .vid file.
-     * @param path path to read the file from.
-     */
-    public void readFromCsv(Path path) {
-        
-    }
-    
-    /**
      * Get the StintSet's i'th item.
      * @param i the index of the Stint item to retrieve.
      * @return 

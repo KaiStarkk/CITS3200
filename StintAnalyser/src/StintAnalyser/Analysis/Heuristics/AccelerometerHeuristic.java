@@ -1,6 +1,7 @@
 package StintAnalyser.Analysis.Heuristics;
 
 import StintAnalyser.Stints.StintSet;
+import StintAnalyser.Data.DataSet;
 
 /**
  * CITS3200 Professional Computing
@@ -17,7 +18,7 @@ public class AccelerometerHeuristic {
      * @param accelerometerData
      * @return 
      */
-    public static StintSet getResult(int[] accelerometerData) {
+    public static StintSet getResult(DataSet data) {
         return new StintSet();
     }
     
