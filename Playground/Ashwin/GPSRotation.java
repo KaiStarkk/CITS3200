@@ -31,13 +31,13 @@ public class GPSRotation {
         
         
         /*To transform the latitude, this is the formula. Because we want the second point to lie directly east, we need an clockwise rotation. This only occurs with a negative angle hence the -1 in the sin argument*/
-        rotatedLatitude = orignalLatitude*(Math.cos(angleOfDifference)) - orignalLongtiude*(Math.sin(-1*angleOfDifference));
+        rotatedLongitude = orignalLongtiude*(Math.cos(angleOfDifference)) - orignalLatitude*(Math.sin(-1*angleOfDifference));
         
         
         
         
         /*To transform the longitude, this is the formula. Again, we need a clockwise rotaion so negative angle.*/
-        rotatedLongitude = orignalLatitude*(Math.sin(-1*angleOfDifference)) + orignalLongtiude*(Math.cos(angleOfDifference));
+        rotatedLatitude = orignalLongtiude*(Math.sin(-1*angleOfDifference)) + orignalLatitude*(Math.cos(angleOfDifference));
         
         //First apply this to the field coordinate. This will result in us having both points lying on the same latitude I think.
         //Then apply the same transformation to all the player data. THis will give us their 'new' point relative to this new frame of reference. Using this method. We now have coordinate bounds on all the longtidues.

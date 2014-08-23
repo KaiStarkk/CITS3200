@@ -7,7 +7,7 @@ package core;
 
 /**
  *
- * @author Dean
+ * @author Dean 
  */
 class GPSCoordinate {
 
@@ -105,30 +105,47 @@ class GPSCoordinate {
         double originalLatitude  = this.latitude;
         double originalLongitude = this.longitude;
         
-        afterRotation.latitude = originalLatitude * Math.cos(bearing) -
-                                 originalLongitude * Math.sin(-1 * bearing);
+        afterRotation.longitude = originalLongitude * Math.cos(bearing) -
+                                 originalLatitude * Math.sin(-1 * bearing);
         
-        afterRotation.longitude = originalLatitude * Math.sin(-1 * bearing) +
-                                  originalLongitude * Math.cos(bearing);
+        afterRotation.latitude = originalLongitude * Math.sin(-1 * bearing) +
+                                  originalLatitude * Math.cos(bearing);
         
         return afterRotation;
+    }
+    
+    /**
+     * Calculates the horizontal displacement between this GPS coordinate
+     * and the other GPS coordinate over 'there' in meters. 
+     * @param  there the other GPS coordinate
+     * @return the horizontal displacement to 'there' in meters
+     */
+    public double horizontalDisplacementTo(GPSCoordinate there) {
+        double horizontalDisplacement;
         
+        double bearingToThere  = bearingTo(there);
+        double distanceToThere = distanceTo(there);
         
+        horizontalDisplacement = distanceToThere * Math.cos(bearingToThere);
+        
+        return horizontalDisplacement;
+    }
+    
+    /**
+     * Calculates the vertical displacement between this GPS coordinate
+     * and the other GPS coordinate over 'there' in meters.
+     * @param  there the other GPS coordinate
+     * @return the horizontal displacement to 'there' in meters
+     */
+    public double verticalDisplacementTo(GPSCoordinate there) {
+        double verticalDisplacement;
+        
+        double bearingToThere  = bearingTo(there);
+        double distanceToThere = distanceTo(there);
+        
+        verticalDisplacement = distanceToThere * Math.sin(bearingToThere);
+        
+        return verticalDisplacement;
         
     }
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-    
-    
-
 }
