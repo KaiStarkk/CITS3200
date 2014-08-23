@@ -12,4 +12,22 @@ package StintAnalyser.Data;
  */
 public class Column {
     
+    
+    
+    /**
+     * Constructor method
+     * @param type A way of keeping track of what kind of data 
+     * is being contained in the Column
+     */
+    public Column(int type){
+        
+    }
+    /**
+     * 
+     * @param object The data point to add to the blah
+     */
+    public void add(String object){
+        
+    }
+    
 }
