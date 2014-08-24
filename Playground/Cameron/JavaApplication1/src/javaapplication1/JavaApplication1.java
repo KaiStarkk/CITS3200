@@ -6,10 +6,15 @@
 
 package javaapplication1;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  *
@@ -30,22 +35,48 @@ public class JavaApplication1 {
         
         
         try {
-          File file = new File(filename);
-          BufferedWriter output = new BufferedWriter(new FileWriter(file));
-          output.write("type=LOGAN\n" + "version=5.1.3\n");
+            File file = new File(filename);
+            BufferedWriter output = new BufferedWriter(new FileWriter(file));
+            output.write("type=LOGAN\n" + "version=5.1.3\n");
           
-          output.write("race=" + diff + ",0," + startTime + "," + endTime + ",\"H1S1\"" + "\n");
+            output.write("race=" + diff + ",0," + startTime + "," + endTime + ",\"H1S1\"" + "\n");
           
-          output.write("IMFChecked=0\n");
-          output.close();
+            output.write("IMFChecked=0\n");
+            output.close();
         } catch ( IOException e ) {
-           e.printStackTrace();
+            e.printStackTrace();
         }
     }
     
+    public static void readCSV(){
+        String filename = "Aran Zalewski 4727 201305031758.csv";
+        File file = new File(filename);
+        ArrayList plyrload = new ArrayList();
+        
+        try{
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            
+            for(int i = 0; i < 7;i++){
+                br.readLine();
+            }
+            
+            String line;
+            while((line = br.readLine()) != null){
+                plyrload.add(line);
+            }
+        }catch(FileNotFoundException e){
+            e.printStackTrace();  
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        
+        System.out.println(plyrload.get(0));
+    }
     public static void main(String[] args) {
         
-        writeVID();
+        //writeVID();
+        System.out.println("start");
+        readCSV();
         System.out.println("finished");
     }
     
