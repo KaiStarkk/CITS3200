@@ -30,31 +30,38 @@ public class DataSet {
      * @param path the path to read .csv data from.
      */
     public DataSet(String path) {
-        BufferedReader reader = null;
+    
         try{
-            reader = new BufferedReader(new FileReader(path));
+
+            BufferedReader reader = new BufferedReader(new FileReader(path));
+
+            for(int i = 0; i < 7;i++){
+                reader.readLine();
+            }
+            String check = reader.readLine();
+            String checker = "Time, Plyr. Load, GPS Time, GPS Latitude, GPS Longitude, /n";
+            if(!check.equals(checker)){
+                //file invalid error 
+
+            } 
+            String current;
+            columns = new Column[5];
+            while((current =reader.readLine()) != null){
+                String[] contents = current.split(",");
+                columns[0].add(contents[0]);
+                columns[1].add(contents[1]);
+                columns[2].add(contents[2]);
+                columns[3].add(contents[3]);
+                columns[4].add(contents[4]);
+            reader.close();
+            }
             
         }
         catch (FileNotFoundException e) {
 		e.printStackTrace();
-	}catch (IOException e) {
-		e.printStackTrace();
-	}
-        finally{
-
-            try{
-                String current;
-                while((current =reader.readLine()) != null){
-                    String[] contents = current.split(",");
-                    columns[0].add(contents[0]);
-                    columns[1].add(contents[1]);
-                    columns[2].add(contents[2]);
-                reader.close();
-                }
-            }catch (IOException e) {
-		e.printStackTrace();
-            }
-        }
+    	}catch (IOException e) {
+    		e.printStackTrace();
+    	}
 
     }
     
