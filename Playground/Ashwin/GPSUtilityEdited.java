@@ -123,8 +123,8 @@ class GPSCoordinate {
     public double horizontalDisplacementTo(GPSCoordinate there) {
         double horizontalDisplacement;
         
-        double bearingToThere  = bearingTo(there);
-        double distanceToThere = distanceTo(there);
+        double bearingToThere  = this.bearingTo(there);
+        double distanceToThere = this.distanceTo(there);
         
         horizontalDisplacement = distanceToThere * Math.cos(bearingToThere);
         
@@ -140,8 +140,8 @@ class GPSCoordinate {
     public double verticalDisplacementTo(GPSCoordinate there) {
         double verticalDisplacement;
         
-        double bearingToThere  = bearingTo(there);
-        double distanceToThere = distanceTo(there);
+        double bearingToThere  = this.bearingTo(there);
+        double distanceToThere = this.distanceTo(there);
         
         verticalDisplacement = distanceToThere * Math.sin(bearingToThere);
         
