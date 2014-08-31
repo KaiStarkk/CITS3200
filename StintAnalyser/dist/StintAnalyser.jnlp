@@ -11,7 +11,7 @@
   </resources>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="StintEditor.jar" size="25521" download="eager" />
+    <jar href="StintEditor.jar" size="22139" download="eager" />
   </resources>
 <security>
   <all-permissions/>

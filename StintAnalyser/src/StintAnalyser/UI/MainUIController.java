@@ -1,12 +1,14 @@
 package StintAnalyser.UI;
 
+import StintAnalyser.Stints.IOHelper;
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +19,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
@@ -29,7 +33,6 @@ import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
-import StintAnalyser.Stints.IOHelper;
 
 /**
  * MainUI Controller class. Handles all logic for the main UI window.
@@ -52,9 +55,13 @@ public class MainUIController implements Initializable {
     private Hyperlink helpBtn;
     @FXML
     private Hyperlink exitBtn;
+    @FXML
+    private Button loadBtn;
     
     @FXML
     private AnchorPane pane;
+    @FXML
+    private AnchorPane processPane;
     @FXML
     private TreeView tree;
     
@@ -64,17 +71,15 @@ public class MainUIController implements Initializable {
     @FXML
     private Label statusLbl;
     @FXML
-    private Label detailsLbl;
-    @FXML
     private Button processBtn;
     @FXML
     private ProgressIndicator spinner;
     
-    private IOHelper io;
+    @FXML
+    private ListView playerList;
     
     private String rootPath;
     private String selectedPath;
-    private String details;
     private String fileExtension;
 
     /*
@@ -150,22 +155,6 @@ public class MainUIController implements Initializable {
     private void leave(MouseEvent event) {
         pane.setCursor(Cursor.DEFAULT);
     }
-      
-    /*
-     * Load a game.
-     */
-    @FXML
-    private void processGame(ActionEvent event) {
-        final Timeline timeline = new Timeline();
-        spinner.setVisible(true);
-        spinner.setProgress(0);
-        
-        timeline.setCycleCount(1);
-        final KeyValue kv = new KeyValue(spinner.progressProperty(), 1);
-        final KeyFrame kf1 = new KeyFrame(Duration.millis(5000), kv);
-        timeline.getKeyFrames().add(kf1);
-        timeline.play();
-    }
     
     /*
      * Load root directory.
@@ -178,14 +167,14 @@ public class MainUIController implements Initializable {
             rootPath = file.getPath();
             tree.setRoot(new TreeItem(file.getName()));
             tree.getRoot().setExpanded(true);
-            expand(tree.getRoot(), file.listFiles());
+            expandTreeItem(tree.getRoot(), file.listFiles());
         }
     }
         
     /*
      * Expand a tree item.
      */
-    private void expand(TreeItem item, File[] files) {
+    private void expandTreeItem(TreeItem item, File[] files) {
         for (File file : files) {
             if (file.isFile()) {
                 item.getChildren().add(new TreeItem(file.getName()));
@@ -193,7 +182,7 @@ public class MainUIController implements Initializable {
             if (file.isDirectory()) {
                 TreeItem folder = new TreeItem(file.getName());
                 item.getChildren().add(folder);
-                expand(folder, file.listFiles());
+                expandTreeItem(folder, file.listFiles());
             }
         }
     }
@@ -213,6 +202,95 @@ public class MainUIController implements Initializable {
         
         groundsStage.setScene(scene);
         groundsStage.show();
+    }
+    
+    /*
+     * Load game
+     */
+    @FXML
+    private void loadGame(ActionEvent event) {
+
+        try {
+            TreeItem<String> currentItem = (TreeItem<String>) tree.getSelectionModel().getSelectedItems().get(0);
+            fileExtension = "none";
+            processPane.setDisable(true);
+            
+            ArrayList<String> players = new ArrayList<>();
+            playerList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+            int separator = currentItem.getValue().lastIndexOf('.');
+            if (separator > 0) {
+                fileExtension = currentItem.getValue().substring(separator + 1);
+            }
+
+            String relPath = "";
+
+            if (!currentItem.isLeaf()) {
+                relPath += "\\";
+                fileExtension = "folder";
+            }
+            
+            TreeItem<String> traceItem = currentItem;
+
+            while (traceItem.getParent() != null) {
+                relPath = "\\" + traceItem.getValue() + relPath;
+                traceItem = traceItem.getParent();
+            }
+
+            selectedPath = rootPath + relPath;
+            if (fileExtension.equals("csv")) {
+                statusLbl.setText("Single player selected:");
+                players.add(currentItem.getValue());
+                processPane.setDisable(false);
+            } else if (fileExtension.equals("folder")) {
+                int found = explore(selectedPath, players);
+                statusLbl.setText((found == 1) ? "1 player found." : found + " players found.");
+                if (found > 0) {
+                    processPane.setDisable(false);
+                }
+            } else {
+                statusLbl.setText("No players found.");                
+            }
+
+            playerList.setItems(FXCollections.observableArrayList(players));
+        } catch (NullPointerException e) {
+            // closing a tree node above selected value
+        }
+    }
+    
+    /*
+     * Search inside selected game for .csv files
+     */
+    private int explore(String path, ArrayList<String> players) {
+        File file = new File(path);
+        int count = 0;
+        if (file.isDirectory()) {
+            File[] children = file.listFiles();
+            for (File child : children) {
+            int separator = child.getAbsolutePath().lastIndexOf('.');
+                if (child.getAbsolutePath().substring(separator + 1).equals("csv")) {
+                    players.add(child.getName());
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+      
+    /*
+     * Process selected players.
+     */
+    @FXML
+    private void processPlayers(ActionEvent event) {
+        final Timeline timeline = new Timeline();
+        spinner.setVisible(true);
+        spinner.setProgress(0);
+        
+        timeline.setCycleCount(1);
+        final KeyValue kv = new KeyValue(spinner.progressProperty(), 1);
+        final KeyFrame kf1 = new KeyFrame(Duration.millis(5000), kv);
+        timeline.getKeyFrames().add(kf1);
+        timeline.play();
     }
     
     /*
@@ -259,46 +337,5 @@ public class MainUIController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        io = new IOHelper();
-        
-        tree.getSelectionModel().selectedItemProperty().addListener( (ObservableValue observable, Object oldValue, Object newValue) -> {
-            TreeItem<String> currentItem = (TreeItem<String>) newValue;
-            
-            try {
-                fileExtension = "none";
-                details = "";
-                processBtn.setDisable(true);
-                
-                int separator = currentItem.getValue().lastIndexOf('.');
-                if (separator > 0) {
-                    fileExtension = currentItem.getValue().substring(separator + 1);
-                }
-                
-                String relPath = "";
-                
-                if (!currentItem.isLeaf()) {
-                    relPath += "\\";
-                    fileExtension = "folder";
-                }
-                
-                while (currentItem.getParent() != null) {
-                    relPath = "\\" + currentItem.getValue() + relPath;
-                    currentItem = currentItem.getParent();
-                }
-                
-                selectedPath = rootPath + relPath;
-                details = "Path: " + selectedPath + "\nExtension type: " + fileExtension + "\n";
-                if (fileExtension.equals("csv")) {
-                    details += "Type recognised as comma separated values.";
-                    processBtn.setDisable(false);
-                }
-                
-                statusLbl.setText("Selected Item Details:");
-                detailsLbl.setText(details);
-            } catch (NullPointerException e) {
-                // closing a tree node above selected value
-            }
-        });
     }    
-    
 }
