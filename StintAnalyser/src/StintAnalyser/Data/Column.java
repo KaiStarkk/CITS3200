@@ -30,4 +30,11 @@ public class Column {
         
     }
     
+    public Object get(int index) {
+	return new Object();
+    }
+    
+    public int length() {
+	
+    }
 }
