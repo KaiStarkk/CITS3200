@@ -4,9 +4,6 @@
 .project
 .classpath
 .DS_Store
-/Playground/kieran/StintEditor/nbproject/private/
-/Playground/kieran/StintEditor/dist/
-/Playground/kieran/StintEditor/build/
 /Playground/Marcus/JavaApplication1/nbproject/private/
 /Playground/Marcus/JavaLibrary1/nbproject/private/
 /Playground/Marcus/HelloWorldApp/nbproject/private/
@@ -18,5 +15,6 @@
 /Playground/Marcus/baseUI/build/
 /Playground/Marcus/groundsio/JavaApplication1/nbproject/private/
 /Playground/Marcus/groundsio/JavaApplication1/build/
-/StintAnalyser/build/
-/StintAnalyser/dist/
+StintAnalyser/build/
+StintAnalyser/dist/
+StintAnalyser/nbproject/
