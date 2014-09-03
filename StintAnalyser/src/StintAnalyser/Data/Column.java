@@ -6,13 +6,15 @@
 
 package StintAnalyser.Data;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Kieran
  */
 public class Column {
     
-    
+    private ArrayList<Object> clist;
     
     /**
      * Constructor method
@@ -20,21 +22,21 @@ public class Column {
      * is being contained in the Column
      */
     public Column(int type){
-        
+        clist = new ArrayList<Object>();
     }
     /**
      * 
      * @param object The data point to add to the blah
      */
-    public void add(String object){
-        
+    public void add(Object object){
+        clist.add(object);
     }
     
     public Object get(int index) {
-	return new Object();
+	   return clist.get(index);
     }
     
     public int length() {
-	
+	   return clist.size();
     }
 }

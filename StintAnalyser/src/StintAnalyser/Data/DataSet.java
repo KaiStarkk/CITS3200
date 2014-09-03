@@ -20,8 +20,14 @@ import java.util.ArrayList;
 public class DataSet {
  
 
+    //vid file type
+    public String type;
+
+    //file version
+    public String version;
+
     //possible set 0-time,1-gps,2-accelerometer
-    Column[] columns;
+    private Column[] columns;
     /**
      * Constructor.
      * Constructs the array of columns which will then 
@@ -35,7 +41,13 @@ public class DataSet {
 
             BufferedReader reader = new BufferedReader(new FileReader(path));
 
-            for(int i = 0; i < 7;i++){
+            String firstline = reader.readLine();
+            String[] fsplit = firstline.split(" ");
+
+            type = fsplit[0];
+            version = fsplit[1];
+
+            for(int i = 1; i < 7;i++){
                 reader.readLine();
             }
             String check = reader.readLine();
@@ -47,12 +59,14 @@ public class DataSet {
             String current;
             columns = new Column[5];
             while((current =reader.readLine()) != null){
+
                 String[] contents = current.split(",");
                 columns[0].add(contents[0]);
                 columns[1].add(contents[1]);
                 columns[2].add(contents[2]);
                 columns[3].add(contents[3]);
                 columns[4].add(contents[4]);
+
             reader.close();
             }
             

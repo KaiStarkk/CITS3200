@@ -12,15 +12,21 @@ public class Stint {
     
     private final double startTime;
     private final double endTime;
+    private final int stintno;
+    private final int half;
     
     /**
      * Constructor.
      * @param startTime
      * @param endTime
+     * @param number
+     * @param half
      */
-    public Stint(double startTime, double endTime) {
+    public Stint(double startTime, double endTime,int number,int half) {
         this.startTime = startTime;
         this.endTime = endTime;
+        this.stintno = number;
+        this.half = half;
     }
     
     /**
@@ -38,4 +44,21 @@ public class Stint {
     public double getEndTime() {
         return endTime;
     }
+
+    /**
+     * Get accessor for the stint number.
+     * @return 
+     */
+    public int getNumber() {
+        return stintno;
+    }
+
+    /**
+     * Get accessor for the stint's game half.
+     * @return 
+     */
+    public int getHalf() {
+        return half;
+    }
+
 }
