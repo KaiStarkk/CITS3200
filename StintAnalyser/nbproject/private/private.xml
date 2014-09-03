@@ -2,14 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/Dean/GoogleDrive/CITS3200/StintAnalyser/src/stintanalyser/Data/Column.java</file>
-            <file>file:/C:/Users/Dean/GoogleDrive/CITS3200/StintAnalyser/test/StintAnalyser/Analysis/Heuristics/AccelerometerHeuristicTest.java</file>
-            <file>file:/C:/Users/Dean/GoogleDrive/CITS3200/StintAnalyser/src/stintanalyser/Grounds/Ground.java</file>
-            <file>file:/C:/Users/Dean/GoogleDrive/CITS3200/StintAnalyser/src/stintanalyser/Analysis/Heuristics/GPSHeuristic.java</file>
-            <file>file:/C:/Users/Dean/GoogleDrive/CITS3200/StintAnalyser/src/stintanalyser/Data/DataSet.java</file>
-            <file>file:/C:/Users/Dean/GoogleDrive/CITS3200/StintAnalyser/src/stintanalyser/Analysis/Heuristics/GPSCoordinate.java</file>
-            <file>file:/C:/Users/Dean/GoogleDrive/CITS3200/StintAnalyser/src/stintanalyser/Stints/StintSet.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
