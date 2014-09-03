@@ -35,7 +35,7 @@ public class DataSet {
      * 
      * @param path the path to read .csv data from.
      */
-    public DataSet(String path) throws Exception{
+    public DataSet(String path){
     
         try{
 
@@ -56,20 +56,20 @@ public class DataSet {
             //exception will be changed
             if(!check.equals("Time, Plyr. Load, GPS Time, GPS Latitude, GPS Longitude, /n")){
                 //file invalid error 
-                throw new Exception();
+                throw new InvalidInputException("Invalid Input due to having incorrect data fields");
 
             } 
 
             String current;
             columns = new Column[5];
 
-            while((current =reader.readLine()) != null){
+            while(( current =reader.readLine()) != null ){
 
                 String[] contents = current.split(",");
 
-                if(contents.length>5){
+                if( contents.length>5 || contents.length<5 ){
 
-                    throw new Exception();
+                    throw new InvalidInputException("Invalid Input due to having an incorrect number of data fields");
 
                 }
 
@@ -89,15 +89,19 @@ public class DataSet {
                 }
 
             reader.close();
-            
+
             }
             
         }
         catch (FileNotFoundException e) {
-		e.printStackTrace();
-    	}catch (IOException e) {
+		    e.printStackTrace();
+    	}
+        catch (IOException e) {
     		e.printStackTrace();
     	}
+        catch (InvalidInputException e){
+            e.printStackTrace();
+        }
 
     }
     
