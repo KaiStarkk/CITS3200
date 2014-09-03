@@ -35,7 +35,7 @@ public class DataSet {
      * 
      * @param path the path to read .csv data from.
      */
-    public DataSet(String path) {
+    public DataSet(String path) throws Exception{
     
         try{
 
@@ -51,23 +51,45 @@ public class DataSet {
                 reader.readLine();
             }
             String check = reader.readLine();
-            String checker = "Time, Plyr. Load, GPS Time, GPS Latitude, GPS Longitude, /n";
-            if(!check.equals(checker)){
+            //String checker = "Time, Plyr. Load, GPS Time, GPS Latitude, GPS Longitude, /n";
+
+            //exception will be changed
+            if(!check.equals("Time, Plyr. Load, GPS Time, GPS Latitude, GPS Longitude, /n")){
                 //file invalid error 
+                throw new Exception();
 
             } 
+
             String current;
             columns = new Column[5];
+
             while((current =reader.readLine()) != null){
 
                 String[] contents = current.split(",");
-                columns[0].add(contents[0]);
-                columns[1].add(contents[1]);
-                columns[2].add(contents[2]);
-                columns[3].add(contents[3]);
-                columns[4].add(contents[4]);
+
+                if(contents.length>5){
+
+                    throw new Exception();
+
+                }
+
+                //third element of contents
+
+                String check= contents[3].trim();
+
+                if(check.equals("..")){
+                    continue;
+                }
+
+                for(int i=0;i<5;i++){
+
+                    String content = contents[i].trim();
+                    columns[i].add(content);
+
+                }
 
             reader.close();
+            
             }
             
         }

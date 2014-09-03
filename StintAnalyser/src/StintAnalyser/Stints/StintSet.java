@@ -50,12 +50,13 @@ public class StintSet {
                 double start = st.getStartTime();
                 double end = st.getStartTime();
                 double stintlen = end-start;
+                double dist = st.getDistance();
 
                 int stnumber = st.getNumber();
                 int sthalf = st.getHalf();
 
                 //missing metres travelled
-                line += String.valueOf(stintlen)+","+String.valueOf(start)+ "," + String.valueOf(end) + "," +"H"+String.valueOf(sthalf)+"S"+String.valueOf(stnumber)+"\n";
+                line += String.valueOf(dist)+","+String.valueOf(stintlen)+","+String.valueOf(start)+ "," + String.valueOf(end) + "," +"H"+String.valueOf(sthalf)+"S"+String.valueOf(stnumber)+"\n";
                 writer.write(line,0,line.length());
                 writer.flush();
 

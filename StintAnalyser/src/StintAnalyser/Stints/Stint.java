@@ -12,8 +12,11 @@ public class Stint {
     
     private final double startTime;
     private final double endTime;
+    private final double distance;
     private final int stintno;
     private final int half;
+
+
     
     /**
      * Constructor.
@@ -21,12 +24,15 @@ public class Stint {
      * @param endTime
      * @param number
      * @param half
+     * @param distance
      */
-    public Stint(double startTime, double endTime,int number,int half) {
+    public Stint(double startTime, double endTime,double distance,int number,int half) {
         this.startTime = startTime;
         this.endTime = endTime;
+        this.distance = distance;
         this.stintno = number;
         this.half = half;
+        
     }
     
     /**
@@ -43,6 +49,14 @@ public class Stint {
      */
     public double getEndTime() {
         return endTime;
+    }
+
+    /**
+     * Get accessor for the stint's total distance.
+     * @return 
+     */
+    public double getDistance() {
+        return distance;
     }
 
     /**
