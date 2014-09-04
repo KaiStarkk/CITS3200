@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="pane" onMouseDragged="#moveContinue" onMousePressed="#dragStart" onMouseReleased="#dragEnd" prefHeight="670.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stinteditor.UIController">
+   <children>
+      <SplitPane dividerPositions="0.29797979797979796" layoutX="6.0" layoutY="89.0" prefHeight="600.0" prefWidth="1000.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="90.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <TreeView fx:id="tree" layoutX="45.0" layoutY="64.0" prefHeight="579.0" prefWidth="302.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children></AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <SplitPane dividerPositions="0.6551126516464472" layoutX="89.0" layoutY="161.0" orientation="VERTICAL" prefHeight="668.0" prefWidth="714.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <items>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="247.0" prefWidth="712.0" />
+                    </items>
+                  </SplitPane>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+      <Label layoutX="37.0" layoutY="15.0" styleClass="mainFxmlTitle" stylesheets="@ui.css" text="StintEditor" />
+      <HBox layoutX="761.0" layoutY="37.0" spacing="15.0" AnchorPane.rightAnchor="77.0" AnchorPane.topAnchor="37.0">
+         <children>
+            <Button fx:id="load" layoutX="757.0" layoutY="37.0" mnemonicParsing="false" onAction="#loadRootDirectory" text="Load Directory ..." />
+            <Button fx:id="grounds" mnemonicParsing="false" onAction="#groundsUI" text="Grounds" />
+            <Button fx:id="help" layoutX="882.0" layoutY="37.0" mnemonicParsing="false" onAction="#showHelp" text="Help" />
+            <Button fx:id="exit" layoutX="958.0" layoutY="37.0" mnemonicParsing="false" onAction="#exit" text="Exit" />
+         </children>
+      </HBox>
+      <Pane onMouseDragged="#resizeContinue" onMouseExited="#leave" onMouseMoved="#hover" onMousePressed="#dragStart" onMouseReleased="#dragEnd" prefHeight="15.0" prefWidth="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+   </children>
+</AnchorPane>
