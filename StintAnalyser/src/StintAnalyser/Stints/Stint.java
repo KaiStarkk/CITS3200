@@ -28,13 +28,12 @@ public class Stint {
      * @param half
      * @param distance
      */
-    public Stint(double startTime, double endTime,double distance,,double confidence,int number,int half) {
+    public Stint(double startTime, double endTime,double confidence,int number,int period) {
         this.startTime = startTime;
         this.endTime = endTime;
-        this.distance = distance;
         this.confidence = confidence;
         this.stintno = number;
-        this.half = half;
+        this.period = period;
 
         
     }
@@ -55,13 +54,6 @@ public class Stint {
         return endTime;
     }
 
-    /**
-     * Get accessor for the stint's total distance.
-     * @return 
-     */
-    public double getDistance() {
-        return distance;
-    }
 
     /**
      * Get accessor for the stint number.
@@ -75,8 +67,8 @@ public class Stint {
      * Get accessor for the stint's game half.
      * @return 
      */
-    public int getHalf() {
-        return half;
+    public int getPeriod() {
+        return period;
     }
 
 }

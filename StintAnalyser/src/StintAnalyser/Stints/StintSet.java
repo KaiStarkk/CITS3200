@@ -30,7 +30,7 @@ public class StintSet {
      * Writes the StintSet out to a .vid file.
      * @param path path to write the file to.
      */
-    public void writeToVid(String path,String type,String version) {
+    public void writeToVid(String path,String type,String version,int periods) {
         
         try{
             //missing star
@@ -42,6 +42,15 @@ public class StintSet {
             writer.write(first,0,first.length());
             writer.write(second,0,second.length());
             writer.flush();
+
+            char periodtype;
+            if(periods == 2)
+                periodtype = 'H';
+            else if(periods == 4)
+                periodtype = 'Q';
+            else 
+                periodtype = 'P';
+            
 
             for(Stint st:stintSet){
 
@@ -55,7 +64,7 @@ public class StintSet {
                 int sthalf = st.getHalf();
 
                 //missing metres travelled
-                line += String.valueOf(dist)+","+String.valueOf(stintlen)+","+String.valueOf(start)+ "," + String.valueOf(end) + "," +"H"+String.valueOf(sthalf)+"S"+String.valueOf(stnumber)+"\n";
+                line += String.valueOf(stintlen)+",0,"+String.valueOf(start)+ "," + String.valueOf(end) + "," +periodtype+String.valueOf(sthalf)+"S"+String.valueOf(stnumber)+"\n";
                 writer.write(line,0,line.length());
                 writer.flush();
 

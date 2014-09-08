@@ -35,8 +35,12 @@ public class AccelerometerHeuristic {
     		return null;
 
     	}
+    	double estimated_start=0;
 
     	int ticks = 0;
+    	int tick_threshold_start = 100;
+    	int tick_threshold_end = 100;
+    	int stint_number = 1;
 
     	for(int i=0;i<time.length();i++){
 
@@ -47,6 +51,11 @@ public class AccelerometerHeuristic {
     			if(c_accel < sig_activity){
 
     				ticks++;
+    				if(ticks>tick_threshold_end){
+
+    					double end_time = Double.parseDouble(time.get(i-100));
+    					solution.add(new Stint(estimated_start,end_time,0,))
+    				}
     			}
     			else{
 
