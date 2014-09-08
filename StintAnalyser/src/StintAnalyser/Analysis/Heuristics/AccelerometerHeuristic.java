@@ -19,6 +19,49 @@ public class AccelerometerHeuristic {
      * @return 
      */
     public static StintSet getResult(DataSet data) {
+
+
+    	//experimental number will be changed to a calculated number
+    	double sig_activity = 10;
+    	boolean found_start = false;
+
+    	Column time = data.getColumn(1);
+    	Column accel = data.getColumn(2);
+    	StintSet solution = new StintSet();
+
+
+    	//check correct data
+    	if(time.length()!=accel.length()){
+    		return null;
+
+    	}
+
+    	int ticks = 0;
+
+    	for(int i=0;i<time.length();i++){
+
+    		double c_time = Double.parseDouble(time.get(i));
+    		double c_accel = Double.parseDouble(accel.get(i));
+
+    		if(found_start){
+    			if(c_accel < sig_activity){
+
+    				ticks++;
+    			}
+    			else{
+
+    				ticks=0;
+    			}
+
+    		}
+    		else{
+
+    			//continue
+    		}
+
+    	}
+
+
         return new StintSet();
     }
     

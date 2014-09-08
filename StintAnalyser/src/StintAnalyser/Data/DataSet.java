@@ -112,7 +112,7 @@ public class DataSet {
      */
     public Column getColumn(int num) {
         
-        return columns[num];
+        return columns[num-1];
     }
     
 }

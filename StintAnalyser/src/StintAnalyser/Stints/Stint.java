@@ -13,8 +13,10 @@ public class Stint {
     private final double startTime;
     private final double endTime;
     private final double distance;
+    private final double confidence;
     private final int stintno;
     private final int half;
+    
 
 
     
@@ -26,12 +28,14 @@ public class Stint {
      * @param half
      * @param distance
      */
-    public Stint(double startTime, double endTime,double distance,int number,int half) {
+    public Stint(double startTime, double endTime,double distance,,double confidence,int number,int half) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.distance = distance;
+        this.confidence = confidence;
         this.stintno = number;
         this.half = half;
+
         
     }
     

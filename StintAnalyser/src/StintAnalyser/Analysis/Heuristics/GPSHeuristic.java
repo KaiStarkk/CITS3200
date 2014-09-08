@@ -17,46 +17,47 @@ public class GPSHeuristic {
 
     /**
      * Determine if the player is playing or not.
-     * @param data
+     * @param data The DataSet containing all game related time, gps and accelerometer data
      * @param ground
      * @return 
      */
     public StintSet getResult(DataSet data, GPSCoordinate goal1, GPSCoordinate goal2) {
         Column timeColumn = data.getColumn(1);
-	Column latitudeColumn = data.getColumn(5);
-	Column longitudeColumn = data.getColumn(4);
-	
-	double transformBearing = goal1.bearingTo(goal2);
-	double fieldLength = goal1.distanceTo(goal2);
-	double lenghtWidthRatio = 0.6; //Find length/width ratio dynamically
-	double halfFieldWidth = (fieldLength*lenghtWidthRatio)/2; 
-	
-	for (int i = 0; i < timeColumn.length(); i++) {
-	    if (longitudeColumn.get(i) != "") {
-		GPSCoordinate playerCoord = new 
-		    GPSCoordinate((double)latitudeColumn.get(i), (double)longitudeColumn.get(i));
+		Column latitudeColumn = data.getColumn(5);
+		Column longitudeColumn = data.getColumn(4);
 		
-		playerCoord = playerCoord.rotate(playerCoord, transformBearing);
+		double transformBearing = goal1.bearingTo(goal2);
+		double fieldLength = goal1.distanceTo(goal2);
+		double lenghtWidthRatio = 0.6; //Find length/width ratio dynamically
+		double halfFieldWidth = (fieldLength*lenghtWidthRatio)/2; 
 		
-		if (!playerIsOnField(goal2, playerCoord, fieldLength, halfFieldWidth)) {
-		    //continue calculations
+		for (int i = 0; i < timeColumn.length(); i++) {
+		    if (longitudeColumn.get(i) != "") {
+				GPSCoordinate playerCoord = new GPSCoordinate(Double.parseDouble(latitudeColumn.get(i)), Double.parseDouble(longitudeColumn.get(i)));
+				
+				playerCoord = playerCoord.rotate(playerCoord, transformBearing);
+				
+				if (!playerIsOnField(goal2, playerCoord, fieldLength, halfFieldWidth)) {
+			    //continue calculations
+				}
+		    }
 		}
-	    }
-	}
-	
-	
-	return new StintSet();
+		return new StintSet();
     }    
     
+    /**
+	*
+	*
+	*/
     private boolean playerIsOnField(GPSCoordinate origin, GPSCoordinate player, double fieldLength, double halfFieldWidth) {
-	double xdisplacement = origin.horizontalDisplacementTo(player);
-	double ydisplacement = Math.abs(origin.verticalDisplacementTo(player));
+		double xdisplacement = origin.horizontalDisplacementTo(player);
+		double ydisplacement = Math.abs(origin.verticalDisplacementTo(player));
 	
-	if ((xdisplacement < fieldLength && xdisplacement > 0) &&
-		ydisplacement < halfFieldWidth) {
-	    return true;
-	} else {
-	    return false;
-	}
+		if ((xdisplacement < fieldLength && xdisplacement > 0) && ydisplacement < halfFieldWidth) {
+		    return true;
+		} 
+		else {
+		    return false;
+		}
     }
 }
