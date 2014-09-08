@@ -1,6 +1,5 @@
 package StintAnalyser.Stints;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -23,7 +22,7 @@ public class StintSet {
      * Empty constructor.
      */
     public StintSet() {
-        stintset = new ArrayList<Stint>();
+        stintSet = new ArrayList<Stint>();
         
     }
     

@@ -10,7 +10,6 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.ArrayList;
 
 /**
@@ -75,9 +74,9 @@ public class DataSet {
 
                 //third element of contents
 
-                String check= contents[3].trim();
+                String check2= contents[3].trim();
 
-                if(check.equals("..")){
+                if(check2.equals("..")){
                     continue;
                 }
 
