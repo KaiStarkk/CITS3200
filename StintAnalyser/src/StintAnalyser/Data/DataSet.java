@@ -104,15 +104,24 @@ public class DataSet {
 
     }
     
-    /**
-     * Accessor for each column of the data.
-     * @param num An integer representation of the type of
-     * data stored in the column
-     * @return 
-     */
-    public Column getColumn(int num) {
-        
-        return columns[num-1];
-    }
+    public Column getTimeColumn() {
+			return columns[1];
+		}
+		
+		public Column getPlayerLoadColumn() {
+			return columns[2];
+		}
+		
+		public Column getGPStimeColumn() {
+			return columns[3];
+		}
+		
+		public Column getGPSLatitudeColumn() {
+			return columns[4];
+		}
+		
+		public Column getGPSLongitudeColumn() {
+			return columns[5];
+		}
     
 }

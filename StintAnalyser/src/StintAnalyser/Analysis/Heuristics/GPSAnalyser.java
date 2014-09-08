@@ -2,8 +2,9 @@ package StintAnalyser.Analysis.Heuristics;
 
 import StintAnalyser.Data.Column;
 import StintAnalyser.Data.DataSet;
-import StintAnalyser.Grounds.Ground;
 import StintAnalyser.Stints.StintSet;
+import stintanalyser.Grounds.Ground;
+import stintanalyser.Grounds.GPSCoordinate;
 
 /**
  * CITS3200 Professional Computing GPSHeuristic.java Determines if a player is
@@ -17,31 +18,23 @@ public class GPSAnalyser {
 	private Column latitudeColumn;
 	private Column longitudeColumn;
 	
-	public GPSAnalyser() {
-		timeColumn = data.getColumn("time");
-		latitudeColumn = data.getColumn(5);
-		longitudeColumn = data.getColumn(4);
+	private Ground ground;
+	
+	public GPSAnalyser(DataSet playerData, Ground ground) {
+		this.timeColumn = playerData.getTimeColumn();
+		this.latitudeColumn = playerData.getGPSLatitudeColumn();
+		this.longitudeColumn = playerData.getGPSLongitudeColumn();
+		
+		this.ground = ground;
 	}
 	
-	/**
-	 * Determine if the player is playing or not.
-	 *
-	 * @param data The DataSet containing all game related time, gps and
-	 * accelerometer data
-	 * @param ground
-	 * @return
-	 */
-	public StintSet getResult(DataSet data, GPSCoordinate goal1, GPSCoordinate goal2) {
-		Column 
-
-		double transformBearing = goal1.bearingTo(goal2);
-		double fieldLength = goal1.distanceTo(goal2);
-		double lenghtWidthRatio = 0.6; //Find length/width ratio dynamically
-		double halfFieldWidth = (fieldLength * lenghtWidthRatio) / 2;
-
-		for (int i = 0; i < timeColumn.length(); i++) {
-			if (longitudeColumn.get(i) != "") {
-				GPSCoordinate playerCoord = new GPSCoordinate(Double.parseDouble(latitudeColumn.get(i)), Double.parseDouble(longitudeColumn.get(i)));
+	public StintSet findStints() {
+		for (int i = 0; i < this.timeColumn.length(); i++) {
+			if (this.longitudeColumn.get(i) != "") {
+				double currentPlayerLatitude = Double.parseDouble(latitudeColumn.get(i));
+				double currentPlayerLongitude = Double.parseDouble(longitudeColumn.get(i));
+				
+				GPSCoordinate playerCoord = new GPSCoordinate(currentPlayerLatitude, currentPlayerLongitude);
 
 				playerCoord = playerCoord.rotate(playerCoord, transformBearing);
 

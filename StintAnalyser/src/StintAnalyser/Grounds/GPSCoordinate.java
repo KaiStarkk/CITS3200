@@ -1,10 +1,10 @@
-package StintAnalyser.Analysis.Heuristics;
+package stintanalyser.Grounds;
 
 /**
  *
- * @author Dean 
+ * @author Dean and Ashwin
  */
-class GPSCoordinate {
+public class GPSCoordinate {
 
     //need to be in Radians for calculations
     private double latitude;

@@ -1,4 +1,4 @@
-package StintAnalyser.Grounds;
+package stintanalyser.Grounds;
 
 /**
  * CITS3200 Professional Computing
@@ -11,31 +11,32 @@ package StintAnalyser.Grounds;
  */
 public class Ground {
     
-    String name;
-    double[] goal1GPSCoord;
-    double[] goal2GPSCoord;
-    double aspectRatio;
+    private String name;
+    private GPSCoordinate goal1;
+    private GPSCoordinate goal2;
+    private double aspectRatio;
     
-    /**
-     * Constructor.
-     * @param name the name of the ground.
-     * @param goal1GPSCoord the first goal, in latitude and longitude.
-     * @param goal2GPSCoord the second goal, in latitude and longitude.
-     * @param aspectRatio the aspect ratio of the ground.
-     */
-    public Ground(String name, double[] goal1GPSCoord, double[] goal2GPSCoord, double aspectRatio) {
+    
+    public Ground(String name, GPSCoordinate goal1, GPSCoordinate goal2, double aspectRatio) {
         this.name = name;
-        this.goal1GPSCoord = goal1GPSCoord;
-        this.goal2GPSCoord = goal2GPSCoord;
+        this.goal1 = goal1;
+        this.goal2 = goal2;
         this.aspectRatio = aspectRatio;
     }
     
-    /**
-     * Converts the ground's coordinate system so that it is perpendicular
-     * to the x-axis.
-     * @return the rotation matrix to perform the operation.
-     */
-    public double[][] align() {
-        return new double[][] {{1,1},{1,1}}; 
+    public double getTransformBearing() {
+        return this.goal1.bearingTo(this.goal2); 
     }
+		
+		public double getAspectRatio() {
+			return this.aspectRatio;
+		}
+		
+		public double getFieldLength() {
+			return this.goal1.distanceTo(this.goal2);
+		}
+		
+		public double getHalfFieldWidth() {
+			return (this.getFieldLength() * this.getAspectRatio()) / 2;
+		}
 }
