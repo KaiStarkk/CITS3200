@@ -6,96 +6,95 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- * CITS3200 Professional Computing
- * StintSet.java
- * Contains fields and methods pertaining to StintSets. StintSets are 
- * an array of Stints.
- * 
+ * CITS3200 Professional Computing StintSet.java Contains fields and methods
+ * pertaining to StintSets. StintSets are an array of Stints.
+ *
  * @version 1.1 20/08/14
  * @author Group B
  */
 public class StintSet {
-    
-    private ArrayList<Stint> stintSet;
-    
-    /**
-     * Empty constructor.
-     */
-    public StintSet() {
-        stintSet = new ArrayList<Stint>();
-        
-    }
-    
-    /**
-     * Writes the StintSet out to a .vid file.
-     * @param path path to write the file to.
-     */
-    public void writeToVid(String path,String type,String version,int periods) {
-        
-        try{
-            //missing star
-            BufferedWriter writer = new BufferedWriter(new FileWriter(path));
-            String first = "type="+type+"\n";
-            String second = "version="+version+"\n";
 
+	private ArrayList<Stint> stintSet;
 
-            writer.write(first,0,first.length());
-            writer.write(second,0,second.length());
-            writer.flush();
+	/**
+	 * Empty constructor.
+	 */
+	public StintSet() {
+		stintSet = new ArrayList<Stint>();
 
-            char periodtype;
-            if(periods == 2)
-                periodtype = 'H';
-            else if(periods == 4)
-                periodtype = 'Q';
-            else 
-                periodtype = 'P';
-            
+	}
 
-            for(Stint st:stintSet){
+	/**
+	 * Writes the StintSet out to a .vid file.
+	 *
+	 * @param path path to write the file to.
+	 */
+	public void writeToVid(String path, String type, String version, int periods) {
 
-                String line = "race=";
-                double start = st.getStartTime();
-                double end = st.getStartTime();
-                double stintlen = end-start;
-                double dist = st.getDistance();
+		try {
+			//missing star
+			BufferedWriter writer = new BufferedWriter(new FileWriter(path));
+			String first = "type=" + type + "\n";
+			String second = "version=" + version + "\n";
 
-                int stnumber = st.getNumber();
-                int sthalf = st.getHalf();
+			writer.write(first, 0, first.length());
+			writer.write(second, 0, second.length());
+			writer.flush();
 
-                //missing metres travelled
-                line += String.valueOf(stintlen)+",0,"+String.valueOf(start)+ "," + String.valueOf(end) + "," +periodtype+String.valueOf(sthalf)+"S"+String.valueOf(stnumber)+"\n";
-                writer.write(line,0,line.length());
-                writer.flush();
+			char periodtype;
+			if (periods == 2) {
+				periodtype = 'H';
+			} else if (periods == 4) {
+				periodtype = 'Q';
+			} else {
+				periodtype = 'P';
+			}
 
-            }
-            String last = "IMFChecked=0\n";
-            writer.write(last,0,last.length());
-            writer.flush();
-            writer.close();
+			for (Stint st : stintSet) {
 
-        }
-        catch(IOException e){
-            e.printStackTrace();
+				String line = "race=";
+				double start = st.getStartTime();
+				double end = st.getStartTime();
+				double stintlen = end - start;
+				double dist = st.getDistance();
 
-        }
+				int stnumber = st.getNumber();
+				int sthalf = st.getHalf();
 
-    }
-    
-    /**
-     * Get the StintSet's i'th item.
-     * @param i the index of the Stint item to retrieve.
-     * @return 
-     */
-    public Stint getStint(int i) {
-        return stintSet.get(i);
-    }
-    
-    /**
-     * Add a new Stint to the StintSet
-     * @param stint the stint to be added to the set.
-     */
-    public void addStint(Stint stint) {
-        stintSet.add(stint);
-    }
+				//missing metres travelled
+				line += String.valueOf(stintlen) + ",0," + String.valueOf(start) + "," + String.valueOf(end) + "," + periodtype + String.valueOf(sthalf) + "S" + String.valueOf(stnumber) + "\n";
+				writer.write(line, 0, line.length());
+				writer.flush();
+
+			}
+			String last = "IMFChecked=0\n";
+			writer.write(last, 0, last.length());
+			writer.flush();
+			writer.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+
+		}
+
+	}
+
+	/**
+	 * Get the StintSet's i'th item.
+	 *
+	 * @param i the index of the Stint item to retrieve.
+	 * @return
+	 */
+	public Stint getStint(int i) {
+		return stintSet.get(i);
+	}
+
+	/**
+	 * Add a new Stint to the StintSet
+	 *
+	 * @param stint the stint to be added to the set.
+	 */
+	public void addStint(Stint stint) {
+		stintSet.add(stint);
+	}
 }

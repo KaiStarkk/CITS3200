@@ -31,33 +31,29 @@ public class GPSAnalyser {
 	public StintSet findStints() {
 		for (int i = 0; i < this.timeColumn.length(); i++) {
 			if (this.longitudeColumn.get(i) != "") {
-				double currentPlayerLatitude = Double.parseDouble(latitudeColumn.get(i));
-				double currentPlayerLongitude = Double.parseDouble(longitudeColumn.get(i));
+				//Making the assumption that columns return doubles for lat/long data
+				//Check with Alex/Cam how data should be stored in Column objects.
+				double currentPlayerLatitude = (double)this.latitudeColumn.get(i);
+				double currentPlayerLongitude = (double)this.longitudeColumn.get(i);
 				
 				GPSCoordinate playerCoord = new GPSCoordinate(currentPlayerLatitude, currentPlayerLongitude);
+				playerCoord = playerCoord.rotate(playerCoord, ground.getTransformBearing());
 
-				playerCoord = playerCoord.rotate(playerCoord, transformBearing);
-
-				if (!playerIsOnField(goal2, playerCoord, fieldLength, halfFieldWidth)) {
+				if (!playerIsOnField(playerCoord)) {
 					//continue calculations
 				}
 			}
 		}
+		
+		//figure out what goes in a StintSet
 		return new StintSet();
 	}
 
-	/**
-	 *
-	 *
-	 */
-	private boolean playerIsOnField(GPSCoordinate origin, GPSCoordinate player, double fieldLength, double halfFieldWidth) {
-		double xdisplacement = origin.horizontalDisplacementTo(player);
-		double ydisplacement = Math.abs(origin.verticalDisplacementTo(player));
+	private boolean playerIsOnField(GPSCoordinate player) {
+		double xdisplacement = this.ground.getOrigin().horizontalDisplacementTo(player);
+		double ydisplacement = Math.abs(this.ground.getOrigin().verticalDisplacementTo(player));
 
-		if ((xdisplacement < fieldLength && xdisplacement > 0) && ydisplacement < halfFieldWidth) {
-			return true;
-		} else {
-			return false;
-		}
+		return (xdisplacement < this.ground.getFieldLength() && xdisplacement > 0) 
+						&& (ydisplacement < this.ground.getHalfFieldWidth());
 	}
 }
