@@ -30,7 +30,7 @@ public class GPSHeuristicTest {
 	DataSet data = null;
 	Ground ground = null;
 	StintSet expResult = null;
-	StintSet result = GPSHeuristic.getResult(data, ground);
+	StintSet result = GPSAnalyser.getResult(data, ground);
 	assertEquals(expResult, result);
 	// TODO review the generated test code and remove the default call to fail.
 	fail("The test case is a prototype.");
