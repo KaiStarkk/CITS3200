@@ -1,37 +1,43 @@
 package StintAnalyser.UI;
 
-import StintAnalyser.Stints.IOHelper;
+import StintAnalyser.Grounds.GroundsIO;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBoxBuilder;
+import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Popup;
 import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 /**
@@ -66,10 +72,13 @@ public class MainUIController implements Initializable {
     private TreeView tree;
     
     DirectoryChooser directoryChooser = new DirectoryChooser();
+    FileChooser fileChooser = new FileChooser();
     
     
     @FXML
     private Label statusLbl;
+    @FXML
+    private TextArea gamePeriods;
     @FXML
     private Button processBtn;
     @FXML
@@ -77,10 +86,14 @@ public class MainUIController implements Initializable {
     
     @FXML
     private ListView playerList;
+    @FXML
+    private ComboBox groundsBox;
     
     private String rootPath;
     private String selectedPath;
     private String fileExtension;
+    private GroundsIO groundsIO;
+    private File groundsFile;
 
     /*
      * Dragging starts.
@@ -191,17 +204,12 @@ public class MainUIController implements Initializable {
      * Show the grounds UI.
      */
     @FXML
-    private void showGroundsUI(ActionEvent event) throws Exception {
-        final Stage groundsStage = new Stage(StageStyle.UNDECORATED);
+    private void selectGroundsLibrary(ActionEvent event) throws Exception {
+        Stage stage = (Stage) groundsBtn.getScene().getWindow();
+        groundsFile = fileChooser.showOpenDialog(stage);
+        groundsIO = new GroundsIO(groundsFile);
         
-        groundsStage.initModality(Modality.WINDOW_MODAL);
-        groundsStage.initOwner(groundsBtn.getScene().getWindow());
-        Parent root = FXMLLoader.load(getClass().getResource("GroundsUI.fxml"));
-        
-        Scene scene = new Scene(root);
-        
-        groundsStage.setScene(scene);
-        groundsStage.show();
+        groundsBox.setItems(FXCollections.observableArrayList(groundsIO.groundNames()));
     }
     
     /*
@@ -209,52 +217,55 @@ public class MainUIController implements Initializable {
      */
     @FXML
     private void loadGame(ActionEvent event) {
+        if (groundsIO == null) {
+            statusLbl.setText("Please select a grounds library file, then load the chosen item again.");
+        } else {
+            try {
+                TreeItem<String> currentItem = (TreeItem<String>) tree.getSelectionModel().getSelectedItems().get(0);
+                fileExtension = "none";
+                processPane.setDisable(true);
 
-        try {
-            TreeItem<String> currentItem = (TreeItem<String>) tree.getSelectionModel().getSelectedItems().get(0);
-            fileExtension = "none";
-            processPane.setDisable(true);
-            
-            ArrayList<String> players = new ArrayList<>();
-            playerList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+                ArrayList<String> players = new ArrayList<>();
+                playerList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-            int separator = currentItem.getValue().lastIndexOf('.');
-            if (separator > 0) {
-                fileExtension = currentItem.getValue().substring(separator + 1);
-            }
-
-            String relPath = "";
-
-            if (!currentItem.isLeaf()) {
-                relPath += "\\";
-                fileExtension = "folder";
-            }
-            
-            TreeItem<String> traceItem = currentItem;
-
-            while (traceItem.getParent() != null) {
-                relPath = "\\" + traceItem.getValue() + relPath;
-                traceItem = traceItem.getParent();
-            }
-
-            selectedPath = rootPath + relPath;
-            if (fileExtension.equals("csv")) {
-                statusLbl.setText("Single player selected:");
-                players.add(currentItem.getValue());
-                processPane.setDisable(false);
-            } else if (fileExtension.equals("folder")) {
-                int found = explore(selectedPath, players);
-                statusLbl.setText((found == 1) ? "1 player found." : found + " players found.");
-                if (found > 0) {
-                    processPane.setDisable(false);
+                int separator = currentItem.getValue().lastIndexOf('.');
+                if (separator > 0) {
+                    fileExtension = currentItem.getValue().substring(separator + 1);
                 }
-            } else {
-                statusLbl.setText("No players found.");                
-            }
+                
+                String relPath = "";
 
-            playerList.setItems(FXCollections.observableArrayList(players));
-        } catch (NullPointerException e) {
-            // closing a tree node above selected value
+                if (!currentItem.isLeaf()) {
+                    relPath += "\\";
+                    fileExtension = "folder";
+                }
+
+                TreeItem<String> traceItem = currentItem;
+
+                while (traceItem.getParent() != null) {
+                    relPath = "\\" + traceItem.getValue() + relPath;
+                    traceItem = traceItem.getParent();
+                }
+
+                selectedPath = rootPath + relPath;
+                if (fileExtension.equals("csv")) {
+                    statusLbl.setText("Single player selected:");
+                    players.add(currentItem.getValue());
+                    processPane.setDisable(false);
+                } else if (fileExtension.equals("folder")) {
+                    int found = explore(selectedPath, players);
+                    statusLbl.setText((found == 1) ? "1 player found." : found + " players found.");
+                    if (found > 0) {
+                        processPane.setDisable(false);
+                    }
+                } else {
+                    statusLbl.setText("No players found.");                
+                }
+
+                playerList.setItems(FXCollections.observableArrayList(players));
+            } catch (NullPointerException e) {
+                // closing a tree node above selected value
+            }
         }
     }
     
@@ -282,15 +293,29 @@ public class MainUIController implements Initializable {
      */
     @FXML
     private void processPlayers(ActionEvent event) {
-        final Timeline timeline = new Timeline();
-        spinner.setVisible(true);
-        spinner.setProgress(0);
-        
-        timeline.setCycleCount(1);
-        final KeyValue kv = new KeyValue(spinner.progressProperty(), 1);
-        final KeyFrame kf1 = new KeyFrame(Duration.millis(5000), kv);
-        timeline.getKeyFrames().add(kf1);
-        timeline.play();
+        int[][] periods = getPeriods();
+        ObservableList selectedPlayers = playerList.getSelectionModel().getSelectedItems();
+        if (selectedPlayers.isEmpty()) {
+            statusLbl.setText("Select at least one player from the list.");
+        } else if (groundsBox.getSelectionModel().isEmpty()) {
+            statusLbl.setText("Select a ground from the dropdown menu."); 
+        } else if (periods == null) {
+            statusLbl.setText("Enter game periods in the correct format.");            
+        } else {
+            final Timeline timeline = new Timeline();
+            spinner.setVisible(true);
+            spinner.setProgress(0);
+
+            timeline.setCycleCount(1);
+            final KeyValue kv = new KeyValue(spinner.progressProperty(), 1);
+            final KeyFrame kf1 = new KeyFrame(Duration.millis(5000), kv);
+            timeline.getKeyFrames().add(kf1);
+            timeline.play();  
+        }
+    }
+    
+    private int[][] getPeriods() {
+        return null;
     }
     
     /*

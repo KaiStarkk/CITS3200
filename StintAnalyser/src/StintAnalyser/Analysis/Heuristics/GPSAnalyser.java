@@ -3,8 +3,8 @@ package StintAnalyser.Analysis.Heuristics;
 import StintAnalyser.Data.Column;
 import StintAnalyser.Data.DataSet;
 import StintAnalyser.Stints.StintSet;
-import stintanalyser.Grounds.Ground;
-import stintanalyser.Grounds.GPSCoordinate;
+import StintAnalyser.Grounds.Ground;
+import StintAnalyser.Grounds.GPSCoordinate;
 
 /**
  * CITS3200 Professional Computing GPSHeuristic.java Determines if a player is

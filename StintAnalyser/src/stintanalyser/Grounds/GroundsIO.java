@@ -4,9 +4,10 @@
  * and open the template in the editor.
  */
 
-package stintanalyser.Grounds;
+package StintAnalyser.Grounds;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,17 +22,17 @@ public class GroundsIO {
     
     List<String[]> groundsList;
     
-    public GroundsIO(String pathName) {
+    public GroundsIO(File groundsFile) {
         groundsList = new ArrayList<>();
-        loadGrounds(pathName);  
+        loadGrounds(groundsFile);  
     }
     
     /**
      * opens the grounds txt file and adds to the list
-     * @param pathName 
+     * @param groundsFile
      */
-    final public void loadGrounds(String pathName) {
-        try(BufferedReader br = new BufferedReader(new FileReader(pathName))) {
+    final public void loadGrounds(File groundsFile) {
+        try(BufferedReader br = new BufferedReader(new FileReader(groundsFile))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] current = line.split("\\t");

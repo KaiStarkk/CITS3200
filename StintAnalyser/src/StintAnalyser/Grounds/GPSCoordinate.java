@@ -1,4 +1,4 @@
-package stintanalyser.Grounds;
+package StintAnalyser.Grounds;
 
 /**
  *

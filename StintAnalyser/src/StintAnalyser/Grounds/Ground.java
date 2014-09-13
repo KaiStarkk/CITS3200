@@ -1,4 +1,4 @@
-package stintanalyser.Grounds;
+package StintAnalyser.Grounds;
 
 /**
  * CITS3200 Professional Computing Grounds.java Contains fields and methods

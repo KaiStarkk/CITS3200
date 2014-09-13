@@ -6,7 +6,7 @@
 
 package StintAnalyser.Analysis.Heuristics;
 
-import stintanalyser.Grounds.GPSCoordinate;
+import StintAnalyser.Grounds.GPSCoordinate;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
