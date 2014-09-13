@@ -24,12 +24,7 @@ public class DataSet {
 	public String version;
 
 	//possible set 0-time,1-gps,2-accelerometer
-	//private Column[] columns;
-	private Column time;
-	private Column load;
-	private Column gpstime;
-	private Column gpslat;
-	private Column gpslong;
+	private Column[] columns;
 
 	/**
 	 * Constructor. Constructs the array of columns which will then be passed to
@@ -63,12 +58,7 @@ public class DataSet {
 			}
 
 			String current;
-			//columns = new Column[5];
-			this.time = new Column<Integer>();
-			this.load = new Column<Double>();
-			this.gpstime = new Column<Integer>();
-			this.gpslat = new Column<Double>();
-			this.gpslong = new Column<Double>();
+			columns = new Column[5];
 
 			while ((current = reader.readLine()) != null) {
 
@@ -81,34 +71,22 @@ public class DataSet {
 				}
 
                 //third element of contents
-				String check2 = contents[2].trim();
+				String check2 = contents[3].trim();
 
 				if (check2.equals("..")) {
-					time.add(contents[0].trim());
-					load.add(contents[1].trim());
-					gpstime.add(-1);
-					gpslat.add(-1);
-					gpslong.add(-1);
 					continue;
-
 				}
-				time.add(contents[0].trim());
-				load.add(contents[1].trim());
-				gpstime.add(contents[2].trim());
-				gpslat.add(contents[3].trim());
-				gpslong.add(contents[4].trim());
 
-				/*for (int i = 0; i < 5; i++) {
+				for (int i = 0; i < 5; i++) {
 
 					String content = contents[i].trim();
 					columns[i].add(content);
 
-				}*/
+				}
 
-				
+				reader.close();
 
 			}
-			reader.close();
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -127,7 +105,7 @@ public class DataSet {
 	 * @return Column the column containing relative time data
 	 */
 	public Column getTimeColumn() {
-		return time;
+		return columns[1];
 	}
 
 	/**
@@ -137,7 +115,7 @@ public class DataSet {
 	 * @return Column the column containing player load data
 	 */
 	public Column getPlayerLoadColumn() {
-		return load;
+		return columns[2];
 	}
 
 	/**
@@ -147,7 +125,7 @@ public class DataSet {
 	 * @return Column the column containing GPS time data
 	 */
 	public Column getGPStimeColumn() {
-		return gpstime;
+		return columns[3];
 	}
 
 	/**
@@ -157,7 +135,7 @@ public class DataSet {
 	 * @return Column the column containing GPS latitude data
 	 */
 	public Column getGPSLatitudeColumn() {
-		return gpslat;
+		return columns[4];
 	}
 
 	/**
@@ -167,7 +145,7 @@ public class DataSet {
 	 * @return Column the column containing GPS longitude data
 	 */
 	public Column getGPSLongitudeColumn() {
-		return gpslong;
+		return columns[5];
 	}
 
 }

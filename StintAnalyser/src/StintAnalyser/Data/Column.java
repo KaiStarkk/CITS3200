@@ -11,9 +11,9 @@ import java.util.ArrayList;
  *
  * @author Kieran
  */
-public class Column<T> {
+public class Column {
 
-	private ArrayList<T> clist;
+	private ArrayList<Object> clist;
 
 	/**
 	 * Constructor method
@@ -21,11 +21,11 @@ public class Column<T> {
 	 * @param type A way of keeping track of what kind of data is being contained
 	 * in the Column
 	 */
-	public Column(T t) {
-		clist = new ArrayList<T>();
+	public Column(int type) {
+		clist = new ArrayList<Object>();
 	}
 
-	public void add(T object) {
+	public void add(Object object) {
 		clist.add(object);
 	}
 
