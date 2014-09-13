@@ -14,7 +14,7 @@ import org.junit.runners.Suite;
  * @author Dean
  */
 @org.junit.runner.RunWith(org.junit.runners.Suite.class)
-@org.junit.runners.Suite.SuiteClasses({GPSHeuristicTest.class, AccelerometerHeuristicTest.class, GPSCoordinateTest.class})
+@org.junit.runners.Suite.SuiteClasses({AccelerometerHeuristicTest.class, GPSCoordinateTest.class})
 public class HeuristicsSuite {
     
 }
