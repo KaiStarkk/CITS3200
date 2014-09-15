@@ -5,7 +5,10 @@
 .classpath
 .DS_Store
 
+#netbeans junk
 **/nbproject/
 **/build/
 **/dist/
+**/build.xml
+**/manifest.ml
 
