@@ -1,5 +1,7 @@
 package StintAnalyser.UI;
 
+import StintAnalyser.Analysis.Evaluator;
+import StintAnalyser.Data.GamePeriod;
 import StintAnalyser.Grounds.GroundsIO;
 import java.io.File;
 import java.net.URL;
@@ -78,7 +80,7 @@ public class MainUIController implements Initializable {
     @FXML
     private Label statusLbl;
     @FXML
-    private TextArea gamePeriods;
+    private TextArea gamePeriodsTextArea;
     @FXML
     private Button processBtn;
     @FXML
@@ -293,13 +295,13 @@ public class MainUIController implements Initializable {
      */
     @FXML
     private void processPlayers(ActionEvent event) {
-        int[][] periods = getPeriods();
-        ObservableList selectedPlayers = playerList.getSelectionModel().getSelectedItems();
+        ObservableList<String> selectedPlayers = playerList.getSelectionModel().getSelectedItems();
+        GamePeriod[] gamePeriods = getPeriods();
         if (selectedPlayers.isEmpty()) {
             statusLbl.setText("Select at least one player from the list.");
         } else if (groundsBox.getSelectionModel().isEmpty()) {
             statusLbl.setText("Select a ground from the dropdown menu."); 
-        } else if (periods == null) {
+        } else if (gamePeriods == null) {
             statusLbl.setText("Enter game periods in the correct format.");            
         } else {
             final Timeline timeline = new Timeline();
@@ -308,14 +310,37 @@ public class MainUIController implements Initializable {
 
             timeline.setCycleCount(1);
             final KeyValue kv = new KeyValue(spinner.progressProperty(), 1);
-            final KeyFrame kf1 = new KeyFrame(Duration.millis(5000), kv);
+            final KeyFrame kf1 = new KeyFrame(Duration.millis(5000*selectedPlayers.size()), kv);
             timeline.getKeyFrames().add(kf1);
-            timeline.play();  
+            timeline.play();
+            
+            for (String player : selectedPlayers) {
+                processPlayer(player);
+            }
+            
         }
     }
     
-    private int[][] getPeriods() {
-        return null;
+    private void processPlayer(String player) {
+        int separator = player.lastIndexOf('.');
+        if (separator > 0) {
+            player = player.substring(0, separator);
+        }
+    }
+    
+    private GamePeriod[] getPeriods() {
+        String lines[] = gamePeriodsTextArea.getText().split("\\r?\\n");
+        GamePeriod[] gamePeriods = new GamePeriod[lines.length];
+        
+        try {
+            for (int i = 0; i < lines.length; i++) {
+                gamePeriods[i] = new GamePeriod(lines[i]);
+            }
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+        
+        return gamePeriods;
     }
     
     /*
