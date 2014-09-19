@@ -1,5 +1,6 @@
 package StintAnalyser.Analysis;
 
+import StintAnalyser.Data.GamePeriod;
 import StintAnalyser.Stints.StintSet;
 
 /**
@@ -19,7 +20,7 @@ public class Evaluator {
     private final StintSet specifiedResult;
     private final StintSet gpsResult;
     private final StintSet accelResult;
-    private final int[][] gamePeriods;
+    private final GamePeriod[] gamePeriods;
     
     /**
      * Constructor.
@@ -28,7 +29,7 @@ public class Evaluator {
      * @param specifiedResult
      * @param gamePeriods
      */
-    public Evaluator(StintSet specifiedResult, StintSet gpsResult, StintSet accelResult, int[][] gamePeriods){
+    public Evaluator(StintSet specifiedResult, StintSet gpsResult, StintSet accelResult, GamePeriod[] gamePeriods){
         this.specifiedResult = specifiedResult;
         this.gpsResult = gpsResult;
         this.accelResult = accelResult;

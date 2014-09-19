@@ -59,8 +59,8 @@
                                        </font>
                                     </Label>
                                     <Label layoutX="173.0" layoutY="139.0" text="Game periods:" />
-                                    <TextArea fx:id="gamePeriods" layoutX="173.0" layoutY="165.0" prefHeight="92.0" prefWidth="77.0" text="05:00-25:00&#10;30:00-50:00" />
-                                    <Label layoutX="257.0" layoutY="176.0" prefHeight="70.0" prefWidth="108.0" text="Use a new line for each game period." wrapText="true" />
+                                    <TextArea id="periodsTextArea" fx:id="gamePeriodsTextArea" layoutX="149.0" layoutY="165.0" prefHeight="92.0" prefWidth="125.0" stylesheets="@../style.css" text="00:05:00-00:25:00&#10;00:30:00-00:50:00" />
+                                    <Label layoutX="287.0" layoutY="137.0" prefHeight="140.0" prefWidth="125.0" text="Use a new line for &#10;each game period.&#10;&#10;Format:&#10;HH:MM:SS-HH:MM:SS&#10;&#10;00:00:00 is when &#10;recording started." wrapText="true" />
                                     <ProgressIndicator fx:id="spinner" layoutX="270.0" layoutY="260.0" prefHeight="43.0" prefWidth="31.0" progress="0.0" visible="false" />
                                  </children>
                               </AnchorPane>
