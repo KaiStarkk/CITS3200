@@ -1,5 +1,7 @@
 package StintAnalyser.Grounds;
 
+import java.text.DecimalFormat;
+
 /**
  *
  * @author Dean and Ashwin
@@ -43,7 +45,7 @@ public class GPSCoordinate {
 	}
 
 	/**
-	 * Returns the "greater circle" distance between this GPS coordinate and the
+	 * Returns the "greater circle" scalar distance between this GPS coordinate and the
 	 * other GPS coordinate over 'there' in meters.
 	 *
 	 * @param there
@@ -68,43 +70,6 @@ public class GPSCoordinate {
 	}
 
 	/**
-	 * Calculates the horizontal displacement between this GPS coordinate and the
-	 * other GPS coordinate over 'there' in meters.
-	 *
-	 * @param there the other GPS coordinate
-	 * @return the horizontal displacement to 'there' in meters
-	 */
-	public double horizontalDisplacementTo(GPSCoordinate there) {
-		double horizontalDisplacement;
-
-		double bearingToThere = this.bearingTo(there);
-		double distanceToThere = this.distanceTo(there);
-
-		horizontalDisplacement = distanceToThere * Math.cos(bearingToThere);
-
-		return horizontalDisplacement;
-	}
-
-	/**
-	 * Calculates the vertical displacement between this GPS coordinate and the
-	 * other GPS coordinate over 'there' in meters.
-	 *
-	 * @param there the other GPS coordinate
-	 * @return the horizontal displacement to 'there' in meters
-	 */
-	public double verticalDisplacementTo(GPSCoordinate there) {
-		double verticalDisplacement;
-
-		double bearingToThere = this.bearingTo(there);
-		double distanceToThere = this.distanceTo(there);
-
-		verticalDisplacement = distanceToThere * Math.sin(bearingToThere);
-
-		return verticalDisplacement;
-
-	}
-
-	/**
 	 * Calculates the bearing between this GPS coordinate and the other GPS
 	 * Coordinate over 'there' in radians on the unit circle where 0 radians is
 	 * exactly due East, and Math.PI/2 radians is exactly due North.
@@ -124,8 +89,51 @@ public class GPSCoordinate {
 
 		bearing = Math.atan2(part1, part2);
 		bearing = (bearing + (2 * Math.PI)) % (2 * Math.PI);
+		
+		//convert GPS bearing to Unit Circle bearing
+		bearing = -bearing + (Math.PI/2); 
+		//wrap the angle to between 0 and 2pi
+		bearing = bearing - 2*Math.PI * Math.floor(bearing/(2*Math.PI));
+		
 
 		return bearing;
+	}
+
+	/**
+	 * Calculates the horizontal displacement vector between this GPS coordinate and the
+	 * other GPS coordinate over 'there' in meters.
+	 *
+	 * @param there the other GPS coordinate
+	 * @return the horizontal displacement to 'there' in meters
+	 */
+	public double horizontalDisplacementTo(GPSCoordinate there) {
+		double horizontalDisplacement;
+
+		double bearingToThere = this.bearingTo(there);
+		double distanceToThere = this.distanceTo(there);
+
+		horizontalDisplacement = distanceToThere * Math.cos(bearingToThere);
+
+		return horizontalDisplacement;
+	}
+
+	/**
+	 * Calculates the vertical displacement vector between this GPS coordinate and the
+	 * other GPS coordinate over 'there' in meters.
+	 *
+	 * @param there the other GPS coordinate
+	 * @return the horizontal displacement to 'there' in meters
+	 */
+	public double verticalDisplacementTo(GPSCoordinate there) {
+		double verticalDisplacement;
+
+		double bearingToThere = this.bearingTo(there);
+		double distanceToThere = this.distanceTo(there);
+
+		verticalDisplacement = distanceToThere * Math.sin(bearingToThere);
+
+		return verticalDisplacement;
+
 	}
 
 	/**
@@ -147,5 +155,11 @@ public class GPSCoordinate {
 
 		return initialCoordinate;
 	}
+	
+//	@Override
+//	public String toString() {
+//		DecimalFormat format = new DecimalFormat("##.0000");
+//		return "GPS Coordinate at Lat: " + format.format(this.latitude()) + ", Long: " + format.format(this.longitude()) + ".";
+//	}
 
 }
