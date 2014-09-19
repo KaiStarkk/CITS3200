@@ -9,7 +9,6 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  *
@@ -18,13 +17,20 @@ import java.util.ArrayList;
 public class DataSet {
 
 	//vid file type
+	//public String filename;
 	public String type;
 
 	//file version
 	public String version;
 
 	//possible set 0-time,1-gps,2-accelerometer
-	private Column[] columns;
+	//private Column[] columns;
+	private Column<Integer> time;
+	private Column<Integer> load;
+	private Column<Integer> gpstime;
+	private Column<Double> gpslat;
+	private Column<Double> gpslong;
+
 
 	/**
 	 * Constructor. Constructs the array of columns which will then be passed to
@@ -37,6 +43,7 @@ public class DataSet {
 		try {
 
 			BufferedReader reader = new BufferedReader(new FileReader(path));
+			
 
 			String firstline = reader.readLine();
 			String[] fsplit = firstline.split(" ");
@@ -53,12 +60,18 @@ public class DataSet {
 			//exception will be changed
 			if (!check.equals("Time, Plyr. Load, GPS Time, GPS Latitude, GPS Longitude, /n")) {
 				//file invalid error 
-				throw new InvalidInputException("Invalid Input due to having incorrect data fields");
+				throw new IllegalArgumentException("Invalid Input due to having incorrect data fields");
 
 			}
 
 			String current;
-			columns = new Column[5];
+			time = new Column<Integer>();
+			load = new Column<Integer>();
+			gpstime = new Column<Integer>();
+			gpslat = new Column<Double>();
+			gpslong= new Column<Double>();
+
+			//columns = new Column[5];
 
 			while ((current = reader.readLine()) != null) {
 
@@ -66,7 +79,7 @@ public class DataSet {
 
 				if (contents.length > 5 || contents.length < 5) {
 
-					throw new InvalidInputException("Invalid Input due to having an incorrect number of data fields");
+					throw new IllegalArgumentException("Invalid Input due to having an incorrect number of data fields");
 
 				}
 
@@ -76,13 +89,19 @@ public class DataSet {
 				if (check2.equals("..")) {
 					continue;
 				}
-
-				for (int i = 0; i < 5; i++) {
+				
+				time.add(convertTime(contents[0]));
+				load.add(0);
+				gpstime.add(0);
+				gpslat.add(0.0);
+				gpslong.add(0.0);
+				/*for (int i = 0; i < 5; i++) {
 
 					String content = contents[i].trim();
 					columns[i].add(content);
 
-				}
+				}*/
+
 
 				reader.close();
 
@@ -92,7 +111,7 @@ public class DataSet {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} catch (InvalidInputException e) {
+		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		}
 
@@ -105,7 +124,7 @@ public class DataSet {
 	 * @return Column the column containing relative time data
 	 */
 	public Column getTimeColumn() {
-		return columns[1];
+		return time;
 	}
 
 	/**
@@ -115,7 +134,7 @@ public class DataSet {
 	 * @return Column the column containing player load data
 	 */
 	public Column getPlayerLoadColumn() {
-		return columns[2];
+		return load;
 	}
 
 	/**
@@ -125,7 +144,7 @@ public class DataSet {
 	 * @return Column the column containing GPS time data
 	 */
 	public Column getGPStimeColumn() {
-		return columns[3];
+		return gpstime;
 	}
 
 	/**
@@ -135,7 +154,7 @@ public class DataSet {
 	 * @return Column the column containing GPS latitude data
 	 */
 	public Column getGPSLatitudeColumn() {
-		return columns[4];
+		return gpslat;
 	}
 
 	/**
@@ -145,7 +164,37 @@ public class DataSet {
 	 * @return Column the column containing GPS longitude data
 	 */
 	public Column getGPSLongitudeColumn() {
-		return columns[5];
+		return gpslong;
+	}
+
+	private int convertTime(String oldtime){
+		int totaltime = 0;
+		try{
+			String[] splitter = oldtime.split(":");
+			
+			if(splitter.length==2){
+				String[] endpart = splitter[1].split(".");
+				totaltime += 60*Integer.valueOf(splitter[0])+Integer.valueOf(type) + Integer.valueOf(endpart[0]);
+				totaltime*=100;
+				totaltime+=Integer.valueOf(endpart[1]);
+				
+				
+			}
+			else if(splitter.length==3){
+				String[] endpart = splitter[2].split(".");
+				totaltime += 60*60*Integer.valueOf(splitter[0])+Integer.valueOf(type) + 60*Integer.valueOf(splitter[1]) + Integer.valueOf(endpart[0]);
+				totaltime*=100;
+				totaltime+= Integer.valueOf(endpart[1]);
+
+			}
+			else{	
+				throw new IllegalArgumentException("Invalid time parameters");
+			}
+		}
+		catch(IllegalArgumentException e){
+			e.printStackTrace();
+		}
+		return totaltime;
 	}
 
 }
