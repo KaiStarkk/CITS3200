@@ -13,21 +13,25 @@ import StintAnalyser.Stints.StintSet;
  * @author Group B
  */
 public class PlayerLoadAnalyser {
+        DataSet dataSet;
+    
+        public PlayerLoadAnalyser(DataSet dataSet) {
+            this.dataSet = dataSet;
+        }
 
 	/**
 	 * Determine if the player is playing or not.
 	 *
-	 * @param accelerometerData
 	 * @return
 	 */
-	public static StintSet findStints(DataSet data) {
+	public StintSet findStints() {
 
 		//experimental number will be changed to a calculated number
 		double sig_activity = 10;
 		boolean found_start = false;
 
-		Column time = data.getGPStimeColumn();
-		Column accel = data.getPlayerLoadColumn();
+		Column time = dataSet.getGPStimeColumn();
+		Column accel = dataSet.getPlayerLoadColumn();
 		StintSet solution = new StintSet();
 
 		//check correct data

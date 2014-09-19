@@ -1,8 +1,12 @@
 package StintAnalyser.UI;
 
 import StintAnalyser.Analysis.Evaluator;
+import StintAnalyser.Analysis.Heuristics.GPSAnalyser;
+import StintAnalyser.Analysis.Heuristics.PlayerLoadAnalyser;
 import StintAnalyser.Data.GamePeriod;
+import StintAnalyser.Grounds.Ground;
 import StintAnalyser.Grounds.GroundsIO;
+import StintAnalyser.Stints.StintSet;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -250,18 +254,21 @@ public class MainUIController implements Initializable {
                 }
 
                 selectedPath = rootPath + relPath;
-                if (fileExtension.equals("csv")) {
-                    statusLbl.setText("Single player selected:");
-                    players.add(currentItem.getValue());
-                    processPane.setDisable(false);
-                } else if (fileExtension.equals("folder")) {
-                    int found = explore(selectedPath, players);
-                    statusLbl.setText((found == 1) ? "1 player found." : found + " players found.");
-                    if (found > 0) {
+                switch (fileExtension) {
+                    case "csv":
+                        statusLbl.setText("Single player selected:");
+                        players.add(currentItem.getValue());
                         processPane.setDisable(false);
-                    }
-                } else {
-                    statusLbl.setText("No players found.");                
+                        break;
+                    case "folder":
+                        int found = explore(selectedPath, players);                
+                        statusLbl.setText((found == 1) ? "1 player found." : found + " players found.");
+                        if (found > 0) {
+                            processPane.setDisable(false);
+                        }   break;
+                    default:
+                        statusLbl.setText("No players found.");
+                        break;
                 }
 
                 playerList.setItems(FXCollections.observableArrayList(players));
@@ -315,16 +322,17 @@ public class MainUIController implements Initializable {
             timeline.play();
             
             for (String player : selectedPlayers) {
-                processPlayer(player);
+                processPlayer(player, gamePeriods);
             }
             
         }
     }
     
-    private void processPlayer(String player) {
-        int separator = player.lastIndexOf('.');
-        if (separator > 0) {
-            player = player.substring(0, separator);
+    private void processPlayer(String player, GamePeriod[] gamePeriods) {
+        Ground ground = groundsIO.chooseGround((String) groundsBox.getSelectionModel().getSelectedItem());
+        Evaluator evaluator = new Evaluator(selectedPath, player, ground, gamePeriods);
+        if (!evaluator.compile()) {
+            statusLbl.setText("Failed to analyse."); 
         }
     }
     
