@@ -5,7 +5,6 @@
  */
 package StintAnalyser.Data;
 
-import java.lang.IllegalArgumentException;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -18,6 +17,7 @@ import java.io.IOException;
 public class DataSet {
 
 	//vid file type
+	//public String filename;
 	public String type;
 
 	//file version
@@ -43,6 +43,7 @@ public class DataSet {
 		try {
 
 			BufferedReader reader = new BufferedReader(new FileReader(path));
+			
 
 			String firstline = reader.readLine();
 			String[] fsplit = firstline.split(" ");
@@ -88,7 +89,11 @@ public class DataSet {
 				if (check2.equals("..")) {
 					continue;
 				}
-
+				time.add(0);
+				load.add(0);
+				gpstime.add(0);
+				gpslat.add(0.0);
+				gpslong.add(0.0);
 				/*for (int i = 0; i < 5; i++) {
 
 					String content = contents[i].trim();
@@ -118,7 +123,7 @@ public class DataSet {
 	 * @return Column the column containing relative time data
 	 */
 	public Column getTimeColumn() {
-		return columns[1];
+		return time;
 	}
 
 	/**
@@ -128,7 +133,7 @@ public class DataSet {
 	 * @return Column the column containing player load data
 	 */
 	public Column getPlayerLoadColumn() {
-		return columns[2];
+		return load;
 	}
 
 	/**
@@ -138,7 +143,7 @@ public class DataSet {
 	 * @return Column the column containing GPS time data
 	 */
 	public Column getGPStimeColumn() {
-		return columns[3];
+		return gpstime;
 	}
 
 	/**
@@ -148,7 +153,7 @@ public class DataSet {
 	 * @return Column the column containing GPS latitude data
 	 */
 	public Column getGPSLatitudeColumn() {
-		return columns[4];
+		return gpslat;
 	}
 
 	/**
@@ -158,7 +163,7 @@ public class DataSet {
 	 * @return Column the column containing GPS longitude data
 	 */
 	public Column getGPSLongitudeColumn() {
-		return columns[5];
+		return gpslong;
 	}
 
 	private int convertTime(String oldtime){
