@@ -5,6 +5,7 @@ import StintAnalyser.Data.DataSet;
 import StintAnalyser.Stints.StintSet;
 import StintAnalyser.Grounds.Ground;
 import StintAnalyser.Grounds.GPSCoordinate;
+import StintAnalyser.Stints.Stint;
 
 /**
  * CITS3200 Professional Computing GPSHeuristic.java Determines if a player is
@@ -86,8 +87,18 @@ public class GPSAnalyser {
 			}
 		}
 		
+                
+                //I shall attempt to return stint sets. Emphasise on attempt - Ash
+                
+                StintSet GPSStintAttempts = new StintSet(); 
+                for(int i = 0; i<stintNumber; i++ )
+                {
+                    GPSStintAttempts.addStint(new Stint(stintStarts[i], stintEnds[i], i, -1));
+                }
+                
+                
 		//figure out what goes in a StintSet
-		return new StintSet();
+		return GPSStintAttempts;
 	}
 
 	private boolean playerIsOnField(GPSCoordinate player) {
