@@ -22,7 +22,6 @@ public class StintSet {
 	 */
 	public StintSet() {
 		stintSet = new ArrayList<Stint>();
-
 	}
 
 	/**
@@ -87,6 +86,15 @@ public class StintSet {
 	 */
 	public Stint getStint(int i) {
 		return stintSet.get(i);
+	}
+
+	/**
+	 * Get the backing array list for iteration and for-each capability.
+	 *
+	 * @return
+	 */
+	public ArrayList<Stint> getStints() {
+		return stintSet;
 	}
 
 	/**

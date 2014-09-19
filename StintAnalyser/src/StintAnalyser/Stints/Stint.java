@@ -1,5 +1,7 @@
 package StintAnalyser.Stints;
 
+import StintAnalyser.Data.GameTime;
+
 /**
  * CITS3200 Professional Computing Stint.java Contains fields and methods
  * pertaining to stints. Stints are time periods within a game in which the
@@ -10,10 +12,10 @@ package StintAnalyser.Stints;
  */
 public class Stint {
 
-    private final int startTime;
-    private final int endTime;
-    private final int stintno;
-    private final int period;
+    GameTime startTime;
+    GameTime endTime;
+    int stintno;
+    int period;
 
     /**
      * Constructor.     
@@ -22,7 +24,7 @@ public class Stint {
      * @param number
      * @param period
      */
-    public Stint(int startTime, int endTime, int number, int period) {
+    public Stint(GameTime startTime, GameTime endTime, int number, int period) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.stintno = number;
