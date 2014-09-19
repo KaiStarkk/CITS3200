@@ -36,7 +36,7 @@ public class Stint {
      *     
 * @return
      */
-    public int getStartTime() {
+    public GameTime getStartTime() {
         return startTime;
     }
 
@@ -45,7 +45,7 @@ public class Stint {
      *     
 * @return
      */
-    public int getEndTime() {
+    public GameTime getEndTime() {
         return endTime;
     }
 
