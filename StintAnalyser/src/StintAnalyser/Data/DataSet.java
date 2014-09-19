@@ -162,4 +162,9 @@ public class DataSet {
 		return columns[5];
 	}
 
+	private int convertTime(String oldtime){
+
+		return 0;
+	}
+
 }
