@@ -1,6 +1,10 @@
 package StintAnalyser.Analysis;
 
+import StintAnalyser.Analysis.Heuristics.GPSAnalyser;
+import StintAnalyser.Analysis.Heuristics.PlayerLoadAnalyser;
+import StintAnalyser.Data.DataSet;
 import StintAnalyser.Data.GamePeriod;
+import StintAnalyser.Grounds.Ground;
 import StintAnalyser.Stints.StintSet;
 
 /**
@@ -17,23 +21,26 @@ import StintAnalyser.Stints.StintSet;
  * @author Group B
  */
 public class Evaluator {
-    private final StintSet specifiedResult;
-    private final StintSet gpsResult;
-    private final StintSet accelResult;
-    private final GamePeriod[] gamePeriods;
+    
+    String outputPath;
+    String playerFile;
+    Ground ground;
+    GamePeriod[] gamePeriods;
+    DataSet dataSet;
     
     /**
      * Constructor.
-     * @param gpsResult
-     * @param accelResult
-     * @param specifiedResult
+     * @param outputPath
+     * @param playerFile
+     * @param ground
      * @param gamePeriods
      */
-    public Evaluator(StintSet specifiedResult, StintSet gpsResult, StintSet accelResult, GamePeriod[] gamePeriods){
-        this.specifiedResult = specifiedResult;
-        this.gpsResult = gpsResult;
-        this.accelResult = accelResult;
+    public Evaluator(String outputPath, String playerFile, Ground ground, GamePeriod[] gamePeriods){
+        this.outputPath = outputPath;
+        this.playerFile = playerFile;
+        this.ground = ground;
         this.gamePeriods = gamePeriods;
+        this.dataSet = new DataSet(outputPath + playerFile);
     }
     
     /**
@@ -47,7 +54,34 @@ public class Evaluator {
      * based on the variation between our result and the periods specified.
      * @return StintSet containing the final output information.
      */
-    public StintSet compile() {
-        return specifiedResult;
+    public boolean compile() {
+        StintSet gpsResults = processGPS(this.dataSet, this.ground);
+        filterStints(gpsResults);
+        StintSet playerLoadResults = processPlayerLoad(this.dataSet);
+        filterStints(playerLoadResults);
+        
+        StintSet finalStintSet = new StintSet();
+        boolean succeeded = combine(finalStintSet, gpsResults, playerLoadResults);
+        // fire blanks finalStintSet.writeToVid(outputPath + playerFile, dataSet.type, dataSet.version, gamePeriods.length);
+        return succeeded;
     }
+
+    private StintSet processGPS(DataSet dataSet, Ground ground) {
+        GPSAnalyser gpsAnalyser = new GPSAnalyser(dataSet, ground);
+        return gpsAnalyser.findStints();
+    }
+
+    private StintSet processPlayerLoad(DataSet dataSet) {
+        PlayerLoadAnalyser playerLoad = new PlayerLoadAnalyser(dataSet);
+        return playerLoad.findStints();
+    }
+    
+    private void filterStints(StintSet stintSet) {
+        // Remove any stint that falls outside the game periods
+    }
+
+    private boolean combine(StintSet finalStintSet, StintSet gpsResults, StintSet playerLoadResults) {
+        return false;
+    }
+    
 }
