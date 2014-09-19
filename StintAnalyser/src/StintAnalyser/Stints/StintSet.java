@@ -2,6 +2,7 @@ package StintAnalyser.Stints;
 
 import java.util.ArrayList;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -29,55 +30,54 @@ public class StintSet {
 	 *
 	 * @param path path to write the file to.
 	 */
-	public void writeToVid(String path, String type, String version, int periods) {
+	    public void writeToVid(String path, String type, String version, int periods) {
+        try {
 
-		try {
-			//missing star
-			BufferedWriter writer = new BufferedWriter(new FileWriter(path));
-			String first = "type=" + type + "\n";
-			String second = "version=" + version + "\n";
+            //BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\Cameron\\Documents\\CITS3200-2\\JavaApplication1"));
+            
+            
+            //USING PATH MISSING
+            
+            File file = new File("filename");
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            
+            String first = "type=" + type + "\n";
+            String second = "version=" + version + "\n";
+            writer.write(first, 0, first.length());
+            writer.write(second, 0, second.length());
+            writer.flush();
+            
+            char periodtype;
+            if (periods == 2) {
+                periodtype = 'H';
+            } else if (periods == 4) {
+                periodtype = 'Q';
+            } else {
+                periodtype = 'P';
+            }
+            
+            for (Stint st : stintSet) {
+                String line = "race=";
+                int start = st.getStartTime();
+                int end = st.getEndTime();
+                float stintlen = ((float)end - (float)start)/100;
+                
+                int stnumber = st.getNumber();
+                int stperiod = st.getPeriod();
 
-			writer.write(first, 0, first.length());
-			writer.write(second, 0, second.length());
-			writer.flush();
-
-			char periodtype;
-			if (periods == 2) {
-				periodtype = 'H';
-			} else if (periods == 4) {
-				periodtype = 'Q';
-			} else {
-				periodtype = 'P';
-			}
-
-			for (Stint st : stintSet) {
-
-				String line = "race=";
-				double start = st.getStartTime();
-				double end = st.getStartTime();
-				double stintlen = end - start;
-				double dist = st.getDistance();
-
-				int stnumber = st.getNumber();
-				int sthalf = st.getHalf();
-
-				//missing metres travelled
-				line += String.valueOf(stintlen) + ",0," + String.valueOf(start) + "," + String.valueOf(end) + "," + periodtype + String.valueOf(sthalf) + "S" + String.valueOf(stnumber) + "\n";
-				writer.write(line, 0, line.length());
-				writer.flush();
-
-			}
-			String last = "IMFChecked=0\n";
-			writer.write(last, 0, last.length());
-			writer.flush();
-			writer.close();
-
-		} catch (IOException e) {
-			e.printStackTrace();
-
-		}
-
-	}
+                System.out.println(stintlen);
+                line += String.valueOf(stintlen) + ",0," + String.valueOf(start) + "," + String.valueOf(end) + ",\"" + periodtype + String.valueOf(stperiod) + "S" + String.valueOf(stnumber) + "\"\n";
+                writer.write(line, 0, line.length());
+                writer.flush();
+            }
+            String last = "IMFChecked=0\n";
+            writer.write(last, 0, last.length());
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 	/**
 	 * Get the StintSet's i'th item.
