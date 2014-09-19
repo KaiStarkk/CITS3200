@@ -15,8 +15,12 @@ import org.junit.Before;
  * @author dean
  */
 public class GPSCoordinateTest {
-    GPSCoordinate origin = new GPSCoordinate(0.0, 0.0);
-    GPSCoordinate testCoordinates[] = {
+    GPSCoordinate origin;
+    GPSCoordinate testCoordinates[];
+	
+	public GPSCoordinateTest() {
+		origin = new GPSCoordinate(0.0, 0.0);
+		this.testCoordinates = new GPSCoordinate[]{
             new GPSCoordinate(0.005, 0.005), //NE
             new GPSCoordinate(-0.005, 0.005), //SE
             new GPSCoordinate(-0.005, -0.005), //SW
@@ -25,7 +29,9 @@ public class GPSCoordinateTest {
             new GPSCoordinate(-0.00065, 0.00065), //SE
             new GPSCoordinate(-0.00065, -0.00065), //SW
             new GPSCoordinate(0.00065, -0.00065), // NW 
-        };
+		};
+	
+	}
     /**
      * Test of distanceTo method, of class GPSCoordinate.
      * Test based on mathematics found at http://www.movable-type.co.uk/scripts/latlong.html
