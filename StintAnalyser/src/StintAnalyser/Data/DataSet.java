@@ -89,7 +89,8 @@ public class DataSet {
 				if (check2.equals("..")) {
 					continue;
 				}
-				time.add(0);
+				
+				time.add(convertTime(contents[0]));
 				load.add(0);
 				gpstime.add(0);
 				gpslat.add(0.0);
@@ -167,8 +168,33 @@ public class DataSet {
 	}
 
 	private int convertTime(String oldtime){
+		int totaltime = 0;
+		try{
+			String[] splitter = oldtime.split(":");
+			
+			if(splitter.length==2){
+				String[] endpart = splitter[1].split(".");
+				totaltime += 60*Integer.valueOf(splitter[0])+Integer.valueOf(type) + Integer.valueOf(endpart[0]);
+				totaltime*=100;
+				totaltime+=Integer.valueOf(endpart[1]);
+				
+				
+			}
+			else if(splitter.length==3){
+				String[] endpart = splitter[2].split(".");
+				totaltime += 60*60*Integer.valueOf(splitter[0])+Integer.valueOf(type) + 60*Integer.valueOf(splitter[1]) + Integer.valueOf(endpart[0]);
+				totaltime*=100;
+				totaltime+= Integer.valueOf(endpart[1]);
 
-		return 0;
+			}
+			else{	
+				throw new IllegalArgumentException("Invalid time parameters");
+			}
+		}
+		catch(IllegalArgumentException e){
+			e.printStackTrace();
+		}
+		return totaltime;
 	}
 
 }
