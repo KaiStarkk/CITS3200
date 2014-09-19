@@ -20,7 +20,7 @@ public class PlayerLoadAnalyser {
 	 * @param accelerometerData
 	 * @return
 	 */
-	public static StintSet getResult(DataSet data) {
+	public static StintSet findStints(DataSet data) {
 
 		//experimental number will be changed to a calculated number
 		double sig_activity = 10;
