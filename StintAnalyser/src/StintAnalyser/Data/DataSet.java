@@ -5,6 +5,7 @@
  */
 package StintAnalyser.Data;
 
+import java.lang.IllegalArgumentException;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -23,7 +24,13 @@ public class DataSet {
 	public String version;
 
 	//possible set 0-time,1-gps,2-accelerometer
-	private Column[] columns;
+	//private Column[] columns;
+	private Column<Integer> time;
+	private Column<Integer> load;
+	private Column<Integer> gpstime;
+	private Column<Double> gpslat;
+	private Column<Double> gpslong;
+
 
 	/**
 	 * Constructor. Constructs the array of columns which will then be passed to
@@ -52,12 +59,18 @@ public class DataSet {
 			//exception will be changed
 			if (!check.equals("Time, Plyr. Load, GPS Time, GPS Latitude, GPS Longitude, /n")) {
 				//file invalid error 
-				throw new InvalidInputException("Invalid Input due to having incorrect data fields");
+				throw new IllegalArgumentException("Invalid Input due to having incorrect data fields");
 
 			}
 
 			String current;
-			columns = new Column[5];
+			time = new Column<Integer>();
+			load = new Column<Integer>();
+			gpstime = new Column<Integer>();
+			gpslat = new Column<Double>();
+			gpslong= new Column<Double>();
+
+			//columns = new Column[5];
 
 			while ((current = reader.readLine()) != null) {
 
@@ -65,7 +78,7 @@ public class DataSet {
 
 				if (contents.length > 5 || contents.length < 5) {
 
-					throw new InvalidInputException("Invalid Input due to having an incorrect number of data fields");
+					throw new IllegalArgumentException("Invalid Input due to having an incorrect number of data fields");
 
 				}
 
@@ -76,12 +89,13 @@ public class DataSet {
 					continue;
 				}
 
-				for (int i = 0; i < 5; i++) {
+				/*for (int i = 0; i < 5; i++) {
 
 					String content = contents[i].trim();
 					columns[i].add(content);
 
-				}
+				}*/
+
 
 				reader.close();
 
@@ -91,7 +105,7 @@ public class DataSet {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} catch (InvalidInputException e) {
+		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		}
 
@@ -145,6 +159,11 @@ public class DataSet {
 	 */
 	public Column getGPSLongitudeColumn() {
 		return columns[5];
+	}
+
+	private int convertTime(String oldtime){
+
+		return 0;
 	}
 
 }
