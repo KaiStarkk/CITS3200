@@ -97,4 +97,8 @@ public class StintSet {
 	public void addStint(Stint stint) {
 		stintSet.add(stint);
 	}
+	
+	public int size() {
+		return this.stintSet.size();
+	}
 }

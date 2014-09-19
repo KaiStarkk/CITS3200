@@ -58,7 +58,7 @@ public class PlayerLoadAnalyser {
 					if (ticks > tick_threshold_end) {
 
 						double end_time = (double) time.get(i - 100);
-						solution.addStint(new Stint(estimated_start, end_time, 0, 0, 0));
+						//solution.addStint(new Stint(estimated_start, end_time, 0, 0, 0));
 					}
 				} else {
 
