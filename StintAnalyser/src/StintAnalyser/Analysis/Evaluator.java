@@ -56,12 +56,11 @@ public class Evaluator {
      */
     public boolean compile() {
         StintSet gpsResults = processGPS(this.dataSet, this.ground);
-        filterStints(gpsResults);
         StintSet playerLoadResults = processPlayerLoad(this.dataSet);
-        filterStints(playerLoadResults);
         
         StintSet finalStintSet = new StintSet();
         boolean succeeded = combine(finalStintSet, gpsResults, playerLoadResults);
+        filterStints(finalStintSet);
         // fire blanks finalStintSet.writeToVid(outputPath + playerFile, dataSet.type, dataSet.version, gamePeriods.length);
         return succeeded;
     }
@@ -78,6 +77,7 @@ public class Evaluator {
     
     private void filterStints(StintSet stintSet) {
         // Remove any stint that falls outside the game periods
+        // Cut down those that overlap with game periods
     }
 
     private boolean combine(StintSet finalStintSet, StintSet gpsResults, StintSet playerLoadResults) {
