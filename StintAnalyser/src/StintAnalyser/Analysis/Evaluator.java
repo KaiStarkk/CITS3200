@@ -6,6 +6,7 @@ import StintAnalyser.Data.DataSet;
 import StintAnalyser.Data.GamePeriod;
 import StintAnalyser.Grounds.Ground;
 import StintAnalyser.Stints.StintSet;
+import StintAnalyser.Stints.Stint;
 
 /**
  * CITS3200 Professional Computing
@@ -27,6 +28,8 @@ public class Evaluator {
     Ground ground;
     GamePeriod[] gamePeriods;
     DataSet dataSet;
+    int tolerance = 1000; //tolerance level
+
     
     /**
      * Constructor.
@@ -58,9 +61,12 @@ public class Evaluator {
         StintSet gpsResults = processGPS(this.dataSet, this.ground);
         StintSet playerLoadResults = processPlayerLoad(this.dataSet);
         
-        StintSet finalStintSet = new StintSet();
-        boolean succeeded = combine(finalStintSet, gpsResults, playerLoadResults);
+        StintSet finalStintSet;
+        
+        finalStintSet = combine(gpsResults);
         filterStints(finalStintSet);
+        
+        boolean succeeded = true;
         // fire blanks finalStintSet.writeToVid(outputPath + playerFile, dataSet.type, dataSet.version, gamePeriods.length);
         return succeeded;
     }
@@ -80,8 +86,49 @@ public class Evaluator {
         // Cut down those that overlap with game periods
     }
 
-    private boolean combine(StintSet finalStintSet, StintSet gpsResults, StintSet playerLoadResults) {
-        return false;
+    /**
+     * Combines stints that have low in-between stint times 
+     * @param gpsResults
+     * @return the combined stintSet 
+     */
+    private StintSet combine(StintSet gpsResults) {
+        
+        StintSet returnSet = new StintSet();
+        int startCount = 0;
+        int stintIndex = 0;
+        
+        while(stintIndex < gpsResults.size()) {    
+            //need to add check for playerload here too
+            while((gpsResults.getStint(stintIndex).getEndTime()-gpsResults.getStint(stintIndex+1).getStartTime())>tolerance) {              
+                 stintIndex++;
+            }
+            
+            Stint temp = new Stint(gpsResults.getStint(startCount).getStartTime(), gpsResults.getStint(stintIndex).getEndTime(),0,0);
+            returnSet.addStint(temp);
+            stintIndex++;
+            startCount = stintIndex;       
+        }
+        //add last stint
+        Stint temp = new Stint(gpsResults.getStint(startCount).getStartTime(), gpsResults.getStint(stintIndex).getEndTime(),0,0);
+        returnSet.addStint(temp);
+        
+        /*
+        
+        for(int i = 1; i<gpsResults.size(); i++) {
+            lastEnd = returnSet.getStint(numberCount).getEndTime();
+            nextStart = gpsResults.getStint(i+1).getStartTime();
+            if(nextStart-lastEnd>tolerance) {
+                //checking for player load as well
+                Stint newStint = new Stint(gpsResults.getStint(i).getStartTime(), gpsResults.getStint(i+1).getEndTime(), numberCount, 0);
+                
+            }
+            else {
+                returnSet.addStint(gpsResults.getStint(i));
+                numberCount++;
+            }
+        }  
+        */
+        return returnSet;
     }
     
 }
