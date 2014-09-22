@@ -66,7 +66,7 @@ public class DataSet {
 
 			String current;
 			time = new Column<Integer>();
-			load = new Column<Integer>();
+			load = new Column<Double>();
 			gpstime = new Column<Integer>();
 			gpslat = new Column<Double>();
 			gpslong= new Column<Double>();
@@ -91,10 +91,10 @@ public class DataSet {
 				}
 				
 				time.add(convertTime(contents[0]));
-				load.add(0);
-				gpstime.add(0);
-				gpslat.add(0.0);
-				gpslong.add(0.0);
+				load.add(Double.parseDouble(contents[1]));
+				gpstime.add(convertTime(contents[2]));
+				gpslat.add(Double.parseDouble(contents[3]));
+				gpslong.add(Double.parseDouble(contents[4]));
 				/*for (int i = 0; i < 5; i++) {
 
 					String content = contents[i].trim();
@@ -166,25 +166,39 @@ public class DataSet {
 	public Column getGPSLongitudeColumn() {
 		return gpslong;
 	}
-
+	/**
+	 * Converts time in the form of HH:MM:SS:MS or MM:SS:MS to absolute milliseconds
+	 *
+	 * @param oldtime A time string in the form of HH:MM:SS:MS or MM:SS:MS 
+	 * @return The input time in the the form of absolute milliseconds
+	 */
 	private int convertTime(String oldtime){
 		int totaltime = 0;
 		try{
 			String[] splitter = oldtime.split(":");
 			
+			//MM:SS:MS
 			if(splitter.length==2){
 				String[] endpart = splitter[1].split(".");
-				totaltime += 60*Integer.valueOf(splitter[0])+Integer.valueOf(type) + Integer.valueOf(endpart[0]);
+				totaltime += 60*Integer.parseInt(splitter[0])+Integer.parseInt(splitter[1]) + Integer.parseInt(endpart[0]);
 				totaltime*=100;
-				totaltime+=Integer.valueOf(endpart[1]);
+				totaltime+=Integer.parseInt(endpart[1]);
 				
 				
 			}
 			else if(splitter.length==3){
 				String[] endpart = splitter[2].split(".");
-				totaltime += 60*60*Integer.valueOf(splitter[0])+Integer.valueOf(type) + 60*Integer.valueOf(splitter[1]) + Integer.valueOf(endpart[0]);
-				totaltime*=100;
-				totaltime+= Integer.valueOf(endpart[1]);
+
+				//evaluating time in for HH:MM:SS
+				if(endpart.length==1){
+					totaltime += 60*60*Integer.parseInt(splitter[0]) + 60*Integer.parseInt(splitter[1]) + Integer.parseInt(splitter[2]);
+				}
+				// HH:MM:SS:MS
+				else{
+					totaltime += 60*60*Integer.parseInt(splitter[0]) + 60*Integer.parseInt(splitter[1]) + Integer.parseInt(endpart[0]);
+					totaltime*=100;
+					totaltime+= Integer.parseInt(endpart[1]);
+				}
 
 			}
 			else{	
@@ -196,5 +210,7 @@ public class DataSet {
 		}
 		return totaltime;
 	}
+
+
 
 }
