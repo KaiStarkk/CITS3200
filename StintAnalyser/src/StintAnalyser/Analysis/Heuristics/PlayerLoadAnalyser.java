@@ -13,17 +13,43 @@ import StintAnalyser.Stints.StintSet;
  * @author Group B
  */
 public class PlayerLoadAnalyser {
-        DataSet dataSet;
+    DataSet dataSet;
     
         public PlayerLoadAnalyser(DataSet dataSet) {
             this.dataSet = dataSet;
         }
 
+        /**
+	 * Determine the average player load between two times
+	 *
+	 * @return int average
+	 */
+        public int average(int start, int end){
+            Column time = dataSet.getTimeColumn();
+            Column pLoad = dataSet.getPlayerLoadColumn();
+            
+            int indexStart = 0;//pLoad.getIndex(start);
+            int indexEnd = 0;//pLoad.getIndex(end);
+            
+            int index = indexStart;
+            int totalpLoad = 0;
+            int duration = indexEnd - indexStart;
+            
+            for(int i = 0; i < duration; i++){
+                //totalpLoad = totalpLoad + pLoad.get(index);
+                //errors, commented out for compilation
+                index++;
+            }
+            
+            return (totalpLoad/duration);
+        }
+        
 	/**
 	 * Determine if the player is playing or not.
 	 *
 	 * @return
 	 */
+        /*
 	public StintSet findStints() {
 
 		//experimental number will be changed to a calculated number
@@ -74,5 +100,6 @@ public class PlayerLoadAnalyser {
 
 		return new StintSet();
 	}
+        */
 
 }

@@ -41,10 +41,12 @@ public class StintSet {
             File file = new File("filename");
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
             
-            String first = "type=" + type + "\n";
+            String first = "type=" + type.toUpperCase();
             String second = "version=" + version + "\n";
             writer.write(first, 0, first.length());
+            writer.newLine();
             writer.write(second, 0, second.length());
+            writer.newLine();
             writer.flush();
             
             char periodtype;
@@ -66,12 +68,14 @@ public class StintSet {
                 int stperiod = st.getPeriod();
 
                 System.out.println(stintlen);
-                line += String.valueOf(stintlen) + ",0," + String.valueOf(start) + "," + String.valueOf(end) + ",\"" + periodtype + String.valueOf(stperiod) + "S" + String.valueOf(stnumber) + "\"\n";
+                line += String.valueOf(stintlen) + ",0," + String.valueOf(start) + "," + String.valueOf(end) + ",\"" + periodtype + String.valueOf(stperiod) + "S" + String.valueOf(stnumber) + "\"";
                 writer.write(line, 0, line.length());
+                writer.newLine();
                 writer.flush();
             }
-            String last = "IMFChecked=0\n";
+            String last = "IMFChecked=0";
             writer.write(last, 0, last.length());
+            writer.newLine();
             writer.flush();
             writer.close();
         } catch (IOException e) {
