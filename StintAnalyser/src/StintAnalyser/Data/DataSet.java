@@ -26,7 +26,7 @@ public class DataSet {
 	//possible set 0-time,1-gps,2-accelerometer
 	//private Column[] columns;
 	private Column<Integer> time;
-	private Column<Integer> load;
+	private Column<Double> load;
 	private Column<Integer> gpstime;
 	private Column<Double> gpslat;
 	private Column<Double> gpslong;
