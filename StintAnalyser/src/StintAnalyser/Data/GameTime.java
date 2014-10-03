@@ -50,4 +50,11 @@ public class GameTime {
         GameTime other = new GameTime(otherStr);
         return this.isLaterThan(other);
     }
+    
+    public int convertToGlobal() {
+        
+        // TODO: convert sensible OO data structures to silly integers as if we're writing C code.
+        
+        return 0;
+    }
 }

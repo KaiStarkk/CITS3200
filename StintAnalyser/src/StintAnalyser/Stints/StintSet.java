@@ -22,7 +22,6 @@ public class StintSet {
 	 */
 	public StintSet() {
 		stintSet = new ArrayList<Stint>();
-
 	}
 
 	/**
@@ -105,4 +104,8 @@ public class StintSet {
 	public int size() {
 		return this.stintSet.size();
 	}
+        
+        public ArrayList<Stint> getStints() {
+            return stintSet;
+        }
 }

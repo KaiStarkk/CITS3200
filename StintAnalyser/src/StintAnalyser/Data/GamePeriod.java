@@ -26,6 +26,14 @@ public class GamePeriod {
         this.end = end;
     }
     
+    public GameTime getStart() {
+        return start;
+    }
+    
+    public GameTime getEnd() {
+        return end;
+    }
+    
     public boolean isWithin(GameTime other) {
         return other.isSoonerThan(this.start) || other.isLaterThan(this.end);
     }

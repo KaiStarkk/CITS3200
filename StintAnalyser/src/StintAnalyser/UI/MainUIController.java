@@ -331,9 +331,7 @@ public class MainUIController implements Initializable {
     private void processPlayer(String player, GamePeriod[] gamePeriods) {
         Ground ground = groundsIO.chooseGround((String) groundsBox.getSelectionModel().getSelectedItem());
         Evaluator evaluator = new Evaluator(selectedPath, player, ground, gamePeriods);
-        if (!evaluator.compile()) {
-            statusLbl.setText("Failed to analyse."); 
-        }
+        evaluator.compile();
     }
     
     private GamePeriod[] getPeriods() {

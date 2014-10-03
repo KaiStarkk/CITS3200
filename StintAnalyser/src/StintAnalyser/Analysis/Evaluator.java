@@ -1,7 +1,6 @@
 package StintAnalyser.Analysis;
 
 import StintAnalyser.Analysis.Heuristics.GPSAnalyser;
-import StintAnalyser.Analysis.Heuristics.PlayerLoadAnalyser;
 import StintAnalyser.Data.DataSet;
 import StintAnalyser.Data.GamePeriod;
 import StintAnalyser.Grounds.Ground;
@@ -55,35 +54,56 @@ public class Evaluator {
      * deviation as well as the six possible pairs of results to try and
      * determine if one is an outlier. We can also associate a certain confidence
      * based on the variation between our result and the periods specified.
-     * @return StintSet containing the final output information.
      */
-    public boolean compile() {
+    public void compile() {
         StintSet gpsResults = processGPS(this.dataSet, this.ground);
-        StintSet playerLoadResults = processPlayerLoad(this.dataSet);
         
-        StintSet finalStintSet;
+        StintSet combinedStints;
+        StintSet filteredStints;
         
-        finalStintSet = combine(gpsResults);
-        filterStints(finalStintSet);
+        combinedStints = combine(gpsResults);
+        filteredStints = filter(combinedStints);
         
-        boolean succeeded = true;
-        // fire blanks finalStintSet.writeToVid(outputPath + playerFile, dataSet.type, dataSet.version, gamePeriods.length);
-        return succeeded;
+        // *fire blanks* filteredStints.writeToVid(outputPath + playerFile, dataSet.type, dataSet.version, gamePeriods.length);
     }
 
     private StintSet processGPS(DataSet dataSet, Ground ground) {
         GPSAnalyser gpsAnalyser = new GPSAnalyser(dataSet, ground);
         return gpsAnalyser.findStints();
     }
-
-    private StintSet processPlayerLoad(DataSet dataSet) {
-        PlayerLoadAnalyser playerLoad = new PlayerLoadAnalyser(dataSet);
-        return playerLoad.findStints();
-    }
     
-    private void filterStints(StintSet stintSet) {
-        // Remove any stint that falls outside the game periods
-        // Cut down those that overlap with game periods
+    private StintSet filter(StintSet stintSet) {
+        StintSet returnSet = new StintSet();
+        
+        int periodNumber = 0;
+        
+        for (GamePeriod gamePeriod : gamePeriods) {
+            int number = 1;
+            periodNumber++;
+            for (Stint stint : stintSet.getStints()) {
+                
+                if (stint.getEndTime() > gamePeriod.getStart().convertToGlobal()) {
+                    if (stint.getStartTime() > gamePeriod.getStart().convertToGlobal()) {
+                        returnSet.addStint(new Stint(stint.getStartTime(), stint.getEndTime(), number, periodNumber));
+                        number++;
+                    } else {
+                        returnSet.addStint(new Stint(gamePeriod.getStart().convertToGlobal(), stint.getEndTime(), number, periodNumber));
+                        number++;
+                    }
+                } else if (stint.getStartTime() < gamePeriod.getEnd().convertToGlobal()) {
+                    if (stint.getEndTime() > gamePeriod.getEnd().convertToGlobal()) {
+                        returnSet.addStint(new Stint(stint.getStartTime(), gamePeriod.getEnd().convertToGlobal(), number, periodNumber));
+                        number++;
+                    }
+                } else if (stint.getStartTime() < gamePeriod.getStart().convertToGlobal()
+                        && stint.getEndTime() > gamePeriod.getEnd().convertToGlobal()) {
+                        returnSet.addStint(new Stint(gamePeriod.getStart().convertToGlobal(), gamePeriod.getEnd().convertToGlobal(), number, periodNumber));
+                        number++;
+                }
+            }
+        }
+        
+        return returnSet;
     }
 
     /**
@@ -97,9 +117,9 @@ public class Evaluator {
         int startCount = 0;
         int stintIndex = 0;
         
-        while(stintIndex < gpsResults.size()) {    
+        while(stintIndex < gpsResults.size() - 1) {    
             //need to add check for playerload here too
-            while((gpsResults.getStint(stintIndex).getEndTime()-gpsResults.getStint(stintIndex+1).getStartTime())>tolerance) {              
+            while((gpsResults.getStint(stintIndex+1).getStartTime() - gpsResults.getStint(stintIndex).getEndTime()) < tolerance) {              
                  stintIndex++;
             }
             
@@ -108,7 +128,7 @@ public class Evaluator {
             stintIndex++;
             startCount = stintIndex;       
         }
-        //add last stint
+        // Add last stint
         Stint temp = new Stint(gpsResults.getStint(startCount).getStartTime(), gpsResults.getStint(stintIndex).getEndTime(),0,0);
         returnSet.addStint(temp);
         
