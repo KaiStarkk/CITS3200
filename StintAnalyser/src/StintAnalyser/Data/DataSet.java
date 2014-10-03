@@ -58,7 +58,7 @@ public class DataSet {
             //String checker = "Time, Plyr. Load, GPS Time, GPS Latitude, GPS Longitude, /n";
 
 			//exception will be changed
-			if (!check.equals("Time, Plyr. Load, GPS Time, GPS Latitude, GPS Longitude, /n")) {
+			if (!check.equals("Time, Plyr. Load, GPS Time, GPS Latitude, GPS Longitude, ")) {
 				//file invalid error 
 				throw new IllegalArgumentException("Invalid Input due to having incorrect data fields");
 
@@ -75,26 +75,34 @@ public class DataSet {
 
 			while ((current = reader.readLine()) != null) {
 
+
 				String[] contents = current.split(",");
 
-				if (contents.length > 5 || contents.length < 5) {
+				if (contents.length != 6) {
 
 					throw new IllegalArgumentException("Invalid Input due to having an incorrect number of data fields");
 
 				}
 
                 //third element of contents
-				String check2 = contents[3].trim();
-
-				if (check2.equals("..")) {
-					continue;
-				}
 				
+
 				time.add(convertTime(contents[0]));
 				load.add(Double.parseDouble(contents[1]));
-				gpstime.add(convertTime(contents[2]));
-				gpslat.add(Double.parseDouble(contents[3]));
-				gpslong.add(Double.parseDouble(contents[4]));
+				String check2 = contents[2].trim();
+
+				if (check2.equals("..")) {
+					gpstime.add(-1);
+					gpslat.add(-1.0);
+					gpslong.add(-1.0);
+
+				}
+				else{
+
+					gpstime.add(convertTime(contents[2].trim()));
+					gpslat.add(Double.parseDouble(contents[3].trim()));
+					gpslong.add(Double.parseDouble(contents[4].trim()));
+				}
 				/*for (int i = 0; i < 5; i++) {
 
 					String content = contents[i].trim();
@@ -103,14 +111,17 @@ public class DataSet {
 				}*/
 
 
-				reader.close();
+
 
 			}
+			reader.close();
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
+
 			e.printStackTrace();
+			System.out.println(e.getMessage());
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		}
@@ -177,23 +188,29 @@ public class DataSet {
 		try{
 			String[] splitter = oldtime.split(":");
 			
-			//MM:SS:MS
+			//MM:SS.MS
 			if(splitter.length==2){
-				String[] endpart = splitter[1].split(".");
-				totaltime += 60*Integer.parseInt(splitter[0])+Integer.parseInt(splitter[1]) + Integer.parseInt(endpart[0]);
+				//String part = (String)splitter[1];
+				//int index = part.indexOf(".");
+				//String part1 = part.substring(0,2);
+				//String part2 = part.substring(3,part.length());
+				//System.out.println("" + index);
+				String[] endpart = splitter[1].split("\\.");
+				totaltime += 60*Integer.parseInt(splitter[0])+Integer.parseInt(endpart[0]); //+ Integer.parseInt(endpart[1]);
 				totaltime*=100;
 				totaltime+=Integer.parseInt(endpart[1]);
 				
 				
 			}
 			else if(splitter.length==3){
-				String[] endpart = splitter[2].split(".");
+				String[] endpart = splitter[2].split("\\.");
 
 				//evaluating time in for HH:MM:SS
 				if(endpart.length==1){
 					totaltime += 60*60*Integer.parseInt(splitter[0]) + 60*Integer.parseInt(splitter[1]) + Integer.parseInt(splitter[2]);
+					totaltime*=100;
 				}
-				// HH:MM:SS:MS
+				// HH:MM:SS.MS
 				else{
 					totaltime += 60*60*Integer.parseInt(splitter[0]) + 60*Integer.parseInt(splitter[1]) + Integer.parseInt(endpart[0]);
 					totaltime*=100;
@@ -214,3 +231,4 @@ public class DataSet {
 
 
 }
+
