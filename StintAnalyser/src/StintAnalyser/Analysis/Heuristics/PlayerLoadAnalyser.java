@@ -22,22 +22,23 @@ public class PlayerLoadAnalyser {
         /**
 	 * Determine the average player load between two times
 	 *
+         * @param start
+         * @param end
 	 * @return int average
 	 */
-        public int average(int start, int end){
+        public double average(int start, int end){
             Column time = dataSet.getTimeColumn();
             Column pLoad = dataSet.getPlayerLoadColumn();
             
-            int indexStart = 0;//pLoad.getIndex(start);
-            int indexEnd = 0;//pLoad.getIndex(end);
+            int indexStart = time.getIndex(start);
+            int indexEnd = time.getIndex(end);
             
             int index = indexStart;
-            int totalpLoad = 0;
+            double totalpLoad = 0;
             int duration = indexEnd - indexStart;
             
             for(int i = 0; i < duration; i++){
-                //totalpLoad = totalpLoad + pLoad.get(index);
-                //errors, commented out for compilation
+                totalpLoad = totalpLoad + (double)pLoad.get(index);
                 index++;
             }
             

@@ -39,4 +39,29 @@ public class Column<T> {
 	public int length() {
 		return clist.size();
 	}
+        
+         /**
+	 * Determine the index of a known value
+         * Only works with ints
+	 *
+         * @param value
+	 * @return int index
+	 */
+        public int getIndex(Integer value){
+            int index = 0;
+        
+            for(int i = 0; i < clist.size(); i++){
+                T current = clist.get(i);
+                int less = (Integer)current - 5;
+                int more = (Integer)current + 5;
+                //                                 <=               >
+                /*current.equals(value) || */
+                if((value.compareTo(more) <= 0) && (value.compareTo(less) > 0)){
+                    index = i;
+            }
+            
+        }
+        
+        return index;
+    }
 }
