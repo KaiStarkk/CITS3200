@@ -65,11 +65,11 @@ public class DataSet {
 			}
 
 			String current;
-			time = new Column<Integer>();
-			load = new Column<Double>();
-			gpstime = new Column<Integer>();
-			gpslat = new Column<Double>();
-			gpslong= new Column<Double>();
+			time = new Column<>();
+			load = new Column<>();
+			gpstime = new Column<>();
+			gpslat = new Column<>();
+			gpslong= new Column<>();
 
 			//columns = new Column[5];
 
@@ -178,12 +178,12 @@ public class DataSet {
 		return gpslong;
 	}
 	/**
-	 * Converts time in the form of HH:MM:SS:MS or MM:SS:MS to absolute milliseconds
+	 * Converts time in the form of HH:MM:SS.MS or MM:SS:MS to absolute milliseconds
 	 *
-	 * @param oldtime A time string in the form of HH:MM:SS:MS or MM:SS:MS 
+	 * @param oldtime A time string in the form of HH:MM:SS.MS or MM:SS:MS 
 	 * @return The input time in the the form of absolute milliseconds
 	 */
-	private int convertTime(String oldtime){
+	public int convertTime(String oldtime){
 		int totaltime = 0;
 		try{
 			String[] splitter = oldtime.split(":");

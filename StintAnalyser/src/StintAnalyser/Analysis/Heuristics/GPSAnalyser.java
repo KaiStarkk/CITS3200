@@ -67,7 +67,7 @@ public class GPSAnalyser {
 		//I shall attempt to return stint sets. Emphasise on attempt - Ash
 		StintSet GPSStintAttempts = new StintSet();
 		for (int i = 0; i < stintNumber; i++) {
-			GPSStintAttempts.addStint(new Stint(stintStarts[i], stintEnds[i], i, -1));
+			GPSStintAttempts.addStint(new Stint(stintStarts[i], stintEnds[i], i, 1));
 		}
 
 		//figure out what goes in a StintSet
@@ -75,8 +75,10 @@ public class GPSAnalyser {
 	}
 
 	private boolean playerIsOnField(GPSCoordinate player) {
-		double xdisplacement = this.ground.getOrigin().horizontalDisplacementTo(player);
-		double ydisplacement = Math.abs(this.ground.getOrigin().verticalDisplacementTo(player));
+            
+            GPSCoordinate origin = this.ground.getOrigin();
+		double xdisplacement = origin.horizontalDisplacementTo(player);
+		double ydisplacement = Math.abs(origin.verticalDisplacementTo(player));
 
 		return (xdisplacement < this.ground.getFieldLength() && xdisplacement > 0)
 				&& (ydisplacement < this.ground.getHalfFieldWidth());

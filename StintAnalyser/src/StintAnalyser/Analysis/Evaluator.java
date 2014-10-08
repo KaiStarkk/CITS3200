@@ -42,7 +42,7 @@ public class Evaluator {
         this.playerFile = playerFile;
         this.ground = ground;
         this.gamePeriods = gamePeriods;
-        this.dataSet = new DataSet(outputPath + playerFile);
+        this.dataSet = new DataSet(outputPath);
     }
     
     /**
@@ -79,25 +79,27 @@ public class Evaluator {
         
         for (GamePeriod gamePeriod : gamePeriods) {
             int number = 1;
+            int periodStart = dataSet.convertTime(gamePeriod.getStart().toString());
+            int periodEnd = dataSet.convertTime(gamePeriod.getEnd().toString());
             periodNumber++;
             for (Stint stint : stintSet.getStints()) {
                 
-                if (stint.getEndTime() > gamePeriod.getStart().convertToGlobal()) {
-                    if (stint.getStartTime() > gamePeriod.getStart().convertToGlobal()) {
+                if (stint.getEndTime() > periodStart) {
+                    if (stint.getStartTime() > periodStart) {
                         returnSet.addStint(new Stint(stint.getStartTime(), stint.getEndTime(), number, periodNumber));
                         number++;
                     } else {
-                        returnSet.addStint(new Stint(gamePeriod.getStart().convertToGlobal(), stint.getEndTime(), number, periodNumber));
+                        returnSet.addStint(new Stint(periodStart, stint.getEndTime(), number, periodNumber));
                         number++;
                     }
-                } else if (stint.getStartTime() < gamePeriod.getEnd().convertToGlobal()) {
-                    if (stint.getEndTime() > gamePeriod.getEnd().convertToGlobal()) {
-                        returnSet.addStint(new Stint(stint.getStartTime(), gamePeriod.getEnd().convertToGlobal(), number, periodNumber));
+                } else if (stint.getStartTime() < periodEnd) {
+                    if (stint.getEndTime() > periodEnd) {
+                        returnSet.addStint(new Stint(stint.getStartTime(), periodEnd, number, periodNumber));
                         number++;
                     }
-                } else if (stint.getStartTime() < gamePeriod.getStart().convertToGlobal()
-                        && stint.getEndTime() > gamePeriod.getEnd().convertToGlobal()) {
-                        returnSet.addStint(new Stint(gamePeriod.getStart().convertToGlobal(), gamePeriod.getEnd().convertToGlobal(), number, periodNumber));
+                } else if (stint.getStartTime() < periodStart
+                        && stint.getEndTime() > periodEnd) {
+                        returnSet.addStint(new Stint(periodStart, periodEnd, number, periodNumber));
                         number++;
                 }
             }
@@ -129,8 +131,10 @@ public class Evaluator {
             startCount = stintIndex;       
         }
         // Add last stint
-        Stint temp = new Stint(gpsResults.getStint(startCount).getStartTime(), gpsResults.getStint(stintIndex).getEndTime(),0,0);
-        returnSet.addStint(temp);
+        if (gpsResults.size() != 0) {
+            Stint temp = new Stint(gpsResults.getStint(startCount).getStartTime(), gpsResults.getStint(stintIndex).getEndTime(),0,0);
+            returnSet.addStint(temp);
+        }
         
         /*
         

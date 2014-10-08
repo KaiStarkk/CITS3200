@@ -86,9 +86,10 @@ public class GroundsIO {
             System.out.println("Could not find ground"+name);
         }
         
-        GPSCoordinate gps1 = new GPSCoordinate(Double.parseDouble(groundsList.get(i)[0]), Double.parseDouble(groundsList.get(i)[1]));
+        String[] groundStrings = groundsList.get(i);
+        GPSCoordinate gps1 = new GPSCoordinate(Double.parseDouble(groundStrings[1]), Double.parseDouble(groundStrings[0]));
         
-        GPSCoordinate gps2 = new GPSCoordinate(Double.parseDouble(groundsList.get(i)[3]), Double.parseDouble(groundsList.get(i)[4]));
+        GPSCoordinate gps2 = new GPSCoordinate(Double.parseDouble(groundStrings[4]), Double.parseDouble(groundStrings[3]));
        
         double aspectRatio = Double.parseDouble(groundsList.get(i)[6]);
         

@@ -15,7 +15,7 @@ public class GPSCoordinate {
 	public GPSCoordinate(double latitude, double longitude) {
 		if (latitude < -90 || latitude > 90) {
 			throw new IllegalArgumentException(
-							"Inavlid latitude: " + latitude);
+							"Invalid latitude: " + latitude);
 		}
 		if (longitude < -180.00 || longitude > 180.00) {
 			throw new IllegalArgumentException(

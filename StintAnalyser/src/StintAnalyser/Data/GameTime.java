@@ -51,10 +51,8 @@ public class GameTime {
         return this.isLaterThan(other);
     }
     
-    public int convertToGlobal() {
-        
-        // TODO: convert sensible OO data structures to silly integers as if we're writing C code.
-        
-        return 0;
+    @Override
+    public String toString() {    
+        return hour + ":" + minute + ":" + "00.00";
     }
 }
