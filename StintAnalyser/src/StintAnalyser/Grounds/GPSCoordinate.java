@@ -94,8 +94,6 @@ public class GPSCoordinate {
 		bearing = -bearing + (Math.PI/2); 
 		//wrap the angle to between 0 and 2pi
 		bearing = bearing - 2*Math.PI * Math.floor(bearing/(2*Math.PI));
-		
-
 		return bearing;
 	}
 
@@ -137,29 +135,32 @@ public class GPSCoordinate {
 	}
 
 	/**
-	 * Rotates a GPS coordinate with respect to another GPS coordinate based on
-	 * the bearing between them, before rotation. Rotation is clockwise.
+	 * Rotates a GPS coordinate coordinateToRotate about this (the origin) coordinate based on a bearing
+	 * transformationBearing
 	 *
-	 * @param bearing the bearing between the two points before rotation.
+	 * @param coordinateToRotate the coordinate to rotate about this (the origint)
+	 * @param transformationBearing  the bearing between the two points before rotation.
 	 * @return the transformed (rotated) GPS coordinate.
 	 */
-	public GPSCoordinate rotate(GPSCoordinate initialCoordinate, double transformationBearing) {
-		double originalLatitude = this.latitude;
-		double originalLongitude = this.longitude;
-
-		initialCoordinate.longitude = originalLongitude * Math.cos(transformationBearing)
-						- originalLatitude * Math.sin(-1 * transformationBearing);
-
-		initialCoordinate.latitude = originalLongitude * Math.sin(-1 * transformationBearing)
-						+ originalLatitude * Math.cos(transformationBearing);
-
-		return initialCoordinate;
+	public GPSCoordinate rotate(GPSCoordinate coordinateToRotate, double transformationBearing) {
+		double	xRot,
+				yRot,
+				xTarget = coordinateToRotate.longitude,
+				yTarget = coordinateToRotate.latitude,
+				xCenter = this.longitude,
+				yCenter = this.latitude,
+				bearing = Math.toRadians(transformationBearing);
+		
+		xRot = xCenter + Math.cos(bearing) * (xTarget - xCenter) 
+				- Math.sin(bearing) * (yTarget - yCenter);
+		
+		yRot = yCenter + Math.sin(bearing) * (xTarget - xCenter) 
+				+ Math.cos(bearing) * (yTarget - yCenter);
+		
+		coordinateToRotate.longitude = xRot;
+		coordinateToRotate.latitude = yRot;
+		
+		return coordinateToRotate;
 	}
-	
-//	@Override
-//	public String toString() {
-//		DecimalFormat format = new DecimalFormat("##.0000");
-//		return "GPS Coordinate at Lat: " + format.format(this.latitude()) + ", Long: " + format.format(this.longitude()) + ".";
-//	}
 
 }

@@ -138,25 +138,125 @@ public class GPSCoordinateTest {
      */
     @Test
     public void testRotate() {
-        System.out.println("Testing rotate() for a range of different GPS coordinates");
+		GPSCoordinate testCoordinatesRotate[] = {
+			new GPSCoordinate(0.0, 0.01), //SE shifted
+            new GPSCoordinate(0.0, 0.0), //SW shifted
+            new GPSCoordinate(0.01, 0.0), // NW shifted
+			new GPSCoordinate(0.01, 0.01), //NE shifted
+			
+			new GPSCoordinate(0.0, 0.01), //SE shifted
+            new GPSCoordinate(0.0, 0.0), //SW shifted
+            new GPSCoordinate(0.01, 0.0), // NW shifted
+			new GPSCoordinate(0.01, 0.01), //NE shifted
+			
+            new GPSCoordinate(-0.005, 0.005), //SE
+            new GPSCoordinate(-0.005, -0.005), //SW
+            new GPSCoordinate(0.005, -0.005), // NW 
+			new GPSCoordinate(0.005, 0.005), //NE
+			
+			new GPSCoordinate(0.005, 0.005), //NE
+            new GPSCoordinate(-0.005, 0.005), //SE
+            new GPSCoordinate(-0.005, -0.005), //SW
+            new GPSCoordinate(0.005, -0.005), // NW 
+			
+			new GPSCoordinate(0.005, 0.005), //NE
+            new GPSCoordinate(-0.005, 0.005), //SE
+            new GPSCoordinate(-0.005, -0.005), //SW
+            new GPSCoordinate(0.005, -0.005), // NW 
+			
+			new GPSCoordinate(0.00065, 0.00065), //NE
+            new GPSCoordinate(-0.00065, 0.00065), //SE
+            new GPSCoordinate(-0.00065, -0.00065), //SW
+            new GPSCoordinate(0.00065, -0.00065), // NW 
+		};
+		
         GPSCoordinate coordinatesExpected[] = {
-            new GPSCoordinate(0.0, 0.005), //NE rotated 45 degrees clockwise
-            new GPSCoordinate(-0.005, 0.0), //SE rotated 45 degrees clockwise
-            new GPSCoordinate(0.0, -0.005), //SW rotated 45 degrees clockwise
-            new GPSCoordinate(0.005, 0.0), // NW rotated 45 degrees clockwise
-			new GPSCoordinate(0.0, 0.00065), //NE rotated 45 degrees clockwise
-            new GPSCoordinate(-0.00065, 0.0), //SE rotated 45 degrees clockwise
-            new GPSCoordinate(0.0, -0.00065), //SW rotated 45 degrees clockwise
-            new GPSCoordinate(0.00065, 0.0), // NW rotated 45 degrees clockwise
+			new GPSCoordinate(0.005 - 0.007071068, 0.005), //SE shifted -ve rotation
+			new GPSCoordinate(0.005, 0.005 - 0.007071068), //SW shifted -ve rotation
+			new GPSCoordinate(0.005 + 0.007071068, 0.005), //NW shifted -ve rotation
+			new GPSCoordinate(0.005, 0.007071068 + 0.005), //NE shifted -ve rotation
+			
+			new GPSCoordinate(0.005, 0.007071068 + 0.005), //SE shifted
+            new GPSCoordinate(0.005 - 0.007071068, 0.005), //SW shifted
+            new GPSCoordinate(0.005, 0.005 - 0.007071068), // NW shifted
+			new GPSCoordinate(0.005 + 0.007071068, 0.005), //NE shifted
+			
+            new GPSCoordinate(0.005, 0.005), //SE rotated 90
+            new GPSCoordinate(-0.005, 0.005), //SW rotated 90
+            new GPSCoordinate(-0.005, -0.005), // NW rotated 90
+			new GPSCoordinate(0.005, -0.005), //NE rotated 90
+			
+            new GPSCoordinate(0.005, 0.005), //NE not rotated
+            new GPSCoordinate(-0.005, 0.005), //SE not rotated
+            new GPSCoordinate(-0.005, -0.005), //SW not rotated
+            new GPSCoordinate(0.005, -0.005), // NW not rotated
+			
+			new GPSCoordinate(0.007071068, 0.0), //NE rotated 45 degrees
+            new GPSCoordinate(0.0, 0.007071068), //SE rotated 45 degrees
+            new GPSCoordinate(-0.007071068, 0.0), //SW rotated 45 degrees
+            new GPSCoordinate(0.0, -0.007071068), // NW rotated 45 degrees
+			
+			new GPSCoordinate(0.000919239, 0.0), //NE rotated 45 degrees
+            new GPSCoordinate(0.0, 0.000919239), //SE rotated 45 degrees 
+            new GPSCoordinate(-0.000919239, 0.0), //SW rotated 45 degrees 
+            new GPSCoordinate(0.0, -0.000919239), // NW rotated 45 degrees 
         };
 		
-        for (int i = 0; i < this.testCoordinates.length; i++) {
+		GPSCoordinate origin2 = new GPSCoordinate(0.005, 0.005);
+		
+		System.out.println("Testing rotate() function with a bearing of -45.0 with shifted origin");
+		for (int i = 0; i < 4; i++) {
             GPSCoordinate expResult = coordinatesExpected[i];
-            GPSCoordinate result = this.origin.rotate(this.testCoordinates[i], 45.0);
+            GPSCoordinate result = origin2.rotate(testCoordinatesRotate[i], -45.0);
 			System.out.println("Expected Lat: " + expResult.latitude() + ", Actual Lat: " + result.latitude());
 			System.out.println("Expected Lon: " + expResult.longitude() + ", Actual Lon: " + result.longitude());
-            assertEquals(expResult.latitude(), result.latitude(), 0.0001);
-			assertEquals(expResult.longitude(), result.longitude(), 0.0001);
+			System.out.println("");
+            assertEquals(expResult.latitude(), result.latitude(), 0.000001);
+			assertEquals(expResult.longitude(), result.longitude(), 0.000001);
+        }
+		
+		System.out.println("Testing rotate() function with a bearing of 45.0 with shifted origin");
+		for (int i = 4; i < 8; i++) {
+            GPSCoordinate expResult = coordinatesExpected[i];
+            GPSCoordinate result = origin2.rotate(testCoordinatesRotate[i], 45.0);
+			System.out.println("Expected Lat: " + expResult.latitude() + ", Actual Lat: " + result.latitude());
+			System.out.println("Expected Lon: " + expResult.longitude() + ", Actual Lon: " + result.longitude());
+			System.out.println("");
+            assertEquals(expResult.latitude(), result.latitude(), 0.000001);
+			assertEquals(expResult.longitude(), result.longitude(), 0.000001);
+        }
+		
+		System.out.println("Testing rotate() function with a bearing of 90.0");
+		for (int i = 8; i < 12; i++) {
+            GPSCoordinate expResult = coordinatesExpected[i];
+            GPSCoordinate result = this.origin.rotate(testCoordinatesRotate[i], 90.0);
+			System.out.println("Expected Lat: " + expResult.latitude() + ", Actual Lat: " + result.latitude());
+			System.out.println("Expected Lon: " + expResult.longitude() + ", Actual Lon: " + result.longitude());
+			System.out.println("");
+            assertEquals(expResult.latitude(), result.latitude(), 0.000001);
+			assertEquals(expResult.longitude(), result.longitude(), 0.000001);
+        }
+		
+		System.out.println("Testing rotate() function with a bearing of 0.0");
+		for (int i = 12; i < 16; i++) {
+            GPSCoordinate expResult = coordinatesExpected[i];
+            GPSCoordinate result = this.origin.rotate(testCoordinatesRotate[i], 0.0);
+			System.out.println("Expected Lat: " + expResult.latitude() + ", Actual Lat: " + result.latitude());
+			System.out.println("Expected Lon: " + expResult.longitude() + ", Actual Lon: " + result.longitude());
+			System.out.println("");
+            assertEquals(expResult.latitude(), result.latitude(), 0.000001);
+			assertEquals(expResult.longitude(), result.longitude(), 0.000001);
+        }
+		
+		System.out.println("Testing rotate() function with a bearing of 45.0");
+        for (int i = 16; i < testCoordinatesRotate.length; i++) {
+            GPSCoordinate expResult = coordinatesExpected[i];
+            GPSCoordinate result = this.origin.rotate(testCoordinatesRotate[i], 45.0);
+			System.out.println("Expected Lat: " + expResult.latitude() + ", Actual Lat: " + result.latitude());
+			System.out.println("Expected Lon: " + expResult.longitude() + ", Actual Lon: " + result.longitude());
+			System.out.println("");
+            assertEquals(expResult.latitude(), result.latitude(), 0.000001);
+			assertEquals(expResult.longitude(), result.longitude(), 0.000001);
         }
     }
 }

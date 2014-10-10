@@ -44,8 +44,11 @@ public class GPSAnalyser {
 				double currentPlayerLatitude = this.latitudeColumn.get(i);
 				double currentPlayerLongitude = this.longitudeColumn.get(i);
 
+				GPSCoordinate origin = this.ground.getOrigin();
+				double transformationBearing = this.ground.getTransformBearing();
 				GPSCoordinate playerCoord = new GPSCoordinate(currentPlayerLatitude, currentPlayerLongitude);
-				playerCoord = playerCoord.rotate(playerCoord, this.ground.getTransformBearing());
+				
+				playerCoord = origin.rotate(playerCoord, transformationBearing);
 
 				if (playerIsOnField(playerCoord)) { //check if we are on the field
 					if (lastKnown == 0) { //check if we just came onto the field
@@ -76,7 +79,8 @@ public class GPSAnalyser {
 
 	private boolean playerIsOnField(GPSCoordinate player) {
             
-            GPSCoordinate origin = this.ground.getOrigin();
+		GPSCoordinate origin = this.ground.getOrigin();
+		//origin = origin.rotate(playerCoord, this.ground.getTransformBearing());
 		double xdisplacement = origin.horizontalDisplacementTo(player);
 		double ydisplacement = Math.abs(origin.verticalDisplacementTo(player));
 
