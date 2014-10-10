@@ -32,7 +32,7 @@ public class Stint {
     /**
      * Get accessor for the stint's start time.
      *     
-* @return
+     * @return the start time of the stint
      */
     public int getStartTime() {
         return startTime;
@@ -41,7 +41,7 @@ public class Stint {
     /**
      * Get accessor for the stint's end time.
      *     
-* @return
+     * @return the end time of the stint
      */
     public int getEndTime() {
         return endTime;
@@ -50,7 +50,7 @@ public class Stint {
     /**
      * Get accessor for the stint number.
      *     
-* @return
+     * @return the number of the stint
      */
     public int getNumber() {
         return stintno;
@@ -59,7 +59,7 @@ public class Stint {
     /**
      * Get accessor for the stint's game half.
      *     
-* @return
+     * @return the period of the stint
      */
     public int getPeriod() {
         return period;

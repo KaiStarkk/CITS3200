@@ -14,6 +14,13 @@ public class Ground {
 	private GPSCoordinate goal2;
 	private double aspectRatio;
     
+        /**
+         * Constructor for the Ground
+         * @param name
+         * @param goal1
+         * @param goal2
+         * @param aspectRatio 
+         */
 	public Ground(String name, GPSCoordinate goal1, GPSCoordinate goal2, double aspectRatio) {
 		this.name = name;
 		this.goal1 = goal1;
@@ -21,6 +28,10 @@ public class Ground {
 		this.aspectRatio = aspectRatio;
 	}
     
+        /**
+         * Transforms the Bearing
+         * @return 
+         */
 	public double getTransformBearing() {
 		return this.goal1.bearingTo(this.goal2);
 	}

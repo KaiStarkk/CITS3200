@@ -15,8 +15,7 @@ package StintAnalyser.Data;
 public class InvalidInputException extends Exception{
 
 
-	 /** 
-	 * Constructor.
+    /**
      * Constructs the Exception with an error msg 
      * 
      * 

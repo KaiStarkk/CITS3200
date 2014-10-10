@@ -14,7 +14,11 @@ public class GameTime {
     int minute;
     int second;
     
-    
+    /**
+     * Constructor for Gametime
+     * @param in
+     * @throws java.lang.IllegalArgumentException 
+     */
     public GameTime(String in) throws java.lang.IllegalArgumentException {
         String[] parts = in.split(":");
         if (parts.length != 3) {
@@ -34,22 +38,44 @@ public class GameTime {
         }
     }
     
+    /**
+     * checks for if the GameTime is sooner than the input time
+     * @param other
+     * @return true iff given time is sooner than the Gametime
+     */
     public boolean isSoonerThan(GameTime other) {
         return this.hour > other.hour ? false : this.minute > other.minute ? false : this.second < other.second;
     }
     
+    /**
+     * checks for if the GameTime is sooner than the input time
+     * @param otherStr
+     * @return true iff given time is sooner than the Gametime
+     */
     public boolean isSoonerThan(String otherStr) {
         GameTime other = new GameTime(otherStr);
         return this.isSoonerThan(other);
     }
+    
+    /**
+     * checks for if the GameTime is later than the input time
+     * @param other
+     * @return true iff given time is later than the Gametime
+     */
     public boolean isLaterThan(GameTime other) {
         return this.hour < other.hour ? false : this.minute < other.minute ? false : this.second > other.second;
     }
     
+    /**
+     * checks for if the GameTime is later than the input time
+     * @param otherStr
+     * @return true iff given time is later than the Gametime
+     */
     public boolean isLaterThan(String otherStr) {
         GameTime other = new GameTime(otherStr);
         return this.isLaterThan(other);
     }
+    
     
     @Override
     public String toString() {    

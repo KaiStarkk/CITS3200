@@ -15,13 +15,18 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- *
+ * CITS3200 Professional Computing
+ * GroundIO.java
+ * The class that handles the reading in and conversion of a grounds library to usable format
  * @author Markcuz
  */
 public class GroundsIO {
     
     List<String[]> groundsList;
-    
+    /**
+     * Constructor for GroundsIO
+     * @param groundsFile 
+     */
     public GroundsIO(File groundsFile) {
         groundsList = new ArrayList<>();
         loadGrounds(groundsFile);  

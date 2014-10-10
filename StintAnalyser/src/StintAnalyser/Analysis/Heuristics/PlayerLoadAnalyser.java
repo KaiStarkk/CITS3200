@@ -15,6 +15,10 @@ import StintAnalyser.Stints.StintSet;
 public class PlayerLoadAnalyser {
     DataSet dataSet;
     
+        /**
+         * Constructor for PlayerLoadAnalyser
+         * @param dataSet the input data
+         */
         public PlayerLoadAnalyser(DataSet dataSet) {
             this.dataSet = dataSet;
         }
@@ -22,9 +26,9 @@ public class PlayerLoadAnalyser {
         /**
 	 * Determine the average player load between two times
 	 *
-         * @param start
-         * @param end
-	 * @return int average
+         * @param start the start time for player load to be averaged
+         * @param end the end time to be averaged
+	 * @return average
 	 */
         public double average(int start, int end){
             Column time = dataSet.getTimeColumn();

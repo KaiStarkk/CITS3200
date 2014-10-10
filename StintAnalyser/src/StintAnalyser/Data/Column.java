@@ -8,7 +8,7 @@ package StintAnalyser.Data;
 import java.util.ArrayList;
 
 /**
- *
+ * CITS3200 Professional Computing Column is a container to contain data for the analysis of Stints
  * @author Kieran
  */
 public class Column<T> {

@@ -101,10 +101,18 @@ public class StintSet {
 		stintSet.add(stint);
 	}
 	
+        /**
+         * Accessor for the size of the stintSet
+         * @return the size of the stintSet
+         */
 	public int size() {
 		return this.stintSet.size();
 	}
         
+        /**
+         * Accessor for the stintSet
+         * @return  the stint set
+         */
         public ArrayList<Stint> getStints() {
             return stintSet;
         }
