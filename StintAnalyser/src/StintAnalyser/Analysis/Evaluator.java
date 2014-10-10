@@ -1,6 +1,7 @@
 package StintAnalyser.Analysis;
 
 import StintAnalyser.Analysis.Heuristics.GPSAnalyser;
+import StintAnalyser.Analysis.Heuristics.PlayerLoadAnalyser;
 import StintAnalyser.Data.DataSet;
 import StintAnalyser.Data.GamePeriod;
 import StintAnalyser.Grounds.Ground;
@@ -17,7 +18,7 @@ import StintAnalyser.Stints.Stint;
  * Makes statistical observations to determine the quality of the results,
  * and incorporates this into the answer.
  *
- * @version 1.1 20/08/14
+ * @version 1.5 10/10/14
  * @author Group B
  */
 public class Evaluator {
@@ -27,7 +28,8 @@ public class Evaluator {
     Ground ground;
     GamePeriod[] gamePeriods;
     DataSet dataSet;
-    int tolerance = 1000; //tolerance level
+    int tolerance = 5000; //tolerance level
+    double playerLoadTolerance = 0.5;
 
     
     /**
@@ -67,11 +69,22 @@ public class Evaluator {
         // *fire blanks* filteredStints.writeToVid(outputPath + playerFile, dataSet.type, dataSet.version, gamePeriods.length);
     }
 
+    /**
+     * Processes the stints wrt the GPS players are on field
+     * @param dataSet takes in the players data
+     * @param ground takes in the grounds data
+     * @return returns a StintSet with stint start and end relative to when players go on/off the pitch
+     */
     private StintSet processGPS(DataSet dataSet, Ground ground) {
         GPSAnalyser gpsAnalyser = new GPSAnalyser(dataSet, ground);
         return gpsAnalyser.findStints();
     }
     
+    /**
+     * Filters the stints by removing stints that are outside of the given playing times
+     * @param stintSet the stintSet to be filtered
+     * @return returnSet the final stintSet
+     */
     private StintSet filter(StintSet stintSet) {
         StintSet returnSet = new StintSet();
         
@@ -109,7 +122,7 @@ public class Evaluator {
     }
 
     /**
-     * Combines stints that have low in-between stint times 
+     * Combines stints that have low in-between stint times and checks for activity in these periods
      * @param gpsResults
      * @return the combined stintSet 
      */
@@ -120,9 +133,14 @@ public class Evaluator {
         int stintIndex = 0;
         
         while(stintIndex < gpsResults.size() - 1) {    
-            //need to add check for playerload here too
-            while((gpsResults.getStint(stintIndex+1).getStartTime() - gpsResults.getStint(stintIndex).getEndTime()) < tolerance) {              
-                 stintIndex++;
+            
+            while((gpsResults.getStint(stintIndex+1).getStartTime() - gpsResults.getStint(stintIndex).getEndTime()) < tolerance) {    
+                //this is adding in the fuctionality of the playerload
+                //PlayerLoadAnalyser playerLoad;
+                //playerLoad = new PlayerLoadAnalyser(dataSet);
+                //if(playerLoad.average(gpsResults.getStint(stintIndex+1).getStartTime(), gpsResults.getStint(stintIndex).getEndTime())<playerLoadTolerance) {
+                    stintIndex++;
+                //}
             }
             
             Stint temp = new Stint(gpsResults.getStint(startCount).getStartTime(), gpsResults.getStint(stintIndex).getEndTime(),0,0);
@@ -136,22 +154,6 @@ public class Evaluator {
             returnSet.addStint(temp);
         }
         
-        /*
-        
-        for(int i = 1; i<gpsResults.size(); i++) {
-            lastEnd = returnSet.getStint(numberCount).getEndTime();
-            nextStart = gpsResults.getStint(i+1).getStartTime();
-            if(nextStart-lastEnd>tolerance) {
-                //checking for player load as well
-                Stint newStint = new Stint(gpsResults.getStint(i).getStartTime(), gpsResults.getStint(i+1).getEndTime(), numberCount, 0);
-                
-            }
-            else {
-                returnSet.addStint(gpsResults.getStint(i));
-                numberCount++;
-            }
-        }  
-        */
         return returnSet;
     }
     
