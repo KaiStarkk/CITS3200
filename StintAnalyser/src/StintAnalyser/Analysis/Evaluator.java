@@ -44,7 +44,7 @@ public class Evaluator {
         this.playerFile = playerFile;
         this.ground = ground;
         this.gamePeriods = gamePeriods;
-        this.dataSet = new DataSet(outputPath);
+        this.dataSet = new DataSet(outputPath + playerFile);
     }
     
     /**
@@ -66,7 +66,7 @@ public class Evaluator {
         combinedStints = combine(gpsResults);
         filteredStints = filter(combinedStints);
         
-        // *fire blanks* filteredStints.writeToVid(outputPath + playerFile, dataSet.type, dataSet.version, gamePeriods.length);
+        filteredStints.writeToVid(outputPath + playerFile, dataSet.type, dataSet.version, gamePeriods.length);
     }
 
     /**
@@ -89,15 +89,16 @@ public class Evaluator {
         StintSet returnSet = new StintSet();
         
         int periodNumber = 0;
+        int timerStart = dataSet.convertTime(dataSet.timerStart);
         
         for (GamePeriod gamePeriod : gamePeriods) {
             int number = 1;
-            int periodStart = dataSet.convertTime(gamePeriod.getStart().toString());
-            int periodEnd = dataSet.convertTime(gamePeriod.getEnd().toString());
+            int periodStart = dataSet.convertTime(gamePeriod.getStart().toString()) - timerStart;
+            int periodEnd = dataSet.convertTime(gamePeriod.getEnd().toString()) - timerStart;
             periodNumber++;
             for (Stint stint : stintSet.getStints()) {
                 
-                if (stint.getEndTime() > periodStart) {
+                if (stint.getEndTime() > periodStart && stint.getEndTime() < periodEnd) {
                     if (stint.getStartTime() > periodStart) {
                         returnSet.addStint(new Stint(stint.getStartTime(), stint.getEndTime(), number, periodNumber));
                         number++;
@@ -105,13 +106,12 @@ public class Evaluator {
                         returnSet.addStint(new Stint(periodStart, stint.getEndTime(), number, periodNumber));
                         number++;
                     }
-                } else if (stint.getStartTime() < periodEnd) {
+                } else if (stint.getStartTime() < periodEnd && stint.getStartTime() > periodStart) {
                     if (stint.getEndTime() > periodEnd) {
                         returnSet.addStint(new Stint(stint.getStartTime(), periodEnd, number, periodNumber));
                         number++;
                     }
-                } else if (stint.getStartTime() < periodStart
-                        && stint.getEndTime() > periodEnd) {
+                } else if (stint.getStartTime() < periodStart && stint.getEndTime() > periodEnd) {
                         returnSet.addStint(new Stint(periodStart, periodEnd, number, periodNumber));
                         number++;
                 }

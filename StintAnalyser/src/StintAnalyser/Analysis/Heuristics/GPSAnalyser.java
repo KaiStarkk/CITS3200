@@ -32,10 +32,10 @@ public class GPSAnalyser {
 
 	public StintSet findStints() {
 
-		int lastKnown = 0;            //was the player on/off the field in the last time tic? 0 for off, 1 for on.
-		int[] stintStarts = new int[100]; //an array to store the times that stints began
-		int[] stintEnds = new int[100]; //an array to store the times that stints ended
-		int stintNumber = 0;            //a counter to track which stint we are on at the moment
+		int lastKnown = 0;            // was the player on/off the field in the last time tic? 0 for off, 1 for on.
+		int[] stintStarts = new int[100]; // an array to store the times that stints began
+		int[] stintEnds = new int[100]; // an array to store the times that stints ended
+		int stintNumber = 0;            // a counter to track which stint we are on at the moment
 
 		for (int i = 0; i < this.timeColumn.length(); i++) {
 			if (this.longitudeColumn.get(i) != 0 && this.latitudeColumn.get(i) != 0) { //the first column of player load time starts before the lat/long is recorded so we need to check that the lat/long isn't actually empty
@@ -70,7 +70,7 @@ public class GPSAnalyser {
 		//I shall attempt to return stint sets. Emphasise on attempt - Ash
 		StintSet GPSStintAttempts = new StintSet();
 		for (int i = 0; i < stintNumber; i++) {
-			GPSStintAttempts.addStint(new Stint(stintStarts[i], stintEnds[i], i, 1));
+			GPSStintAttempts.addStint(new Stint(stintStarts[i], stintEnds[i], 0, 0));
 		}
 
 		//figure out what goes in a StintSet
@@ -83,8 +83,11 @@ public class GPSAnalyser {
 		//origin = origin.rotate(playerCoord, this.ground.getTransformBearing());
 		double xdisplacement = origin.horizontalDisplacementTo(player);
 		double ydisplacement = Math.abs(origin.verticalDisplacementTo(player));
-
-		return (xdisplacement < this.ground.getFieldLength() && xdisplacement > 0)
-				&& (ydisplacement < this.ground.getHalfFieldWidth());
+                double fieldLength = this.ground.getFieldLength();
+                double halfFieldWidth = this.ground.getHalfFieldWidth();
+                
+                
+		return (xdisplacement < fieldLength && xdisplacement > 0)
+				&& (ydisplacement < halfFieldWidth);
 	}
 }

@@ -22,6 +22,9 @@ public class DataSet {
 
 	//file version
 	public String version;
+        
+        //starting time
+        public String timerStart;
 
 	//possible set 0-time,1-gps,2-accelerometer
 	//private Column[] columns;
@@ -51,9 +54,18 @@ public class DataSet {
 			type = fsplit[0];
 			version = fsplit[1];
 
-			for (int i = 1; i < 7; i++) {
+			// Skip lines
+                        for (int i = 1; i < 4; i++) {
 				reader.readLine();
 			}
+                        
+                        timerStart = reader.readLine().substring(5);
+                        
+                        // Skip lines
+                        for (int i = 1; i < 3; i++) {
+				reader.readLine();
+			}
+                        
 			String check = reader.readLine();
             //String checker = "Time, Plyr. Load, GPS Time, GPS Latitude, GPS Longitude, /n";
 

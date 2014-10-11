@@ -17,6 +17,7 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -239,17 +240,18 @@ public class MainUIController implements Initializable {
                     fileExtension = currentItem.getValue().substring(separator + 1);
                 }
                 
-                String relPath = "";
-
                 if (!currentItem.isLeaf()) {
-                    relPath += "\\";
                     fileExtension = "folder";
                 }
+                
+                String relPath = "\\";
 
                 TreeItem<String> traceItem = currentItem;
 
                 while (traceItem.getParent() != null) {
-                    relPath = "\\" + traceItem.getValue() + relPath;
+                    if(!traceItem.isLeaf()) {
+                        relPath = "\\" + traceItem.getValue() + relPath;
+                    }
                     traceItem = traceItem.getParent();
                 }
 
@@ -312,19 +314,24 @@ public class MainUIController implements Initializable {
             statusLbl.setText("Enter game periods in the correct format.");            
         } else {
             final Timeline timeline = new Timeline();
+            
             spinner.setVisible(true);
-            spinner.setProgress(0);
-
-            timeline.setCycleCount(1);
-            final KeyValue kv = new KeyValue(spinner.progressProperty(), 1);
-            final KeyFrame kf1 = new KeyFrame(Duration.millis(5000*selectedPlayers.size()), kv);
-            timeline.getKeyFrames().add(kf1);
-            timeline.play();
             
-            for (String player : selectedPlayers) {
-                processPlayer(player, gamePeriods);
-            }
-            
+            Task task = new Task<Void>() {
+                @Override public Void call() {
+                    int completed = 0;
+                    int total = selectedPlayers.size();
+                    updateProgress(completed, total);
+                    for (String player : selectedPlayers) {
+                        processPlayer(player, gamePeriods);
+                        completed++;
+                        updateProgress(completed, total);
+                    }
+                    return null;
+                }
+            };
+            spinner.progressProperty().bind(task.progressProperty());
+            new Thread(task).start();
         }
     }
     

@@ -117,7 +117,7 @@ public class GroundsIO {
             } 
         } 
         else {
-            System.out.println("Grounds database is empty.\n");
+            // Empty grounds database
         }
         
         return out;

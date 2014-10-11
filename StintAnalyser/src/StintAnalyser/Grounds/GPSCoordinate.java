@@ -149,7 +149,7 @@ public class GPSCoordinate {
 				yTarget = coordinateToRotate.latitude,
 				xCenter = this.longitude,
 				yCenter = this.latitude,
-				bearing = Math.toRadians(transformationBearing);
+				bearing = -transformationBearing;
 		
 		xRot = xCenter + Math.cos(bearing) * (xTarget - xCenter) 
 				- Math.sin(bearing) * (yTarget - yCenter);

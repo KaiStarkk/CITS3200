@@ -32,16 +32,12 @@ public class StintSet {
 	    public void writeToVid(String path, String type, String version, int periods) {
         try {
 
-            //BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\Cameron\\Documents\\CITS3200-2\\JavaApplication1"));
-            
-            
-            //USING PATH MISSING
-            
-            File file = new File("filename");
+            path = path.substring(0, path.lastIndexOf('.')) + ".vid";
+            File file = new File(path);
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
             
             String first = "type=" + type.toUpperCase();
-            String second = "version=" + version + "\n";
+            String second = "version=" + version;
             writer.write(first, 0, first.length());
             writer.newLine();
             writer.write(second, 0, second.length());
@@ -66,7 +62,6 @@ public class StintSet {
                 int stnumber = st.getNumber();
                 int stperiod = st.getPeriod();
 
-                System.out.println(stintlen);
                 line += String.valueOf(stintlen) + ",0," + String.valueOf(start) + "," + String.valueOf(end) + ",\"" + periodtype + String.valueOf(stperiod) + "S" + String.valueOf(stnumber) + "\"";
                 writer.write(line, 0, line.length());
                 writer.newLine();
