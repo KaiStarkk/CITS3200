@@ -22,7 +22,8 @@ public class DataSetTest {
 		System.out.println("Checking that DataSet returns number of randomly selected rows from the following player's files: +\n"
 				+ "Andrew Philpot \n"
 				+ "Aran Zalewski \n"
-				+ "Chris Bausor.");
+				+ "Chris Bausor. \n"
+				+ "File Separator: " + java.io.File.separator);
 		
 		this.andrewDataSet = new DataSet("/home/dean/Documents/CITS3200/StintAnalyser/Input/GPS Stint Detector/Data Files/Andrew Philpott 4721 201305031758.csv");
 		this.aranDataSet = new DataSet("/home/dean/Documents/CITS3200/StintAnalyser/Input/GPS Stint Detector/Data Files/Aran Zalewski 4727 201305031758.csv");

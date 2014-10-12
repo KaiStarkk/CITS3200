@@ -244,13 +244,13 @@ public class MainUIController implements Initializable {
                     fileExtension = "folder";
                 }
                 
-                String relPath = "\\";
+                String relPath = File.separator;
 
                 TreeItem<String> traceItem = currentItem;
 
                 while (traceItem.getParent() != null) {
                     if(!traceItem.isLeaf()) {
-                        relPath = "\\" + traceItem.getValue() + relPath;
+                        relPath = File.separator + traceItem.getValue() + relPath;
                     }
                     traceItem = traceItem.getParent();
                 }
