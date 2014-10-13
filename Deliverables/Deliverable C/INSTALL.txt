@@ -1,0 +1,28 @@
+STINT Analyser for Catapult Sprint INSTALL
+==========================================
+
+REQUIREMENTS AND NOTES
+======================
+
+- JAVA JRE8
+- WINDOWS XP/7/8
+- Catapult Sprint
+
+INSTALLATION
+============
+
+
+CONFIGURATION
+=============
+
+- Extract .csv from Catapult Sprint
+- Fill in all fields:
+    - Player/match selection
+    - Grounds library selection
+    - Grounds selection
+    - Start/Finish period times
+- Press process
+
+RUNNING TESTS
+=============
+
