@@ -4,9 +4,10 @@ import StintAnalyser.Analysis.Heuristics.GPSAnalyser;
 import StintAnalyser.Analysis.Heuristics.PlayerLoadAnalyser;
 import StintAnalyser.Data.DataSet;
 import StintAnalyser.Data.GamePeriod;
+import StintAnalyser.Data.GameTime;
 import StintAnalyser.Grounds.Ground;
-import StintAnalyser.Stints.StintSet;
 import StintAnalyser.Stints.Stint;
+import StintAnalyser.Stints.StintSet;
 
 /**
  * CITS3200 Professional Computing
@@ -25,6 +26,7 @@ public class Evaluator {
     String outputPath;
     String playerFile;
     Ground ground;
+    GameTime startTime;
     GamePeriod[] gamePeriods;
     DataSet dataSet;
     int tolerance = 5000; //tolerance level
@@ -36,13 +38,15 @@ public class Evaluator {
      * @param outputPath the output path for output of .vid file
      * @param playerFile the input path of the player file
      * @param ground the ground to be used in analysis
+     * @param startTime
      * @param gamePeriods an array of Gameperiod for the current match
      */
-    public Evaluator(String outputPath, String playerFile, Ground ground, GamePeriod[] gamePeriods){
+    public Evaluator(String outputPath, String playerFile, Ground ground, GameTime startTime, GamePeriod[] gamePeriods){
         this.outputPath = outputPath;
         this.playerFile = playerFile;
         this.ground = ground;
         this.gamePeriods = gamePeriods;
+        this.startTime = startTime;
         this.dataSet = new DataSet(outputPath + playerFile);
     }
     
@@ -89,11 +93,12 @@ public class Evaluator {
         
         int periodNumber = 0;
         int timerStart = dataSet.convertTime(dataSet.timerStart);
+        int gameStart = dataSet.convertTime(startTime.toString());
         
         for (GamePeriod gamePeriod : gamePeriods) {
             int number = 1;
-            int periodStart = dataSet.convertTime(gamePeriod.getStart().toString()) - timerStart;
-            int periodEnd = dataSet.convertTime(gamePeriod.getEnd().toString()) - timerStart;
+            int periodStart = dataSet.convertTime(gamePeriod.getStart().toString()) - timerStart + gameStart;
+            int periodEnd = dataSet.convertTime(gamePeriod.getEnd().toString()) - timerStart + gameStart;
             periodNumber++;
             for (Stint stint : stintSet.getStints()) {
                 

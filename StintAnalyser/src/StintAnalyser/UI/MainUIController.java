@@ -4,6 +4,7 @@ import StintAnalyser.Analysis.Evaluator;
 import StintAnalyser.Analysis.Heuristics.GPSAnalyser;
 import StintAnalyser.Analysis.Heuristics.PlayerLoadAnalyser;
 import StintAnalyser.Data.GamePeriod;
+import StintAnalyser.Data.GameTime;
 import StintAnalyser.Grounds.Ground;
 import StintAnalyser.Grounds.GroundsIO;
 import StintAnalyser.Stints.StintSet;
@@ -84,6 +85,8 @@ public class MainUIController implements Initializable {
     
     @FXML
     private Label statusLbl;
+    @FXML
+    private TextArea gameStartTextArea;
     @FXML
     private TextArea gamePeriodsTextArea;
     @FXML
@@ -305,6 +308,7 @@ public class MainUIController implements Initializable {
     @FXML
     private void processPlayers(ActionEvent event) {
         ObservableList<String> selectedPlayers = playerList.getSelectionModel().getSelectedItems();
+        GameTime startTime = getStart();
         GamePeriod[] gamePeriods = getPeriods();
         if (selectedPlayers.isEmpty()) {
             statusLbl.setText("Select at least one player from the list.");
@@ -312,7 +316,9 @@ public class MainUIController implements Initializable {
             statusLbl.setText("Select a ground from the dropdown menu."); 
         } else if (gamePeriods == null) {
             statusLbl.setText("Enter game periods in the correct format.");            
-        } else {
+        } else if (startTime == null) {
+            statusLbl.setText ("Enter game start time in the correct format.");
+        }{
             final Timeline timeline = new Timeline();
             
             spinner.setVisible(true);
@@ -323,7 +329,7 @@ public class MainUIController implements Initializable {
                     int total = selectedPlayers.size();
                     updateProgress(completed, total);
                     for (String player : selectedPlayers) {
-                        processPlayer(player, gamePeriods);
+                        processPlayer(player, startTime, gamePeriods);
                         completed++;
                         updateProgress(completed, total);
                     }
@@ -335,9 +341,9 @@ public class MainUIController implements Initializable {
         }
     }
     
-    private void processPlayer(String player, GamePeriod[] gamePeriods) {
+    private void processPlayer(String player, GameTime startTime, GamePeriod[] gamePeriods) {
         Ground ground = groundsIO.chooseGround((String) groundsBox.getSelectionModel().getSelectedItem());
-        Evaluator evaluator = new Evaluator(selectedPath, player, ground, gamePeriods);
+        Evaluator evaluator = new Evaluator(selectedPath, player, ground, startTime, gamePeriods);
         evaluator.compile();
     }
     
@@ -354,6 +360,17 @@ public class MainUIController implements Initializable {
         }
         
         return gamePeriods;
+    }
+    
+    private GameTime getStart() {
+        GameTime startTime;
+        try {
+            startTime = new GameTime(gameStartTextArea.getText());
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+        
+        return startTime;
     }
     
     /*
