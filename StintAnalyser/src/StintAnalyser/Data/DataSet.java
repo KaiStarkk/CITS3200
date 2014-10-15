@@ -89,7 +89,7 @@ public class DataSet {
 			}
 
 			int[] mapping  = new int[5];
-			for(int i=0;i<headerline.length;i++){
+			for(int i=0;i<5;i++){
 
 				mapping[i] = map.get(headerline[i]);
 			}
