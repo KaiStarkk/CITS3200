@@ -16,8 +16,8 @@ public class GameTime {
     
     /**
      * Constructor for Gametime
-     * @param in
-     * @throws java.lang.IllegalArgumentException 
+     * @param in the input string 
+     * @throws java.lang.IllegalArgumentException thrown if length is of incorrect size
      */
     public GameTime(String in) throws java.lang.IllegalArgumentException {
         String[] parts = in.split(":");
@@ -40,7 +40,7 @@ public class GameTime {
     
     /**
      * checks for if the GameTime is sooner than the input time
-     * @param other
+     * @param other the time to be compared against
      * @return true iff given time is sooner than the Gametime
      */
     public boolean isSoonerThan(GameTime other) {
@@ -49,7 +49,7 @@ public class GameTime {
     
     /**
      * checks for if the GameTime is sooner than the input time
-     * @param otherStr
+     * @param otherStr the time to be compared against
      * @return true iff given time is sooner than the Gametime
      */
     public boolean isSoonerThan(String otherStr) {
@@ -59,7 +59,7 @@ public class GameTime {
     
     /**
      * checks for if the GameTime is later than the input time
-     * @param other
+     * @param other the time to be compared against
      * @return true iff given time is later than the Gametime
      */
     public boolean isLaterThan(GameTime other) {
@@ -68,7 +68,7 @@ public class GameTime {
     
     /**
      * checks for if the GameTime is later than the input time
-     * @param otherStr
+     * @param otherStr the time to be compared against
      * @return true iff given time is later than the Gametime
      */
     public boolean isLaterThan(String otherStr) {

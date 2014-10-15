@@ -11,7 +11,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /**
- *
+ * CITS3200 Professional Computing DataSet contains all data pulled from the .csv files
  * @author Kieran
  */
 public class DataSet {

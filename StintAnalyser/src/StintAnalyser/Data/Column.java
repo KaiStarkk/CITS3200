@@ -17,25 +17,34 @@ public class Column<T> {
 
 	/**
 	 * Constructor method
-	 *
-	 * @param type A way of keeping track of what kind of data is being contained
 	 * in the Column
 	 */
-
-
 	public Column() {
 		clist = new ArrayList<T>();
 		// TODO Auto-generated constructor stub
 	}
 
+        /**
+         * Adds the object into the column
+         * @param object the object to be inserted
+         */
 	public void add(T object) {
 		clist.add(object);
 	}
 
+        /**
+         * returns the object in the given column
+         * @param index the position of the object to be searched for
+         * @return the object
+         */
 	public T get(int index) {
 		return clist.get(index);
 	}
 
+        /**
+         * Extracts the amount of columns in the list
+         * @return the size of the list
+         */
 	public int length() {
 		return clist.size();
 	}
@@ -44,7 +53,7 @@ public class Column<T> {
 	 * Determine the index of a known value
          * Only works with ints
 	 *
-         * @param value
+         * @param value the Integer to be determined
 	 * @return int index
 	 */
         public int getIndex(Integer value){

@@ -10,7 +10,7 @@ import StintAnalyser.Stints.StintSet;
  * player is playing on not depending on their accelerometer data.
  *
  * @version 1.1 20/08/14
- * @author Group B
+ * @author Cameron and Alex
  */
 public class PlayerLoadAnalyser {
     DataSet dataSet;
@@ -28,7 +28,7 @@ public class PlayerLoadAnalyser {
 	 *
          * @param start the start time for player load to be averaged
          * @param end the end time to be averaged
-	 * @return average
+	 * @return the average player load value of the 2 times
 	 */
         public double average(int start, int end){
             Column time = dataSet.getTimeColumn();

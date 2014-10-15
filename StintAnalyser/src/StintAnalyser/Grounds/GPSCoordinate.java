@@ -3,7 +3,7 @@ package StintAnalyser.Grounds;
 import java.text.DecimalFormat;
 
 /**
- *
+ * CITS3200 Professional Computing A container for the GPSCoordinate
  * @author Dean and Ashwin
  */
 public class GPSCoordinate {
@@ -48,7 +48,7 @@ public class GPSCoordinate {
 	 * Returns the "greater circle" scalar distance between this GPS coordinate and the
 	 * other GPS coordinate over 'there' in meters.
 	 *
-	 * @param there
+	 * @param there the coordinate at anotehr area
 	 * @return double "greater circle" distance to another point in meters
 	 */
 	public double distanceTo(GPSCoordinate there) {

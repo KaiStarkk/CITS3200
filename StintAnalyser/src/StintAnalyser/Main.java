@@ -22,7 +22,7 @@ public class Main extends Application {
     
     /**
      * Starts the FXML loading process.
-     * @throws java.lang.Exception
+     * @throws java.lang.Exception thrown if failed opening the GUI
      */
     @Override
     public void start(Stage primaryStage) throws Exception {

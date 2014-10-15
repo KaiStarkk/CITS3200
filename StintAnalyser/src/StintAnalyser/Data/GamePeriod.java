@@ -14,8 +14,8 @@ public class GamePeriod {
     
     /**
      * Constructor for the GamePeriod times using a String argument
-     * @param line
-     * @throws IllegalArgumentException 
+     * @param line the line to be read
+     * @throws IllegalArgumentException thrown if the length is of incorrect size
      */
     public GamePeriod(String line) throws IllegalArgumentException {
         String[] times = line.split("-");
@@ -28,8 +28,8 @@ public class GamePeriod {
     
     /**
      * Secondary constructor where start and end times are already specified
-     * @param start
-     * @param end 
+     * @param start the start of the period
+     * @param end the end of the period
      */
     public GamePeriod(GameTime start, GameTime end) {
         this.start = start;
@@ -54,7 +54,7 @@ public class GamePeriod {
     
     /**
      * checks for if the input time is within the period
-     * @param other
+     * @param other the time to be compared against
      * @return true iff time is within the start and end time
      */
     public boolean isWithin(GameTime other) {

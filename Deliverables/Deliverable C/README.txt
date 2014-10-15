@@ -1,4 +1,4 @@
-﻿STINT Analyser for Catapult Sprint README
+STINT Analyser for Catapult Sprint README
 =========================================
 
 INTRODUCTION
@@ -24,7 +24,7 @@ CONFIGURATION
 ==============
 
 In order to use STINT Analyser, .csv files must be exported from Catapult Sprint having the correct fields in this order:
-Time, Plyr. Load, GPS Time, GPS Latitude, GPS Longidtude
+Time, Plyr. Load, GPS Time, GPS Latitude, GPS Longitude
 
 To create a .csv file with the correct fields:
 1. Open Catapult Sprint and load a .raw player file in the Graph Setup tab
@@ -40,6 +40,29 @@ User then can fill in the various fields including:
 3. Select the grounds for the match
 4. Input start/finish times for each period of the match
 5. Press Analyse.
+
+DIRECTORY ORGANISATION
+======================
+
+If chosen to download the source for STINT Analyser:
+
+The source directory includes 2 folders, test and src.
+The src folder contains all the source files for STINT. STINT is broken up into 5 sub-folders, with the components to run the program: 
+
+ - Analysis, which includes all the heuristics for solving ie the GPS analyser and Player load analyser as well as the Evaluator, which combines the heuristics for final compilation.
+
+ - Data, which contains all the data structures used for containing inputs from the user and .csv file.
+
+ - Grounds, which deals with all the processing for later use in GPS heuristic analysis. This includes a data structure for GPS coordinates, a structure for grounds and an IO module to read in he grounds file.
+
+- Stints, which includes the 2 main data structures for analysis, Stint and StintSet. Stints holds data for each stint in the game, StintSet holds the set of stints.
+
+- UI, which is the folder that contains all the processing for the user interface.
+
+
+The test folder contains the testing classes for Stint Analyser. These are again broken up into the same 5 sub-classes.
+
+
 
 AUTHORS /  CONTRIBUTIONS
 ========================

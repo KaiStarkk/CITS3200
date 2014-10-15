@@ -18,14 +18,14 @@ import java.util.List;
  * CITS3200 Professional Computing
  * GroundIO.java
  * The class that handles the reading in and conversion of a grounds library to usable format
- * @author Markcuz
+ * @author Marcus
  */
 public class GroundsIO {
     
     List<String[]> groundsList;
     /**
      * Constructor for GroundsIO
-     * @param groundsFile 
+     * @param groundsFile the file to be extracted from
      */
     public GroundsIO(File groundsFile) {
         groundsList = new ArrayList<>();
@@ -34,7 +34,7 @@ public class GroundsIO {
     
     /**
      * opens the grounds txt file and adds to the list
-     * @param groundsFile
+     * @param groundsFile the grounds library file
      */
     final public void loadGrounds(File groundsFile) {
         try(BufferedReader br = new BufferedReader(new FileReader(groundsFile))) {
@@ -74,8 +74,8 @@ public class GroundsIO {
     }
     
     /**
-     * selects the given ground and constructs the Ground
-     * @param name
+     * Selects the given ground and constructs the Ground
+     * @param name the name of the ground to be selected
      * @return the ground required
      */
     public Ground chooseGround(String name) {

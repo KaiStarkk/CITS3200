@@ -17,10 +17,10 @@ public class Stint {
 
     /**
      * Constructor.     
-     * @param startTime
-     * @param endTime
-     * @param number
-     * @param period
+     * @param startTime the start of the stint
+     * @param endTime the end of the stint
+     * @param number the number of the stint in the period
+     * @param period the period the stint lies within
      */
     public Stint(int startTime, int endTime, int number, int period) {
         this.startTime = startTime;

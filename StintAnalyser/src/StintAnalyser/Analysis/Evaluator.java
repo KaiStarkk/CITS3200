@@ -12,14 +12,13 @@ import StintAnalyser.Stints.Stint;
  * CITS3200 Professional Computing
  * Evaluator.java
  * Weighs the heuristic results and returns a final answer.
- * Takes input from the {@link GPSHeuristic}, {@link TimeHeuristic}
- * and {@link AccelerometerHeuristic}, to determine whether a player
+ * Takes input from the DataSet, to determine whether a player
  * is playing on the field at a certain time during the game or not.
  * Makes statistical observations to determine the quality of the results,
  * and incorporates this into the answer.
  *
  * @version 1.5 10/10/14
- * @author Group B
+ * @author Marcus and Kieran
  */
 public class Evaluator {
     
@@ -34,10 +33,10 @@ public class Evaluator {
     
     /**
      * Constructor.
-     * @param outputPath
-     * @param playerFile
-     * @param ground
-     * @param gamePeriods
+     * @param outputPath the output path for output of .vid file
+     * @param playerFile the input path of the player file
+     * @param ground the ground to be used in analysis
+     * @param gamePeriods an array of Gameperiod for the current match
      */
     public Evaluator(String outputPath, String playerFile, Ground ground, GamePeriod[] gamePeriods){
         this.outputPath = outputPath;

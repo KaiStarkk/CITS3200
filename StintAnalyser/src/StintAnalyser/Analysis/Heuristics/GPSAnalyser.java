@@ -12,16 +12,21 @@ import StintAnalyser.Stints.Stint;
  * playing on not depending on their GPS position.
  *
  * @version 1.1 20/08/14
- * @author Group B
+ * @author Ashwin and Dean
  */
 public class GPSAnalyser {
-
+        
 	private Column<Integer> timeColumn;
 	private Column<Double> latitudeColumn;
 	private Column<Double> longitudeColumn;
 
 	private Ground ground;
-
+        
+        /**
+         * Constructor for GPS Analyser
+         * @param playerData the DataSet holding all the data from .csv file
+         * @param ground the ground structure that holds information for the current ground in use
+         */
 	public GPSAnalyser(DataSet playerData, Ground ground) {
 		this.timeColumn = playerData.getTimeColumn();
 		this.latitudeColumn = playerData.getGPSLatitudeColumn();
@@ -29,7 +34,11 @@ public class GPSAnalyser {
 
 		this.ground = ground;
 	}
-
+    
+        /**
+         * findStints finds and breaks up the data into small stints corresponding to times where players go on/off the pitch
+         * @return the StintSet containing all stints after broken up
+         */
 	public StintSet findStints() {
 
 		int lastKnown = 0;            // was the player on/off the field in the last time tic? 0 for off, 1 for on.
@@ -77,6 +86,11 @@ public class GPSAnalyser {
 		return GPSStintAttempts;
 	}
 
+        /**
+         * playerIsOnField checks for a player being on the field
+         * @param player the coordinate of the player
+         * @return true iff the player is on the pitch at the given time
+         */
 	private boolean playerIsOnField(GPSCoordinate player) {
             
 		GPSCoordinate origin = this.ground.getOrigin();

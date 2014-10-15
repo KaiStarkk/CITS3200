@@ -16,10 +16,10 @@ public class Ground {
     
         /**
          * Constructor for the Ground
-         * @param name
-         * @param goal1
-         * @param goal2
-         * @param aspectRatio 
+         * @param name the name of the Ground
+         * @param goal1 the coordinate of the 1st goal
+         * @param goal2 the coordinate for the second goal
+         * @param aspectRatio the aspect ratio of the pitch
          */
 	public Ground(String name, GPSCoordinate goal1, GPSCoordinate goal2, double aspectRatio) {
 		this.name = name;
@@ -30,24 +30,40 @@ public class Ground {
     
         /**
          * Transforms the Bearing
-         * @return 
+         * @return the bearing transformed
          */
 	public double getTransformBearing() {
 		return this.goal1.bearingTo(this.goal2);
 	}
-    
+        
+        /**
+         * Returns the aspect ratio
+         * @return the ratio
+         */
 	public double getAspectRatio() {
 		return this.aspectRatio;
 	}
-    
+        
+        /**
+         * Returns the length of the field
+         * @return the field length
+         */
 	public double getFieldLength() {
 		return this.goal1.distanceTo(this.goal2);
 	}
-    
+        
+        /**
+         * Returns the half-way for the pitch
+         * @return the length
+         */
 	public double getHalfFieldWidth() {
 		return (this.getFieldLength() * this.getAspectRatio()) / 2;
 	}
-    
+        
+        /**
+         * Returns the coordinate for the goal origin
+         * @return the goal coordinate
+         */
 	public GPSCoordinate getOrigin() {
 		return this.goal1;
 	}

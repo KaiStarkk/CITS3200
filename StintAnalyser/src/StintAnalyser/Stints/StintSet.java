@@ -25,10 +25,12 @@ public class StintSet {
 	}
 
 	/**
-	 * Writes the StintSet out to a .vid file.
-	 *
-	 * @param path path to write the file to.
-	 */
+         * Writes the StintSet out to a .vid file.
+         * @param path the path for the vid file
+         * @param type the type 
+         * @param version the version
+         * @param periods the amount of periods for the match
+         */
 	    public void writeToVid(String path, String type, String version, int periods) {
         try {
 
@@ -81,7 +83,7 @@ public class StintSet {
 	 * Get the StintSet's i'th item.
 	 *
 	 * @param i the index of the Stint item to retrieve.
-	 * @return
+	 * @return the stint at the given position
 	 */
 	public Stint getStint(int i) {
 		return stintSet.get(i);
