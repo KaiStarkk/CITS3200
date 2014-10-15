@@ -207,9 +207,9 @@ public class DataSet {
 		return gpslong;
 	}
 	/**
-	 * Converts time in the form of HH:MM:SS.MS or MM:SS:MS to absolute milliseconds
+	 * Converts time in the form of HH:MM:SS.MS or HH:MM:SS or MM:SS:MS to absolute milliseconds
 	 *
-	 * @param oldtime A time string in the form of HH:MM:SS.MS or MM:SS:MS 
+	 * @param oldtime A time string in the form of HH:MM:SS.MS or HH:MM:SS or MM:SS:MS 
 	 * @return The input time in the the form of absolute milliseconds
 	 */
 	public int convertTime(String oldtime){
