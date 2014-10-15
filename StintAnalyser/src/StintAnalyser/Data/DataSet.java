@@ -9,6 +9,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * CITS3200 Professional Computing DataSet contains all data pulled from the .csv files
@@ -23,8 +25,8 @@ public class DataSet {
 	//file version
 	public String version;
         
-        //starting time
-        public String timerStart;
+    //starting time
+    public String timerStart;
 
 	//possible set 0-time,1-gps,2-accelerometer
 	//private Column[] columns;
@@ -80,6 +82,17 @@ public class DataSet {
 				throw new IllegalArgumentException("Invalid Input due to having incorrect data fields");
 
 			}
+		
+			HashMap<String,Integer> map = new HashMap<>();
+			for(int i=0;i<5;i++){
+				map.put(headerline[i],i);
+			}
+
+			int[] mapping  = new int[5];
+			for(int i=0;i<headerline.length;i++){
+
+				mapping[i] = map.get(headerline[i]);
+			}
 
 			String current;
 			time = new Column<>();
@@ -104,9 +117,9 @@ public class DataSet {
                 //third element of contents
 				
 
-				time.add(convertTime(contents[0]));
-				load.add(Double.parseDouble(contents[1]));
-				String check2 = contents[2].trim();
+				time.add(convertTime(contents[mapping[0]]));
+				load.add(Double.parseDouble(contents[mapping[1]]));
+				String check2 = contents[mapping[2]].trim();
 
 				if (check2.equals("..")) {
 					gpstime.add(-1);
@@ -116,9 +129,9 @@ public class DataSet {
 				}
 				else{
 
-					gpstime.add(convertTime(contents[2].trim()));
-					gpslat.add(Double.parseDouble(contents[3].trim()));
-					gpslong.add(Double.parseDouble(contents[4].trim()));
+					gpstime.add(convertTime(contents[mapping[2]].trim()));
+					gpslat.add(Double.parseDouble(contents[mapping[3]].trim()));
+					gpslong.add(Double.parseDouble(contents[mapping[4]].trim()));
 				}
 				/*for (int i = 0; i < 5; i++) {
 
