@@ -70,15 +70,19 @@ public class DataSet {
                         
 			String check = reader.readLine();
 			String[] headerline = check.split(",");
+			for(int i=0;i<headerline.length;i++){
+
+				headerline[i] = headerline[i].strip();
+			}
             //String checker = "Time, Plyr. Load, GPS Time, GPS Latitude, GPS Longitude, /n";
 
 			//exception will be changed
 			//if (!check.equals("Time, Plyr. Load, GPS Time, GPS Latitude, GPS Longitude, ")) {''
 
-			if(headerline.length != 6 && !(Arrays.asList(headerline).contains("Time") &&  Arrays.asList(headerline).contains(" Plyr. Load") && 
-									Arrays.asList(headerline).contains(" GPS Time") && Arrays.asList(headerline).contains(" GPS Latitude") && 
-									Arrays.asList(headerline).contains(" GPS Longitude"))){
-				//file invalid error 
+			if(headerline.length != 6 && !(Arrays.asList(headerline).contains("Time") &&  Arrays.asList(headerline).contains("Plyr. Load") && 
+									Arrays.asList(headerline).contains("GPS Time") && Arrays.asList(headerline).contains("GPS Latitude") && 
+									Arrays.asList(headerline).contains("GPS Longitude"))){
+
 				throw new IllegalArgumentException("Invalid Input due to having incorrect data fields");
 
 			}
@@ -133,12 +137,7 @@ public class DataSet {
 					gpslat.add(Double.parseDouble(contents[mapping[3]].trim()));
 					gpslong.add(Double.parseDouble(contents[mapping[4]].trim()));
 				}
-				/*for (int i = 0; i < 5; i++) {
-
-					String content = contents[i].trim();
-					columns[i].add(content);
-
-				}*/
+	
 
 
 
