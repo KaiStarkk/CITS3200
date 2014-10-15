@@ -72,7 +72,7 @@ public class DataSet {
 			String[] headerline = check.split(",");
 			for(int i=0;i<headerline.length;i++){
 
-				headerline[i] = headerline[i].strip();
+				headerline[i] = headerline[i].trim();
 			}
             //String checker = "Time, Plyr. Load, GPS Time, GPS Latitude, GPS Longitude, /n";
 
