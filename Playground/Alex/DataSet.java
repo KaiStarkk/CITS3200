@@ -4,13 +4,16 @@
  * and open the template in the editor.
  */
 
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
 
 /**
- *
+ * CITS3200 Professional Computing DataSet contains all data pulled from the .csv files
  * @author Kieran
  */
 public class DataSet {
@@ -21,6 +24,9 @@ public class DataSet {
 
 	//file version
 	public String version;
+        
+    //starting time
+    public String timerStart;
 
 	//possible set 0-time,1-gps,2-accelerometer
 	//private Column[] columns;
@@ -50,25 +56,55 @@ public class DataSet {
 			type = fsplit[0];
 			version = fsplit[1];
 
-			for (int i = 1; i < 7; i++) {
+			// Skip lines
+                        for (int i = 1; i < 4; i++) {
 				reader.readLine();
 			}
+                        
+                        timerStart = reader.readLine().substring(5);
+                        
+                        // Skip lines
+                        for (int i = 1; i < 3; i++) {
+				reader.readLine();
+			}
+                        
 			String check = reader.readLine();
+			String[] headerline = check.split(",");
+			for(int i=0;i<headerline.length;i++){
+
+				headerline[i] = headerline[i].trim();
+			}
             //String checker = "Time, Plyr. Load, GPS Time, GPS Latitude, GPS Longitude, /n";
 
 			//exception will be changed
-			if (!check.equals("Time, Plyr. Load, GPS Time, GPS Latitude, GPS Longitude, ")) {
-				//file invalid error 
+			//if (!check.equals("Time, Plyr. Load, GPS Time, GPS Latitude, GPS Longitude, ")) {''
+
+			if(headerline.length != 6 && !(Arrays.asList(headerline).contains("Time") &&  Arrays.asList(headerline).contains("Plyr. Load") && 
+									Arrays.asList(headerline).contains("GPS Time") && Arrays.asList(headerline).contains("GPS Latitude") && 
+									Arrays.asList(headerline).contains("GPS Longitude"))){
+
 				throw new IllegalArgumentException("Invalid Input due to having incorrect data fields");
 
 			}
+			String[] defaultmap = {"Time","Plyr. Load","GPS Time","GPS Latitude","GPS Longitude"};
+			
+			HashMap<String,Integer> map = new HashMap<>();
+			for(int i=0;i<5;i++){
+				map.put(defaultmap[i],i);
+			}
+
+			int[] mapping  = new int[5];
+			for(int i=0;i<5;i++){
+
+				mapping[i] = map.get(headerline[i]);
+			}
 
 			String current;
-			time = new Column<Integer>();
-			load = new Column<Double>();
-			gpstime = new Column<Integer>();
-			gpslat = new Column<Double>();
-			gpslong= new Column<Double>();
+			time = new Column<>();
+			load = new Column<>();
+			gpstime = new Column<>();
+			gpslat = new Column<>();
+			gpslong= new Column<>();
 
 			//columns = new Column[5];
 
@@ -86,9 +122,9 @@ public class DataSet {
                 //third element of contents
 				
 
-				time.add(convertTime(contents[0]));
-				load.add(Double.parseDouble(contents[1]));
-				String check2 = contents[2].trim();
+				time.add(convertTime(contents[mapping[0]]));
+				load.add(Double.parseDouble(contents[mapping[1]]));
+				String check2 = contents[mapping[2]].trim();
 
 				if (check2.equals("..")) {
 					gpstime.add(-1);
@@ -98,16 +134,11 @@ public class DataSet {
 				}
 				else{
 
-					gpstime.add(convertTime(contents[2].trim()));
-					gpslat.add(Double.parseDouble(contents[3].trim()));
-					gpslong.add(Double.parseDouble(contents[4].trim()));
+					gpstime.add(convertTime(contents[mapping[2]].trim()));
+					gpslat.add(Double.parseDouble(contents[mapping[3]].trim()));
+					gpslong.add(Double.parseDouble(contents[mapping[4]].trim()));
 				}
-				/*for (int i = 0; i < 5; i++) {
-
-					String content = contents[i].trim();
-					columns[i].add(content);
-
-				}*/
+	
 
 
 
@@ -177,12 +208,12 @@ public class DataSet {
 		return gpslong;
 	}
 	/**
-	 * Converts time in the form of HH:MM:SS:MS or MM:SS:MS to absolute milliseconds
+	 * Converts time in the form of HH:MM:SS.MS or HH:MM:SS or MM:SS:MS to absolute milliseconds
 	 *
-	 * @param oldtime A time string in the form of HH:MM:SS:MS or MM:SS:MS 
+	 * @param oldtime A time string in the form of HH:MM:SS.MS or HH:MM:SS or MM:SS:MS 
 	 * @return The input time in the the form of absolute milliseconds
 	 */
-	private int convertTime(String oldtime){
+	public int convertTime(String oldtime){
 		int totaltime = 0;
 		try{
 			String[] splitter = oldtime.split(":");
@@ -230,3 +261,4 @@ public class DataSet {
 
 
 }
+
