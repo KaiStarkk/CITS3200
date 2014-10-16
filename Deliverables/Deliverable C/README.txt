@@ -1,4 +1,4 @@
-STINT Analyser for Catapult Sprint README
+﻿STINT Analyser for Catapult Sprint README
 =========================================
 
 INTRODUCTION
@@ -25,6 +25,8 @@ CONFIGURATION
 
 In order to use STINT Analyser, .csv files must be exported from Catapult Sprint having the correct fields in any order:
 Time, Plyr. Load, GPS Time, GPS Latitude, GPS Longitude
+
+Ensure GPS Latitude and GPS Longtitude are selected, Catapult Sprint also has Latitude and Longitude fields but STINT Analyser only works with GPS Latitude and GPS Longtitude
 
 To create a .csv file with the correct fields:
 1. Open Catapult Sprint and load a .raw player file in the Graph Setup tab
