@@ -45,6 +45,7 @@ public class DataSet {
 	 * @param path the path to read .csv data from.
 	 */
 	public DataSet(String path) {
+
 		try {
 			File file = new File(path);
 			BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -86,10 +87,11 @@ public class DataSet {
 				throw new IllegalArgumentException("Invalid Input due to having incorrect data fields");
 
 			}
-		
+			String[] defaultmap = {"Time","Plyr. Load","GPS Time","GPS Latitude","GPS Longitude"};
+			
 			HashMap<String,Integer> map = new HashMap<>();
 			for(int i=0;i<5;i++){
-				map.put(headerline[i],i);
+				map.put(defaultmap[i],i);
 			}
 
 			int[] mapping  = new int[5];
@@ -260,4 +262,3 @@ public class DataSet {
 
 
 }
-
