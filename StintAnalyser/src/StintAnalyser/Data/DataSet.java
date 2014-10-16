@@ -97,7 +97,7 @@ public class DataSet {
 			int[] mapping  = new int[5];
 			for(int i=0;i<5;i++){
 
-				mapping[i] = map.get(headerline[i]);
+				mapping[map.get(headerline[i])] = i;
 			}
 
 			String current;
