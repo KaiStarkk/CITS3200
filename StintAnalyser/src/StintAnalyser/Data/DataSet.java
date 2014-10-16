@@ -6,6 +6,7 @@
 package StintAnalyser.Data;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -44,10 +45,9 @@ public class DataSet {
 	 * @param path the path to read .csv data from.
 	 */
 	public DataSet(String path) {
-
 		try {
-
-			BufferedReader reader = new BufferedReader(new FileReader(path));
+			File file = new File(path);
+			BufferedReader reader = new BufferedReader(new FileReader(file));
 			
 
 			String firstline = reader.readLine();

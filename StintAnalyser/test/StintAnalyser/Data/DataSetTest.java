@@ -5,6 +5,7 @@
  */
 package StintAnalyser.Data;
 
+import java.io.File;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -13,108 +14,60 @@ import static org.junit.Assert.*;
  * @author Dean
  */
 public class DataSetTest {
-	private String pathToSource = "/home/dean/Documents/CITS3200/";
+	private String pathToSource = "/home/dean/Documents/CITS3200/"; //dean
+//	private String pathToSource = "/CITS3200/"; //cameron
 	
-	private DataSet andrewDataSet;
-	private DataSet aranDataSet;
-	private DataSet chrisDataSet;
+	private DataSet[] dataSets = {
+		new DataSet(pathToSource + "StintAnalyser/Input/Perth Stadium A/Andrew Philpott 4721 201305031758.csv"),
+		new DataSet(pathToSource + "StintAnalyser/Input/Perth Stadium B/Aran Zalewski 4727 201305031758.csv"),
+		new DataSet(pathToSource + "StintAnalyser/Input/Adelaide SH/Dylan Wotherspoon 4710 201410041308.csv"),
+	};
 	
-	public DataSetTest() {	
-		this.andrewDataSet = new DataSet(pathToSource + "StintAnalyser/Input/GPS Stint Detector/Data Files/Andrew Philpott 4721 201305031758.csv");
-		this.aranDataSet = new DataSet(pathToSource + "StintAnalyser/Input/GPS Stint Detector/Data Files/Aran Zalewski 4727 201305031758.csv");
-		this.chrisDataSet = new DataSet(pathToSource + "StintAnalyser/Input/GPS Stint Detector/Data Files/Chris Bausor 4711 201305031758.csv");
-	}
+	private String[] playerNames = {
+		"Andrew",
+		"Aran",
+		"Dylan"
+	};
 
+	private void testLineInt(int expected, Column column, int line) {
+		int result = (Integer)column.get(line - 9); 
+		System.out.println("Expected: " + expected + ", Result: " + result);
+		assertEquals(expected, result);
+	}
+	
+	private void testLineDouble(double expected, Column column, int line) {
+		double result = (Double)column.get(line - 9); 
+		System.out.println("Expected: " + expected + ", Result: " + result);
+		assertEquals(expected, result, 0.0);
+	}
+	
 	/**
 	 * Test of getTimeColumn method, of class DataSet.
 	 */
 	@Test
 	public void testGetTimeColumn() {
-		Column<Integer> andrewColumn = this.andrewDataSet.getTimeColumn();
-		Column<Integer> aranColumn = this.aranDataSet.getTimeColumn();
-		Column<Integer> chrisColumn = this.chrisDataSet.getTimeColumn();
+		DataSet[] dataSets = this.dataSets;
 		
-		int expected,
-			result;
+		int[][] linesSelected = {
+			{9, 10, 33905, 80294}, //andrew
+			{9, 10, 20430, 86133}, //aran
+			{9, 10, 47163, 67504}, //dylan
+		};
 		
-		//************Andrew file*****************
-		System.out.println("Checking time column of andrew file.");
-		//line 9 - first line of data
-		expected = 1;
-		result = andrewColumn.get(9 - 9); 
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result);
+		int[][] expecteds = {
+			{1, 7, 338965, 802857}, //andrew
+			{1, 8, 204220, 861251}, //aran
+			{1, 4, 471550, 674960}, //aran
+		};
 		
-		//line 10 - second line of data
-		expected = 7;
-		result = andrewColumn.get(10 - 9); 
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result);
-		
-		//line 33905
-		expected = 338965;
-		result = andrewColumn.get(33905 - 9); 
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result);
-		
-		//last line of file
-		expected = 802857;
-		result = andrewColumn.get(80294 - 9);
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result);
-		
-		
-		//************Aran file*****************
-		System.out.println("Checking time column of aran file.");
-		//line 9 - first line of data
-		expected = 1;
-		result = aranColumn.get(9 - 9); 
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result);
-		
-		//line 10 - second line of data
-		expected = 8;
-		result = aranColumn.get(10 - 9); 
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result);
-		
-		//line 20430
-		expected = 204220;
-		result = aranColumn.get(20430 - 9); 
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result);
-		
-		//last line of file
-		expected = 861251;
-		result = aranColumn.get(86133 - 9);
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result);
-		
-		//************Chris file*****************
-		System.out.println("Checking time column of chris file.");
-		//line 9 - first line of data
-		expected = 1;
-		result = chrisColumn.get(9 - 9); 
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result);
-		
-		//line 10 - second line of data
-		expected = 8;
-		result = chrisColumn.get(10 - 9); 
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result);
-		
-		//line 55271
-		expected = 552624;
-		result = chrisColumn.get(55271 - 9); 
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result);
-		
-		//last line of file
-		expected = 804756;
-		result = chrisColumn.get(80484 - 9);
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result);
+		for (int i = 0, l = dataSets.length; i < l; i++) {
+			System.out.println("Testing time column for " + this.playerNames[i]);
+			Column<Integer> column = dataSets[i].getTimeColumn();
+			
+			for (int j = 0; j < expecteds[i].length; j++) {
+				this.testLineInt(expecteds[i][j], column, linesSelected[i][j]);
+			}
+		}
 	}
 
 	/**
@@ -122,91 +75,28 @@ public class DataSetTest {
 	 */
 	@Test
 	public void testGetGPStimeColumn() {
-		Column<Integer> andrewColumn = this.andrewDataSet.getGPStimeColumn();
-		Column<Integer> aranColumn = this.aranDataSet.getGPStimeColumn();
-		Column<Integer> chrisColumn = this.chrisDataSet.getGPStimeColumn();
+		DataSet[] dataSets = this.dataSets;
 		
-		int  expected,
-				result;
+		int[][] linesSelected = {
+			{9, 10, 33905, 80294}, //andrew
+			{9, 10, 20430, 86133}, //aran
+			{9, 10, 47163, 67504}, //dylan
+		};
 		
-		//************Andrew file*****************
-		System.out.println("Checking GPS time column of andrew file.");
-		//line 9 - first line of data
-		expected = -1;
-		result = andrewColumn.get(9 - 9);
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result);
+		int[][] expecteds = {
+			{-1, -1, 6808600, 7272500}, //andrew
+			{-1, -1, 6679100, 7336100}, //aran
+			{-1, -1, 4660700, 4864100}, //aran
+		};
 		
-		//line 10 - second line of data
-		expected =  -1;
-		result = andrewColumn.get(10 - 9);
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result);
-		
-		//line 33905
-		expected = 6808600;
-		result = andrewColumn.get(33905 - 9);
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result);
-		
-		//last line of file
-		expected = 7272500;
-		result = andrewColumn.get(80294 - 9);
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result);
-		
-		
-		//************Aran file*****************
-		System.out.println("Checking GPS time column of aran file.");
-		//line 9 - first line of data
-		expected =  -1;
-		result = andrewColumn.get(9 - 9); 
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result);
-		
-		//line 10 - second line of data
-		expected =  -1;
-		result = andrewColumn.get(10 - 9); 
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result);
-		
-		//line 20430
-		expected = 6679100;
-		result = aranColumn.get(20430 - 9); 
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result);
-		
-		//last line of file
-		expected = 7336100;
-		result = aranColumn.get(86133 - 9);
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result);
-		
-		//************Chris file*****************
-		System.out.println("Checking GPS time column of chris file.");
-		//line 9 - first line of data
-		expected =  -1;
-		result = andrewColumn.get(9 - 9); 
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result);
-		
-		//line 10 - second line of data
-		expected =  -1;
-		result = andrewColumn.get(10 - 9); 
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result);
-		
-		//line 55271
-		expected = 7024600;
-		result = chrisColumn.get(55271 - 9); 
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result);
-		
-		//last line of file
-		expected = 7276700;
-		result = chrisColumn.get(80484 - 9);
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result);
+		for (int i = 0, l = dataSets.length; i < l; i++) {
+			System.out.println("Testing GPS time column for " + this.playerNames[i]);
+			Column<Integer> column = dataSets[i].getGPStimeColumn();
+			
+			for (int j = 0; j < expecteds[i].length; j++) {
+				this.testLineInt(expecteds[i][j], column, linesSelected[i][j]);
+			}
+		}
 	}
 
 	/**
@@ -214,91 +104,28 @@ public class DataSetTest {
 	 */
 	@Test
 	public void testGetGPSLatitudeColumn() {
-		Column<Double> andrewColumn = this.andrewDataSet.getGPSLatitudeColumn();
-		Column<Double> aranColumn = this.aranDataSet.getGPSLatitudeColumn();
-		Column<Double> chrisColumn = this.chrisDataSet.getGPSLatitudeColumn();
+		DataSet[] dataSets = this.dataSets;
 		
-		double expected,
-			result;
+		int[][] linesSelected = {
+			{9, 10, 33905, 80294}, //andrew
+			{9, 10, 20430, 86133}, //aran
+			{9, 10, 47163, 67504}, //dylan
+		};
 		
-		//************Andrew file*****************
-		System.out.println("Checking latitude column of andrew file.");
-		//line 9 - first line of data
-		expected = -1.0;
-		result = andrewColumn.get(9 - 9); 
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result, 0.0);
+		double[][] expecteds = {
+			{-1, -1, -32.00034004, -32.00033744}, //andrew
+			{-1, -1, -32.00006784, -32.00013754}, //aran
+			{-34.8424318, -34.8424318, -34.8423876, -34.8424154}, //aran
+		};
 		
-		//line 10 - second line of data
-		expected =  -1.0;
-		result = andrewColumn.get(10 - 9); 
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result, 0.0);
-		
-		//line 33905
-		expected = -32.00034004;
-		result = andrewColumn.get(33905 - 9); 
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result, 0.0);
-		
-		//last line of file
-		expected = -32.00033744;
-		result = andrewColumn.get(80294 - 9);
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result, 0.0);
-		
-		
-		//************Aran file*****************
-		System.out.println("Checking latitude column of aran file.");
-		//line 9 - first line of data
-		expected =  -1.0;
-		result = andrewColumn.get(9 - 9); 
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result, 0.0);
-		
-		//line 10 - second line of data
-		expected =  -1.0;
-		result = andrewColumn.get(10 - 9); 
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result, 0.0);
-		
-		//line 20430
-		expected = -32.00006784;
-		result = aranColumn.get(20430 - 9); 
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result, 0.0);
-		
-		//last line of file
-		expected = -32.00013754;
-		result = aranColumn.get(86133 - 9);
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result, 0.0);
-		
-		//************Chris file*****************
-		System.out.println("Checking latitude column of chris file.");
-		//line 9 - first line of data
-		expected =  -1.0;
-		result = andrewColumn.get(9 - 9); 
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result, 0.0);
-		
-		//line 10 - second line of data
-		expected =  -1.0;
-		result = andrewColumn.get(10 - 9); 
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result, 0.0);
-		
-		//line 55271
-		expected = -31.99814384;
-		result = chrisColumn.get(55271 - 9); 
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result, 0.0);
-		
-		//last line of file
-		expected = -32.00024754;
-		result = chrisColumn.get(80484 - 9);
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result, 0.0);
+		for (int i = 0, l = dataSets.length; i < l; i++) {
+			System.out.println("Testing latitude column for " + this.playerNames[i]);
+			Column<Integer> column = dataSets[i].getGPSLatitudeColumn();
+			
+			for (int j = 0; j < expecteds[i].length; j++) {
+				this.testLineDouble(expecteds[i][j], column, linesSelected[i][j]);
+			}
+		}
 	}
 
 	/**
@@ -306,91 +133,28 @@ public class DataSetTest {
 	 */
 	@Test
 	public void testGetGPSLongitudeColumn() {
-		Column<Double> andrewColumn = this.andrewDataSet.getGPSLongitudeColumn();
-		Column<Double> aranColumn = this.aranDataSet.getGPSLongitudeColumn();
-		Column<Double> chrisColumn = this.chrisDataSet.getGPSLongitudeColumn();
+		DataSet[] dataSets = this.dataSets;
 		
-		double expected,
-			result;
+		int[][] linesSelected = {
+			{9, 10, 33905, 80294}, //andrew
+			{9, 10, 20430, 86133}, //aran
+			{9, 10, 47163, 67504}, //dylan
+		};
 		
-		//************Andrew file*****************
-		System.out.println("Checking longitude column of andrew file.");
-		//line 9 - first line of data
-		expected = -1.0;
-		result = andrewColumn.get(9 - 9); 
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result, 0.0);
+		double[][] expecteds = {
+			{-1, -1, 115.8917411, 115.8912501}, //andrew
+			{-1, -1, 115.8917406, 115.8915252}, //aran
+			{138.60764236, 138.60764236, 138.60844886, 138.60798516}, //aran
+		};
 		
-		//line 10 - second line of data
-		expected =  -1.0;
-		result = andrewColumn.get(10 - 9); 
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result, 0.0);
-		
-		//line 33905
-		expected = 115.8917411;
-		result = andrewColumn.get(33905 - 9); 
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result, 0.0);
-		
-		//last line of file
-		expected = 115.8912501;
-		result = andrewColumn.get(80294 - 9);
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result, 0.0);
-		
-		
-		//************Aran file*****************
-		System.out.println("Checking longitude column of aran file.");
-		//line 9 - first line of data
-		expected =  -1.0;
-		result = andrewColumn.get(9 - 9); 
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result, 0.0);
-		
-		//line 10 - second line of data
-		expected =  -1.0;
-		result = andrewColumn.get(10 - 9); 
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result, 0.0);
-		
-		//line 20430
-		expected = 115.8917406;
-		result = aranColumn.get(20430 - 9); 
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result, 0.0);
-		
-		//last line of file
-		expected = 115.8915252;
-		result = aranColumn.get(86133 - 9);
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result, 0.0);
-		
-		//************Chris file*****************
-		System.out.println("Checking longitude column of chris file.");
-		//line 9 - first line of data
-		expected =  -1.0;
-		result = andrewColumn.get(9 - 9); 
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result, 0.0);
-		
-		//line 10 - second line of data
-		expected =  -1.0;
-		result = andrewColumn.get(10 - 9); 
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result, 0.0);
-		
-		//line 55271
-		expected = 115.8886809;
-		result = chrisColumn.get(55271 - 9); 
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result, 0.0);
-		
-		//last line of file
-		expected = 115.8912447;
-		result = chrisColumn.get(80484 - 9);
-		System.out.println("Expected: " + expected + ", Result: " + result);
-		assertEquals(expected, result, 0.0);
+		for (int i = 0, l = dataSets.length; i < l; i++) {
+			System.out.println("Testing longitude column for " + this.playerNames[i]);
+			Column<Integer> column = dataSets[i].getGPSLongitudeColumn();
+			
+			for (int j = 0; j < expecteds[i].length; j++) {
+				this.testLineDouble(expecteds[i][j], column, linesSelected[i][j]);
+			}
+		}
 	}
 	
 }
