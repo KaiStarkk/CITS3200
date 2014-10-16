@@ -14,8 +14,8 @@ import static org.junit.Assert.*;
  * @author Dean
  */
 public class DataSetTest {
-	private String pathToSource = "/home/dean/Documents/CITS3200/"; //dean
-//	private String pathToSource = "/CITS3200/"; //cameron
+//	private String pathToSource = "/home/dean/Documents/CITS3200/"; //dean
+	private String pathToSource = "C:/Users/Cameron/Documents/GitHub/CITS3200/"; //cameron
 	
 	private DataSet[] dataSets = {
 		new DataSet(pathToSource + "StintAnalyser/Input/Perth Stadium A/Andrew Philpott 4721 201305031758.csv"),

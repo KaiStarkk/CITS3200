@@ -126,24 +126,28 @@ public class DataSet {
 				time.add(convertTime(contents[mapping[0]]));
 				load.add(Double.parseDouble(contents[mapping[1]]));
 				String check2 = contents[mapping[2]].trim();
-
-				if (check2.equals("..")) {
+                                String latCheck = contents[mapping[3]].trim();
+                                String longCheck = contents[mapping[4]].trim();
+				
+                                if (check2.equals("..")) {
 					gpstime.add(-1);
-					gpslat.add(-1.0);
-					gpslong.add(-1.0);
-
 				}
 				else{
-
-					gpstime.add(convertTime(contents[mapping[2]].trim()));
-					gpslat.add(Double.parseDouble(contents[mapping[3]].trim()));
-					gpslong.add(Double.parseDouble(contents[mapping[4]].trim()));
+                                    gpstime.add(convertTime(contents[mapping[2]].trim()));
 				}
-	
-
-
-
-
+                                
+                                if(latCheck.equals("----")){
+                                    gpslat.add(-1.0);
+                                }else{
+                                    gpslat.add(Double.parseDouble(contents[mapping[3]].trim()));
+                                }
+                                
+                                if(longCheck.equals("----")){
+                                    gpslong.add(-1.0);
+                                }else{
+                                    gpslong.add(Double.parseDouble(contents[mapping[4]].trim()));
+                                }
+  
 			}
 			reader.close();
 
