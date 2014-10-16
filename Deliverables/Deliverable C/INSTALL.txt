@@ -11,11 +11,14 @@ REQUIREMENTS AND NOTES
 INSTALLATION
 ============
 
-To install, simply download STINT.zip from : 
+To install, simply download STINT from 
+
+
+If you wish to download and install the source code in addition to STINT:
+
 Unzip .zip file using you favourite unzipping service
 Double click on STINT.jar
-
-Additional documentation is included in the javadocs folder.
+Additional documentation is included in the javadocs folder
 
 CONFIGURATION
 =============

@@ -1,4 +1,4 @@
-﻿STINT Analyser for Catapult Sprint README
+STINT Analyser for Catapult Sprint README
 =========================================
 
 INTRODUCTION
@@ -37,9 +37,11 @@ Upon opening STINT Analyser, a graphical user interface (GUI) appears.
 User then can fill in the various fields including:
 1. Select the player .csv files that are to be analysed/the folder where .csv files for the match are stored
 2. Select the grounds library file
-3. Select the grounds for the match
-4. Input start/finish times for each period of the match
-5. Press Analyse.
+3. Select the players that are to be analysed for that ground
+4. Select the grounds for the match
+5. Input start times for the match
+6. Input the time taken for each period
+7. Press Analyse.
 
 DIRECTORY ORGANISATION
 ======================
