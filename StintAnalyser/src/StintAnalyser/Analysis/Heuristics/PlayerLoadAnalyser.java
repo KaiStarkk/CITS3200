@@ -34,8 +34,8 @@ public class PlayerLoadAnalyser {
             Column time = dataSet.getTimeColumn();
             Column pLoad = dataSet.getPlayerLoadColumn();
             
-            int indexStart = time.getIndex(start);
-            int indexEnd = time.getIndex(end);
+            int indexStart = time.getIndexInRange(start);
+            int indexEnd = time.getIndexInRange(end);
             
             int index = indexStart;
             double totalpLoad = 0;

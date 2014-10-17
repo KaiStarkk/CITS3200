@@ -9,6 +9,7 @@ import StintAnalyser.Grounds.Ground;
 import StintAnalyser.Grounds.GroundsIO;
 import StintAnalyser.Stints.StintSet;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -227,8 +228,18 @@ public class MainUIController implements Initializable {
      */
     @FXML
     private void loadGame(ActionEvent event) {
-        if (groundsIO == null) {
-            statusLbl.setText("Please select a grounds library file, then load the chosen item again.");
+        if (groundsFile == null || !groundsFile.isFile()) {
+            groundsFile = new File(System.getenv("LOCALAPPDATA") + File.separator +  
+                                                    "Catapult Innovations" + File.separator +
+                                                    "Logan Plus" + File.separator +
+                                                    "Grounds.txt");
+            if (groundsFile == null || !groundsFile.isFile()) {
+                statusLbl.setText("Please select a grounds library file, then load the chosen item again.");
+            } else {
+                groundsIO = new GroundsIO(groundsFile);
+                groundsBox.setItems(FXCollections.observableArrayList(groundsIO.groundNames()));
+                loadGame(event);
+            }
         } else {
             try {
                 TreeItem<String> currentItem = (TreeItem<String>) tree.getSelectionModel().getSelectedItems().get(0);
@@ -308,7 +319,7 @@ public class MainUIController implements Initializable {
     @FXML
     private void processPlayers(ActionEvent event) {
         ObservableList<String> selectedPlayers = playerList.getSelectionModel().getSelectedItems();
-        GameTime startTime = getStart();
+        String startTime = gameStartTextArea.getText();
         GamePeriod[] gamePeriods = getPeriods();
         if (selectedPlayers.isEmpty()) {
             statusLbl.setText("Select at least one player from the list.");
@@ -341,7 +352,7 @@ public class MainUIController implements Initializable {
         }
     }
     
-    private void processPlayer(String player, GameTime startTime, GamePeriod[] gamePeriods) {
+    private void processPlayer(String player, String startTime, GamePeriod[] gamePeriods) {
         Ground ground = groundsIO.chooseGround((String) groundsBox.getSelectionModel().getSelectedItem());
         Evaluator evaluator = new Evaluator(selectedPath, player, ground, startTime, gamePeriods);
         evaluator.compile();
@@ -360,17 +371,6 @@ public class MainUIController implements Initializable {
         }
         
         return gamePeriods;
-    }
-    
-    private GameTime getStart() {
-        GameTime startTime;
-        try {
-            startTime = new GameTime(gameStartTextArea.getText());
-        } catch (IllegalArgumentException e) {
-            return null;
-        }
-        
-        return startTime;
     }
     
     /*
