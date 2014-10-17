@@ -66,7 +66,7 @@ public class Evaluator {
         
         StintSet combinedStints;
         StintSet filteredStints;
-        
+        //filteredStints = gpsResults;
         combinedStints = combine(gpsResults);
         filteredStints = filter(combinedStints);
         
@@ -148,11 +148,7 @@ public class Evaluator {
 					- gpsResults.getStint(stintIndex).getEndTime()) < tolerance)
 			) {    
 				//this is adding in the fuctionality of the playerload
-                //PlayerLoadAnalyser playerLoad;
-                //playerLoad = new PlayerLoadAnalyser(dataSet);
-                //if(playerLoad.average(gpsResults.getStint(stintIndex+1).getStartTime(), gpsResults.getStint(stintIndex).getEndTime())<playerLoadTolerance) {
                     stintIndex++;
-                //}
             }
             PlayerLoadAnalyser playerLoad;
             playerLoad = new PlayerLoadAnalyser(dataSet);
@@ -164,6 +160,7 @@ public class Evaluator {
             stintIndex++;
             startCount = stintIndex;       
         }
+		
         // Add last stint
         if (gpsResults.size() != 0) {
 			stintIndex--;

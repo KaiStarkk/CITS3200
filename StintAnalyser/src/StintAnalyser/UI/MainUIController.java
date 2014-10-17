@@ -340,7 +340,10 @@ public class MainUIController implements Initializable {
                     int total = selectedPlayers.size();
                     updateProgress(completed, total);
                     for (String player : selectedPlayers) {
+						double timeMeasureStart = System.nanoTime();
                         processPlayer(player, startTime, gamePeriods);
+						double timeMeasureEnd = System.nanoTime();
+						System.out.println((timeMeasureEnd - timeMeasureStart)/1000000000.0);
                         completed++;
                         updateProgress(completed, total);
                     }
