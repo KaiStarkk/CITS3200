@@ -14,7 +14,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 /**
- * CITS3200 Professional Computing DataSet contains all data pulled from the .csv files
+ * CITS3200 Professional Computing DataSet contains all data pulled from the
+ * .csv files
+ *
  * @author Kieran
  */
 public class DataSet {
@@ -25,9 +27,9 @@ public class DataSet {
 
 	//file version
 	public String version;
-        
-    //starting time
-    public String timerStart;
+
+	//starting time
+	public String timerStart;
 
 	//possible set 0-time,1-gps,2-accelerometer
 	//private Column[] columns;
@@ -36,7 +38,6 @@ public class DataSet {
 	private Column<Integer> gpstime;
 	private Column<Double> gpslat;
 	private Column<Double> gpslong;
-
 
 	/**
 	 * Constructor. Constructs the array of columns which will then be passed to
@@ -49,7 +50,6 @@ public class DataSet {
 		try {
 			File file = new File(path);
 			BufferedReader reader = new BufferedReader(new FileReader(file));
-			
 
 			String firstline = reader.readLine();
 			String[] fsplit = firstline.split(" ");
@@ -58,20 +58,20 @@ public class DataSet {
 			version = fsplit[1];
 
 			// Skip lines
-                        for (int i = 1; i < 4; i++) {
+			for (int i = 1; i < 4; i++) {
 				reader.readLine();
 			}
-                        
-                        timerStart = reader.readLine().substring(5);
-                        
-                        // Skip lines
-                        for (int i = 1; i < 3; i++) {
+
+			timerStart = reader.readLine().substring(5);
+
+			// Skip lines
+			for (int i = 1; i < 3; i++) {
 				reader.readLine();
 			}
-                        
+
 			String check = reader.readLine();
 			String[] headerline = check.split(",");
-			for(int i=0;i<headerline.length;i++){
+			for (int i = 0; i < headerline.length; i++) {
 
 				headerline[i] = headerline[i].trim();
 			}
@@ -79,23 +79,22 @@ public class DataSet {
 
 			//exception will be changed
 			//if (!check.equals("Time, Plyr. Load, GPS Time, GPS Latitude, GPS Longitude, ")) {''
-
-			if(headerline.length != 6 && !(Arrays.asList(headerline).contains("Time") &&  Arrays.asList(headerline).contains("Plyr. Load") && 
-									Arrays.asList(headerline).contains("GPS Time") && Arrays.asList(headerline).contains("GPS Latitude") && 
-									Arrays.asList(headerline).contains("GPS Longitude"))){
+			if (headerline.length != 6 && !(Arrays.asList(headerline).contains("Time") && Arrays.asList(headerline).contains("Plyr. Load")
+					&& Arrays.asList(headerline).contains("GPS Time") && Arrays.asList(headerline).contains("GPS Latitude")
+					&& Arrays.asList(headerline).contains("GPS Longitude"))) {
 
 				throw new IllegalArgumentException("Invalid Input due to having incorrect data fields");
 
 			}
-			String[] defaultmap = {"Time","Plyr. Load","GPS Time","GPS Latitude","GPS Longitude"};
-			
-			HashMap<String,Integer> map = new HashMap<>();
-			for(int i=0;i<5;i++){
-				map.put(defaultmap[i],i);
+			String[] defaultmap = {"Time", "Plyr. Load", "GPS Time", "GPS Latitude", "GPS Longitude"};
+
+			HashMap<String, Integer> map = new HashMap<>();
+			for (int i = 0; i < 5; i++) {
+				map.put(defaultmap[i], i);
 			}
 
-			int[] mapping  = new int[5];
-			for(int i=0;i<5;i++){
+			int[] mapping = new int[5];
+			for (int i = 0; i < 5; i++) {
 
 				mapping[map.get(headerline[i])] = i;
 			}
@@ -105,12 +104,10 @@ public class DataSet {
 			load = new Column<>();
 			gpstime = new Column<>();
 			gpslat = new Column<>();
-			gpslong= new Column<>();
+			gpslong = new Column<>();
 
 			//columns = new Column[5];
-
 			while ((current = reader.readLine()) != null) {
-
 
 				String[] contents = current.split(",");
 
@@ -121,33 +118,30 @@ public class DataSet {
 				}
 
                 //third element of contents
-				
-
 				time.add(convertTime(contents[mapping[0]]));
 				load.add(Double.parseDouble(contents[mapping[1]]));
 				String check2 = contents[mapping[2]].trim();
-                                String latCheck = contents[mapping[3]].trim();
-                                String longCheck = contents[mapping[4]].trim();
-				
-                                if (check2.equals("..")) {
+				String latCheck = contents[mapping[3]].trim();
+				String longCheck = contents[mapping[4]].trim();
+
+				if (check2.equals("..")) {
 					gpstime.add(-1);
+				} else {
+					gpstime.add(convertTime(contents[mapping[2]].trim()));
 				}
-				else{
-                                    gpstime.add(convertTime(contents[mapping[2]].trim()));
+
+				if (latCheck.equals("----")) {
+					gpslat.add(-1.0);
+				} else {
+					gpslat.add(Double.parseDouble(contents[mapping[3]].trim()));
 				}
-                                
-                                if(latCheck.equals("----")){
-                                    gpslat.add(-1.0);
-                                }else{
-                                    gpslat.add(Double.parseDouble(contents[mapping[3]].trim()));
-                                }
-                                
-                                if(longCheck.equals("----")){
-                                    gpslong.add(-1.0);
-                                }else{
-                                    gpslong.add(Double.parseDouble(contents[mapping[4]].trim()));
-                                }
-  
+
+				if (longCheck.equals("----")) {
+					gpslong.add(-1.0);
+				} else {
+					gpslong.add(Double.parseDouble(contents[mapping[4]].trim()));
+				}
+
 			}
 			reader.close();
 
@@ -174,8 +168,8 @@ public class DataSet {
 	}
 
 	/**
-	 * Encapsulates the task of determining which column corresponds to the player
-	 * load information in the DataSet, and returns that column.
+	 * Encapsulates the task of determining which column corresponds to the
+	 * player load information in the DataSet, and returns that column.
 	 *
 	 * @return Column the column containing player load data
 	 */
@@ -212,57 +206,53 @@ public class DataSet {
 	public Column getGPSLongitudeColumn() {
 		return gpslong;
 	}
+
 	/**
-	 * Converts time in the form of HH:MM:SS.MS or HH:MM:SS or MM:SS:MS to absolute milliseconds
+	 * Converts time in the form of HH:MM:SS.MS or HH:MM:SS or MM:SS:MS to
+	 * absolute milliseconds
 	 *
-	 * @param oldtime A time string in the form of HH:MM:SS.MS or HH:MM:SS or MM:SS:MS 
+	 * @param oldtime A time string in the form of HH:MM:SS.MS or HH:MM:SS or
+	 * MM:SS:MS
 	 * @return The input time in the the form of absolute milliseconds
 	 */
-	public int convertTime(String oldtime){
+	public int convertTime(String oldtime) {
 		int totaltime = 0;
-		try{
+		try {
 			String[] splitter = oldtime.split(":");
-			
+
 			//MM:SS.MS
-			if(splitter.length==2){
+			if (splitter.length == 2) {
 				//String part = (String)splitter[1];
 				//int index = part.indexOf(".");
 				//String part1 = part.substring(0,2);
 				//String part2 = part.substring(3,part.length());
 				//System.out.println("" + index);
 				String[] endpart = splitter[1].split("\\.");
-				totaltime += 60*Integer.parseInt(splitter[0])+Integer.parseInt(endpart[0]); //+ Integer.parseInt(endpart[1]);
-				totaltime*=100;
-				totaltime+=Integer.parseInt(endpart[1]);
-				
-				
-			}
-			else if(splitter.length==3){
+				totaltime += 60 * Integer.parseInt(splitter[0]) + Integer.parseInt(endpart[0]); //+ Integer.parseInt(endpart[1]);
+				totaltime *= 100;
+				totaltime += Integer.parseInt(endpart[1]);
+
+			} else if (splitter.length == 3) {
 				String[] endpart = splitter[2].split("\\.");
 
 				//evaluating time in for HH:MM:SS
-				if(endpart.length==1){
-					totaltime += 60*60*Integer.parseInt(splitter[0]) + 60*Integer.parseInt(splitter[1]) + Integer.parseInt(splitter[2]);
-					totaltime*=100;
-				}
-				// HH:MM:SS.MS
-				else{
-					totaltime += 60*60*Integer.parseInt(splitter[0]) + 60*Integer.parseInt(splitter[1]) + Integer.parseInt(endpart[0]);
-					totaltime*=100;
-					totaltime+= Integer.parseInt(endpart[1]);
+				if (endpart.length == 1) {
+					totaltime += 60 * 60 * Integer.parseInt(splitter[0]) + 60 * Integer.parseInt(splitter[1]) + Integer.parseInt(splitter[2]);
+					totaltime *= 100;
+				} // HH:MM:SS.MS
+				else {
+					totaltime += 60 * 60 * Integer.parseInt(splitter[0]) + 60 * Integer.parseInt(splitter[1]) + Integer.parseInt(endpart[0]);
+					totaltime *= 100;
+					totaltime += Integer.parseInt(endpart[1]);
 				}
 
-			}
-			else{	
+			} else {
 				throw new IllegalArgumentException("Invalid time parameters");
 			}
-		}
-		catch(IllegalArgumentException e){
+		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		}
 		return totaltime;
 	}
-
-
 
 }

@@ -136,24 +136,34 @@ public class Evaluator {
         int startCount = 0;
         int stintIndex = 0;
         
-        while(stintIndex < gpsResults.size() - 1) {    
+        while(stintIndex < (gpsResults.size() - 1)) {    
             
-            while((gpsResults.getStint(stintIndex+1).getStartTime() - gpsResults.getStint(stintIndex).getEndTime()) < tolerance) {    
-                //this is adding in the fuctionality of the playerload
+            while(
+					(stintIndex < (gpsResults.size() - 1)) && 
+					((gpsResults.getStint(stintIndex+1).getStartTime() 
+					- gpsResults.getStint(stintIndex).getEndTime()) < tolerance)
+			) {    
+				//this is adding in the fuctionality of the playerload
                 //PlayerLoadAnalyser playerLoad;
                 //playerLoad = new PlayerLoadAnalyser(dataSet);
                 //if(playerLoad.average(gpsResults.getStint(stintIndex+1).getStartTime(), gpsResults.getStint(stintIndex).getEndTime())<playerLoadTolerance) {
                     stintIndex++;
                 //}
             }
-            
+            PlayerLoadAnalyser playerLoad;
+            playerLoad = new PlayerLoadAnalyser(dataSet);
+			
             Stint temp = new Stint(gpsResults.getStint(startCount).getStartTime(), gpsResults.getStint(stintIndex).getEndTime(),0,0);
-            returnSet.addStint(temp);
+			if(playerLoad.average(temp.getStartTime(), temp.getEndTime())>playerLoadTolerance) {
+				returnSet.addStint(temp);
+			}
             stintIndex++;
             startCount = stintIndex;       
         }
         // Add last stint
         if (gpsResults.size() != 0) {
+			stintIndex--;
+			startCount--;
             Stint temp = new Stint(gpsResults.getStint(startCount).getStartTime(), gpsResults.getStint(stintIndex).getEndTime(),0,0);
             returnSet.addStint(temp);
         }
