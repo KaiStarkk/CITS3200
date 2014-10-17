@@ -127,19 +127,19 @@ public class DataSet {
 				if (check2.equals("..")) {
 					gpstime.add(-1);
 				} else {
-					gpstime.add(convertTime(contents[mapping[2]].trim()));
+					gpstime.add(convertTime(check2));
 				}
 
 				if (latCheck.equals("----")) {
 					gpslat.add(-1.0);
 				} else {
-					gpslat.add(Double.parseDouble(contents[mapping[3]].trim()));
+					gpslat.add(Double.parseDouble(latCheck));
 				}
 
 				if (longCheck.equals("----")) {
 					gpslong.add(-1.0);
 				} else {
-					gpslong.add(Double.parseDouble(contents[mapping[4]].trim()));
+					gpslong.add(Double.parseDouble(longCheck));
 				}
 
 			}

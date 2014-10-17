@@ -50,27 +50,40 @@ public class Column<T> {
 	}
         
          /**
-	 * Determine the index of a known value
-         * Only works with ints
-	 *
+	 * Determine the index of the range in which a known integer occurs.
+         * 
          * @param value the Integer to be determined
 	 * @return int index
 	 */
-        public int getIndex(Integer value){
+        public int getIndexInRange(Integer value) {
             int index = 0;
-        
-            for(int i = 0; i < clist.size(); i++){
-                T current = clist.get(i);
-                int less = (Integer)current - 5;
-                int more = (Integer)current + 5;
-                //                                 <=               >
-                /*current.equals(value) || */
-                if((value.compareTo(more) <= 0) && (value.compareTo(less) > 0)){
-                    index = i;
-            }
             
+            for (int i = 0; i < clist.size(); i++) {
+                T current = clist.get(i);
+                int less = (Integer) current - 5;
+                int more = (Integer) current + 5;
+                if ((value.compareTo(more) <= 0) && (value.compareTo(less) > 0)) {
+                    index = i;
+                }
+            }
+            return index;
         }
         
-        return index;
-    }
+        /**
+	 * Determine the index of the range in which a known integer occurs.
+         * 
+         * @param value the Integer to be determined
+	 * @return int index
+	 */
+        public int getIndex(Integer value) {
+            int index = 0;
+            
+            for (int i = 0; i < clist.size(); i++) {
+                T current = clist.get(i);
+                if (value.equals(current)) {
+                    index = i;
+                }
+            }
+            return index;
+        }
 }

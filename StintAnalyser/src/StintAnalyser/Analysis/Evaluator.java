@@ -2,6 +2,7 @@ package StintAnalyser.Analysis;
 
 import StintAnalyser.Analysis.Heuristics.GPSAnalyser;
 import StintAnalyser.Analysis.Heuristics.PlayerLoadAnalyser;
+import StintAnalyser.Data.Column;
 import StintAnalyser.Data.DataSet;
 import StintAnalyser.Data.GamePeriod;
 import StintAnalyser.Data.GameTime;
@@ -26,7 +27,7 @@ public class Evaluator {
     String outputPath;
     String playerFile;
     Ground ground;
-    GameTime startTime;
+    String startTime;
     GamePeriod[] gamePeriods;
     DataSet dataSet;
     int tolerance = 5000; //tolerance level
@@ -41,7 +42,7 @@ public class Evaluator {
      * @param startTime
      * @param gamePeriods an array of Gameperiod for the current match
      */
-    public Evaluator(String outputPath, String playerFile, Ground ground, GameTime startTime, GamePeriod[] gamePeriods){
+    public Evaluator(String outputPath, String playerFile, Ground ground, String startTime, GamePeriod[] gamePeriods){
         this.outputPath = outputPath;
         this.playerFile = playerFile;
         this.ground = ground;
@@ -92,13 +93,16 @@ public class Evaluator {
         StintSet returnSet = new StintSet();
         
         int periodNumber = 0;
-        int timerStart = dataSet.convertTime(dataSet.timerStart);
-        int gameStart = dataSet.convertTime(startTime.toString());
+        int gameStart = (int) dataSet.getTimeColumn().get(dataSet.getGPStimeColumn().getIndex(dataSet.convertTime(startTime)));
+        
+        if (gameStart == 0) {
+            return null;
+        }
         
         for (GamePeriod gamePeriod : gamePeriods) {
             int number = 1;
-            int periodStart = dataSet.convertTime(gamePeriod.getStart().toString()) - timerStart + gameStart;
-            int periodEnd = dataSet.convertTime(gamePeriod.getEnd().toString()) - timerStart + gameStart;
+            int periodStart = dataSet.convertTime(gamePeriod.getStart().toString()) + gameStart;
+            int periodEnd = dataSet.convertTime(gamePeriod.getEnd().toString()) + gameStart;
             periodNumber++;
             for (Stint stint : stintSet.getStints()) {
                 
