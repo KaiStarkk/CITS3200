@@ -331,6 +331,10 @@ public class MainUIController implements Initializable {
             statusLbl.setText ("Enter game start time in the correct format.");
         }
 			
+		final Timeline timeline = new Timeline();
+
+		spinner.setVisible(true);
+
 		Task task = new Task<Void>() {
 			@Override public Void call() {
 				int completed = 0;
@@ -347,6 +351,8 @@ public class MainUIController implements Initializable {
 				return null;
 			}
 		};
+		spinner.progressProperty().bind(task.progressProperty());
+		new Thread(task).start();
     }
     
     private void processPlayer(String player, String startTime, GamePeriod[] gamePeriods) {
