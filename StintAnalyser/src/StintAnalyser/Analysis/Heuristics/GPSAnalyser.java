@@ -82,10 +82,7 @@ public class GPSAnalyser {
 		StintSet GPSStintAttempts = new StintSet();
 		for (int i = 0; i < stintNumber; i++) {
 			GPSStintAttempts.addStint(new Stint(stintStarts.get(i), stintEnds.get(i), 0, 0));
-//			System.out.println("Stint Start: " + stintStarts.get(i) + ", Stint End: " + stintEnds.get(i));
 		}
-		
-		System.out.println("Number of stints: " + GPSStintAttempts.size());
 
 		//figure out what goes in a StintSet
 		return GPSStintAttempts;

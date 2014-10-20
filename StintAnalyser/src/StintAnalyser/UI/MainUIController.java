@@ -331,12 +331,22 @@ public class MainUIController implements Initializable {
             statusLbl.setText ("Enter game start time in the correct format.");
         }
 			
-		for (String player : selectedPlayers) {
-			double timeMeasureStart = System.nanoTime();
-			processPlayer(player, startTime, gamePeriods);
-			double timeMeasureEnd = System.nanoTime();
-			System.out.println((timeMeasureEnd - timeMeasureStart)/1000000000.0);
-		}
+		Task task = new Task<Void>() {
+			@Override public Void call() {
+				int completed = 0;
+				int total = selectedPlayers.size();
+				updateProgress(completed, total);
+				for (String player : selectedPlayers) {
+					double timeMeasureStart = System.nanoTime();
+					processPlayer(player, startTime, gamePeriods);
+					double timeMeasureEnd = System.nanoTime();
+					System.out.println((timeMeasureEnd - timeMeasureStart)/1000000000.0);
+					completed++;
+					updateProgress(completed, total);
+				}
+				return null;
+			}
+		};
     }
     
     private void processPlayer(String player, String startTime, GamePeriod[] gamePeriods) {
