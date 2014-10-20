@@ -6,6 +6,8 @@ import StintAnalyser.Stints.StintSet;
 import StintAnalyser.Grounds.Ground;
 import StintAnalyser.Grounds.GPSCoordinate;
 import StintAnalyser.Stints.Stint;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * CITS3200 Professional Computing GPSHeuristic.java Determines if a player is
@@ -41,10 +43,10 @@ public class GPSAnalyser {
          */
 	public StintSet findStints() {
 
-		int lastKnown = 0;            // was the player on/off the field in the last time tic? 0 for off, 1 for on.
-		int[] stintStarts = new int[100]; // an array to store the times that stints began
-		int[] stintEnds = new int[100]; // an array to store the times that stints ended
-		int stintNumber = 0;            // a counter to track which stint we are on at the moment
+		int playerOnDuringLastPeriod = 0;
+		ArrayList<Integer> stintStarts = new ArrayList<>();
+		ArrayList<Integer> stintEnds = new ArrayList<>();
+		int stintNumber = 0;            
 
 		for (int i = 0; i < this.timeColumn.length(); i++) {
 			if (this.longitudeColumn.get(i) != 0 && this.latitudeColumn.get(i) != 0) { //the first column of player load time starts before the lat/long is recorded so we need to check that the lat/long isn't actually empty
@@ -60,16 +62,16 @@ public class GPSAnalyser {
 				playerCoord = origin.rotate(playerCoord, transformationBearing);
 
 				if (playerIsOnField(playerCoord)) { //check if we are on the field
-					if (lastKnown == 0) { //check if we just came onto the field
-						lastKnown = 1; //keep in mind for the next time index that we were already on the field
-						stintStarts[stintNumber] = this.timeColumn.get(i);
+					if (playerOnDuringLastPeriod == 0) { //check if we just came onto the field
+						playerOnDuringLastPeriod = 1; //keep in mind for the next time index that we were already on the field
+						stintStarts.add(stintNumber, this.timeColumn.get(i));
 					}
 				}
 
 				if (!playerIsOnField(playerCoord)) { //check if we are off the field
-					if (lastKnown == 1) { //check of we just came off the fied
-						lastKnown = 0; //keep in mind for the next time index that we were already off the field
-						stintEnds[stintNumber++] = this.timeColumn.get(i);
+					if (playerOnDuringLastPeriod == 1) { //check of we just came off the fied
+						playerOnDuringLastPeriod = 0; //keep in mind for the next time index that we were already off the field
+						stintStarts.add(stintNumber++, this.timeColumn.get(i));
 					}
 				}
 
@@ -79,7 +81,7 @@ public class GPSAnalyser {
 		//I shall attempt to return stint sets. Emphasise on attempt - Ash
 		StintSet GPSStintAttempts = new StintSet();
 		for (int i = 0; i < stintNumber; i++) {
-			GPSStintAttempts.addStint(new Stint(stintStarts[i], stintEnds[i], 0, 0));
+			GPSStintAttempts.addStint(new Stint(stintStarts.get(i), stintEnds.get(i), 0, 0));
 		}
 
 		//figure out what goes in a StintSet
