@@ -71,7 +71,7 @@ public class GPSAnalyser {
 				if (!playerIsOnField(playerCoord)) { //check if we are off the field
 					if (playerOnDuringLastPeriod == 1) { //check of we just came off the fied
 						playerOnDuringLastPeriod = 0; //keep in mind for the next time index that we were already off the field
-						stintStarts.add(stintNumber++, this.timeColumn.get(i));
+						stintEnds.add(stintNumber++, this.timeColumn.get(i));
 					}
 				}
 
@@ -82,7 +82,10 @@ public class GPSAnalyser {
 		StintSet GPSStintAttempts = new StintSet();
 		for (int i = 0; i < stintNumber; i++) {
 			GPSStintAttempts.addStint(new Stint(stintStarts.get(i), stintEnds.get(i), 0, 0));
+//			System.out.println("Stint Start: " + stintStarts.get(i) + ", Stint End: " + stintEnds.get(i));
 		}
+		
+		System.out.println("Number of stints: " + GPSStintAttempts.size());
 
 		//figure out what goes in a StintSet
 		return GPSStintAttempts;
