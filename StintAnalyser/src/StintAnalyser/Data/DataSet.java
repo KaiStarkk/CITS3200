@@ -118,8 +118,8 @@ public class DataSet {
 				}
 
                 //third element of contents
-				time.add(convertTime(contents[mapping[0]]));
-				load.add(Double.parseDouble(contents[mapping[1]]));
+				time.add(convertTime(contents[mapping[0]].trim()));
+				load.add(Double.parseDouble(contents[mapping[1]].trim()));
 				String check2 = contents[mapping[2]].trim();
 				String latCheck = contents[mapping[3]].trim();
 				String longCheck = contents[mapping[4]].trim();
