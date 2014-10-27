@@ -89,6 +89,7 @@ public class GroundsIO {
         }
         else {
             System.out.println("Could not find ground"+name);
+            return null;
         }
         
         String[] groundStrings = groundsList.get(i);
@@ -118,6 +119,7 @@ public class GroundsIO {
         } 
         else {
             // Empty grounds database
+            System.err.println("Empty Grounds File");
         }
         
         return out;
