@@ -79,7 +79,7 @@ public class DataSet {
 
 			//exception will be changed
 			//if (!check.equals("Time, Plyr. Load, GPS Time, GPS Latitude, GPS Longitude, ")) {''
-			if (headerline.length != 6 && !(Arrays.asList(headerline).contains("Time") && Arrays.asList(headerline).contains("Plyr. Load")
+			if (headerline.length == 6 && !(Arrays.asList(headerline).contains("Time") && Arrays.asList(headerline).contains("Plyr. Load")
 					&& Arrays.asList(headerline).contains("GPS Time") && Arrays.asList(headerline).contains("GPS Latitude")
 					&& Arrays.asList(headerline).contains("GPS Longitude"))) {
 
